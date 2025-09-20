@@ -1,7 +1,7 @@
 ---
 titie: "使用cloudflare搭建博客"
 description: "使用cloudflare page + mizuki搭建博客"
-published: 2025-9-20
+published: 2025-09-20
 licenseName: "CC BY 4.0"
 ---
 
