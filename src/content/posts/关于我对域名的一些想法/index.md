@@ -2,7 +2,7 @@
 title: 关于我对域名的一些想法
 published: 2025-10-02
 description: 关于我对域名的一些想法，以及为什么选择了.xyz
-tags: [Domains,Blog]
+tags: ["Domains","Blog"]
 image:
   url: './w1.png'
 ---
