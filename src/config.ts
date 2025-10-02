@@ -41,7 +41,7 @@ export const siteConfig: SiteConfig = {
 		ignoreTags: ["script", "style", "code", "pre"], // 翻译时忽略的 HTML 标签
 	},
 	bangumi: {
-		userId: "1158041", // 在此处设置你的Bangumi用户ID，可以设置为 "sai" 测试
+		userId: "sai", // 在此处设置你的Bangumi用户ID，可以设置为 "sai" 测试
 	},
   
 	anime: {
