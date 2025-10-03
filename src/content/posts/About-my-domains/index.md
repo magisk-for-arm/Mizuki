@@ -4,7 +4,6 @@ description: "关于我对域名的一些想法，以及为什么选择了.xyz"
 published: 2025-10-02
 licenseName: "CC BY-SA 4.0"
 tags: [Domains, Blog]
-image: './w1.png'
 ---
 ## 我为什么选择.xyz ##
 我最开始使用的是DigitalPlat的免费二级域名（.dpdns.org, .qqz.io），但是有一些小问题让我放弃了免费的方案，而使用了现在用的.xyz的域名。
