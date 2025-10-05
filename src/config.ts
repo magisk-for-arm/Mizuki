@@ -40,7 +40,7 @@ export const siteConfig: SiteConfig = {
 		ignoreClasses: ["ignore", "banner-title", "banner-subtitle"], // 翻译时忽略的 CSS 类名
 		ignoreTags: ["script", "style", "code", "pre"], // 翻译时忽略的 HTML 标签
 	},
-bangumi: {
+	bangumi: {
 		userId: "1158041", // 在此处设置你的Bangumi用户ID，可以设置为 "sai" 测试
 	},
   
@@ -229,20 +229,12 @@ export const profileConfig: ProfileConfig = {
 		},
 	],
 	// Umami统计部份，记得在layout插入Umami的head标签
-	// umami: {
-	// 	enable: true, // 是否显示umami统计
-	// 	shareId: "fRWqwh9SekD4obe2", //填入共享URL最后面那一串  比如：https://eu.umami.is/api/share/2dKQ5T0WrUn6AYtr 你就填入2dKQ5T0WrUn6AYtr
-	// 	region: "eu", //Umami有两个区域，按需选择即可  比如：https://eu.umami.is 你就填入eu
-	// },
+	umami: {
+		enable: true, // 是否显示umami统计
+		shareId: "fRWqwh9SekD4obe2", //填入共享URL最后面那一串  比如：https://eu.umami.is/api/share/2dKQ5T0WrUn6AYtr 你就填入2dKQ5T0WrUn6AYtr
+		region: "eu", //Umami有两个区域，按需选择即可  比如：https://eu.umami.is 你就填入eu
+	},
 };
-
-export const umamiConfig = {
-  enabled: true, // 是否启用 Umami 统计显示功能
-  shareURL: "https://eu.umami.is/share/fRWqwh9SekD4obe2/vc.520403.xyz", // 分享 API 地址，支持自建服务
-  scripts: `
-<script defer src="https://cloud.umami.is/script.js" data-website-id="399b8ac5-2487-4887-8cd7-65f5c6ac36d2"></script>
-  `.trim(), // Umami 跟踪脚本
-} as const;
 
 export const licenseConfig: LicenseConfig = {
 	enable: true,
