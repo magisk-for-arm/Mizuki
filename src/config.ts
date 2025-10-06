@@ -22,7 +22,7 @@ const SITE_LANG = "zh_CN"; // 语言代码，例如：'en', 'zh_CN', 'ja' 等。
 
 export const siteConfig: SiteConfig = {
 	title: "arm",
-	subtitle: "一个简单的个人博客",
+	subtitle: "主页",
 
 	lang: SITE_LANG,
 
@@ -102,16 +102,17 @@ export const siteConfig: SiteConfig = {
 			title: "armの博客", // 主页横幅主标题
 
 			subtitle: [
-				"Hello World",
-				"Are you OK",
-				"One more thing",
+				"人が想像できることは、必ず人が実現できる",
+				"人を信じよ、しかしその百倍も自らを信じよ",
+				"一日は貴い一生である。これを空費してはならない",
+				"青春は永遠に、はじめからのやり直しだ",
 			],
 			typewriter: {
 				enable: true, // 启用副标题打字机效果
 
 				speed: 100, // 打字速度（毫秒）
 				deleteSpeed: 50, // 删除速度（毫秒）
-				pauseTime: 2000, // 完全显示后的暂停时间（毫秒）
+				pauseTime: 2300, // 完全显示后的暂停时间（毫秒）
 			},
 		},
 
@@ -132,6 +133,9 @@ export const siteConfig: SiteConfig = {
 	},
 	generateOgImages: false, // 启用生成OpenGraph图片功能,注意开启后要渲染很长时间，不建议本地调试的时候开启
 	favicon: [
+		{
+			src: '/favicon/icon.png',
+		}
 		// 留空以使用默认 favicon
 		// {
 		//   src: '/favicon/icon.png',    // 图标文件路径
@@ -151,14 +155,16 @@ export const fullscreenWallpaperConfig: FullscreenWallpaperConfig = {
 	enable: true, // 启用全屏壁纸功能,非Banner模式下生效
 	src: {
 		desktop: [
-			"/assets/desktop-banner/d1.webp",
-			"/assets/desktop-banner/d2.webp",
-			"/assets/desktop-banner/d3.webp",
-			"/assets/desktop-banner/d4.webp",
-			"/assets/desktop-banner/d5.webp",
-			"/assets/desktop-banner/d6.webp",
-			"/assets/desktop-banner/d7.webp",
-			"/assets/desktop-banner/d8.webp",
+			"/assets/desktop-banner/w1.webp",
+			"/assets/desktop-banner/w2.webp",
+			"/assets/desktop-banner/w3.webp",
+			"/assets/desktop-banner/w4.webp",
+			"/assets/desktop-banner/w5.webp",
+			"/assets/desktop-banner/w6.webp",
+			"/assets/desktop-banner/w7.webp",
+			"/assets/desktop-banner/w8.webb",
+			"/assets/desktop-banner/w9.webp",
+			"/assets/desktop-banner/w10.webp",
 		], // 桌面横幅图片
 		mobile: [
 			"/assets/mobile-banner/m1.webp",
@@ -440,7 +446,7 @@ export const pioConfig: import("./types/config").PioConfig = {
 		home: "点击这里回到首页！", // 首页提示
 		skin: ["想看看我的新衣服吗？", "新衣服真漂亮~"], // 换装提示
 		close: "QWQ 下次再见吧~", // 关闭提示
-		link: "https://github.com/matsuzaka-yuki/Mizuki", // 关于链接
+		link: "https://github.com/magisk-for-arm", // 关于链接
 	},
 };
 // 导出所有配置的统一接口
