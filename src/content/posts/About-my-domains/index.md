@@ -2,6 +2,7 @@
 title: "关于我对域名的一些想法"
 description: "关于我对域名的一些想法，以及为什么选择了.xyz"
 published: 2025-10-02
+category: "杂谈"
 licenseName: "CC BY-SA 4.0"
 tags: [Domains, Blog]
 ---
@@ -17,7 +18,7 @@ tags: [Domains, Blog]
 
 ## 如何购买 ##
 
-6位数字+.xyz域名我是在[spaceship](www.spaceship.com)去购买的，而且spaceship支持国内的支付宝进行支付。虽然说去阿里云买也很便宜，大概10年70多块，缺点就是要备案
+6位数字+.xyz域名我是在[spaceship](https://www.spaceship.com)去购买的，而且spaceship支持国内的支付宝进行支付。虽然说去阿里云买也很便宜，大概10年70多块，缺点就是要备案
 
 ## 域名托管 ##
 
