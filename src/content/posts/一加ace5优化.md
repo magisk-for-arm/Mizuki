@@ -2,7 +2,7 @@
 title: "一加Ace5使用的模块"
 description: "一加Ace5（骁龙8Gen3）ColorOS 流畅省电和游戏性能优化指南"
 category: "教程"
-published: 2025-10-07
+published: 2025-10-12
 licenseName: "CC BY-SA 4.0"
 tags: [Moudle, Phone]
 ---
