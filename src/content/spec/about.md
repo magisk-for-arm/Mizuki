@@ -8,7 +8,7 @@
 
 - E-mail: `i@520403.xyz`
 
-- 本网站使用`Mizuku`主题模板，部署于`Verxel`，托管于`Cloudflare`平台.  
+- 本网站使用`Mizuku`主题模板，部署于`Vercel`，托管于`Cloudflare`平台.  
 
 - 计划学习：`Python` | `Shell`
 
