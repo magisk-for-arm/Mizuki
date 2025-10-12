@@ -13,7 +13,7 @@ import type {
 	SiteConfig,
 } from "./types/config";
 import { LinkPreset } from "./types/config";
-import { getTranslateLanguageFromConfig } from "./utils/language-utils";
+
 
 // 移除i18n导入以避免循环依赖
 
@@ -31,15 +31,11 @@ export const siteConfig: SiteConfig = {
 		fixed: false, // 对访问者隐藏主题色选择器
 	},
 
-	translate: {
-		enable: true, // 启用翻译功能
-		service: "client.edge", // 使用 Edge 浏览器翻译服务
-		defaultLanguage: getTranslateLanguageFromConfig(SITE_LANG), // 根据站点语言自动设置默认翻译语言
-		showSelectTag: false, // 不显示默认语言选择下拉菜单，使用自定义按钮
-		autoDiscriminate: true, // 自动检测用户语言
-		ignoreClasses: ["ignore", "banner-title", "banner-subtitle"], // 翻译时忽略的 CSS 类名
-		ignoreTags: ["script", "style", "code", "pre"], // 翻译时忽略的 HTML 标签
+	
+	bangumi: {
+		userId: "your-bangumi-id", // 在此处设置你的Bangumi用户ID，可以设置为 "sai" 测试
 	},
+<<<<<<< HEAD
 	bangumi: {
 		userId: "1158041", // 在此处设置你的Bangumi用户ID，可以设置为 "sai" 测试
 	},
@@ -49,6 +45,13 @@ export const siteConfig: SiteConfig = {
 	},
 
 	
+=======
+
+	anime: {
+		mode: "local", // 番剧页面模式："bangumi" 使用Bangumi API，"local" 使用本地配置
+	},
+
+>>>>>>> 4aa130b9791309dd34fe6088ab3363e1e7d37be3
 	banner: {
 		enable: true, // 是否启动Banner壁纸模式
 
@@ -147,9 +150,13 @@ export const siteConfig: SiteConfig = {
 	// 字体配置
 	font: {
 		zenMaruGothic: {
-			enable: true, // 启用全局圆体
+			enable: true, // 启用全局圆体适合日语和英语，对中文适配一般
+		},
+		hanalei: {
+			enable: false, // 启用 Hanalei 字体作为全局字体，适合中文去使用
 		},
 	},
+	showLastModified: true, // 控制“上次编辑”卡片显示的开关
 };
 export const fullscreenWallpaperConfig: FullscreenWallpaperConfig = {
 	enable: true, // 启用全屏壁纸功能,非Banner模式下生效
@@ -238,12 +245,15 @@ export const profileConfig: ProfileConfig = {
 			url: "https://github.com/magisk-for-arm",
 		},
 	],
+<<<<<<< HEAD
 	// Umami统计部份，记得在layout插入Umami的head标签
 	umami: {
 		enable: true, // 是否显示umami统计
 		shareId: "fRWqwh9SekD4obe2", //填入共享URL最后面那一串  比如：https://eu.umami.is/api/share/2dKQ5T0WrUn6AYtr 你就填入2dKQ5T0WrUn6AYtr
 		region: "eu", //Umami有两个区域，按需选择即可  比如：https://eu.umami.is 你就填入eu
 	},
+=======
+>>>>>>> 4aa130b9791309dd34fe6088ab3363e1e7d37be3
 };
 
 export const licenseConfig: LicenseConfig = {
@@ -354,13 +364,13 @@ export const sidebarLayoutConfig: SidebarLayoutConfig = {
 			// 是否启用该组件
 			enable: true,
 			// 组件显示顺序
-			order: 4,
+			order: 5,
 			// 组件位置："sticky" 表示粘性定位
 			position: "sticky",
 			// CSS 类名
 			class: "onload-animation",
 			// 动画延迟时间
-			animationDelay: 200,
+			animationDelay: 250,
 			// 响应式配置
 			responsive: {
 				// 折叠阈值：当标签数量超过20个时自动折叠
@@ -458,4 +468,13 @@ export const widgetConfigs = {
 	sakura: sakuraConfig,
 	fullscreenWallpaper: fullscreenWallpaperConfig,
 	pio: pioConfig, // 添加 pio 配置
+} as const;
+
+export const umamiConfig = {
+	enabled: false, // 是否显示Umami统计
+	apiKey: "api_XXXXXXXXXX", // 你的API密钥
+	baseUrl: "https://api.umami.is", // Umami Cloud API地址
+	scripts: `
+<script defer src="XXXX.XXX" data-website-id="ABCD1234"></script>
+  `.trim(), // 上面填你要插入的Script,不用再去Layout中插入
 } as const;

@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> 4aa130b9791309dd34fe6088ab3363e1e7d37be3
 // 本地番剧数据配置
 export type AnimeItem = {
 	title: string;
