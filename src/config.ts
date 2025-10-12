@@ -31,11 +31,6 @@ export const siteConfig: SiteConfig = {
 		fixed: false, // 对访问者隐藏主题色选择器
 	},
 
-	
-	bangumi: {
-		userId: "your-bangumi-id", // 在此处设置你的Bangumi用户ID，可以设置为 "sai" 测试
-	},
-<<<<<<< HEAD
 	bangumi: {
 		userId: "1158041", // 在此处设置你的Bangumi用户ID，可以设置为 "sai" 测试
 	},
@@ -45,13 +40,6 @@ export const siteConfig: SiteConfig = {
 	},
 
 	
-=======
-
-	anime: {
-		mode: "local", // 番剧页面模式："bangumi" 使用Bangumi API，"local" 使用本地配置
-	},
-
->>>>>>> 4aa130b9791309dd34fe6088ab3363e1e7d37be3
 	banner: {
 		enable: true, // 是否启动Banner壁纸模式
 
@@ -245,15 +233,6 @@ export const profileConfig: ProfileConfig = {
 			url: "https://github.com/magisk-for-arm",
 		},
 	],
-<<<<<<< HEAD
-	// Umami统计部份，记得在layout插入Umami的head标签
-	umami: {
-		enable: true, // 是否显示umami统计
-		shareId: "fRWqwh9SekD4obe2", //填入共享URL最后面那一串  比如：https://eu.umami.is/api/share/2dKQ5T0WrUn6AYtr 你就填入2dKQ5T0WrUn6AYtr
-		region: "eu", //Umami有两个区域，按需选择即可  比如：https://eu.umami.is 你就填入eu
-	},
-=======
->>>>>>> 4aa130b9791309dd34fe6088ab3363e1e7d37be3
 };
 
 export const licenseConfig: LicenseConfig = {
