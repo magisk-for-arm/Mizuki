@@ -2,7 +2,7 @@
 title: "升级colorOS16后的问题"
 description: "升级colorOS16后的问题,花了半天处理"
 category: "教程"
-published: 2025-11-9
+published: 2025-11-09
 licenseName: "CC BY-SA 4.0"
 tags: [Moudle, Phone]
 ---
