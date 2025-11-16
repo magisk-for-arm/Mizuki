@@ -29,9 +29,9 @@ tags: [Moudle, Phone]
 
 ## 解决方法
 
-我在[github issus](https://github.com/SukiSU-Ultra/SukiSU-Ultra/issues/510)  看到了解决方法
+我在[github issues](https://github.com/SukiSU-Ultra/SukiSU-Ultra/issues/510)  看到了解决方法
 
-- 先重新安装ssu管理器（40005）进行修补`init_boot`并重新刷入
+- 先重新安装ssu管理器（40100）进行修补`init_boot`并重新刷入
 - 再把`/data/adb/ksud`文件删除就好了，但是如何在没有root的情况下，没办法在系统进行删除，所以用`twrp`进行删除，
 - 用`fastboot flash recovery_(你的槽位) （你的rec）`进行刷入，然后重启到twrp进行删除
 
