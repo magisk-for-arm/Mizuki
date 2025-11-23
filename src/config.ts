@@ -17,33 +17,19 @@ import { LinkPreset } from "./types/config";
 // 移除i18n导入以避免循环依赖
 
 // 定义站点语言
-<<<<<<< HEAD
-const SITE_LANG = "zh_CN"; // 语言代码，例如：'en', 'zh_CN', 'ja' 等。
-
-export const siteConfig: SiteConfig = {
-	title: "arm",
-	subtitle: "主页",
-=======
 const SITE_LANG = "en"; // 语言代码，例如：'en', 'zh_CN', 'ja' 等。
 const SITE_TIMEZONE = 8; //设置你的网站时区 from -12 to 12 default in UTC+8
 export const siteConfig: SiteConfig = {
 	title: "Mizuki",
 	subtitle: "One demo website",
-	siteURL: "https://mizuki.mysqil.com/", // 请替换为你的站点URL，以斜杠结尾
-	siteStartDate: "2025-01-01", // 站点开始运行日期，用于站点统计组件计算运行天数
+	siteURL: "https://vc.520403,xyz/", // 请替换为你的站点URL，以斜杠结尾
+	siteStartDate: "2025-07-30", // 站点开始运行日期，用于站点统计组件计算运行天数
 
 	timeZone: SITE_TIMEZONE,
->>>>>>> upstream/master
 
 	lang: SITE_LANG,
 
 	themeColor: {
-<<<<<<< HEAD
-		hue: 280, // 主题色的默认色相，范围从 0 到 360。例如：红色：0，青色：200，蓝绿色：250，粉色：345
-		fixed: false, // 对访问者隐藏主题色选择器
-	},
-
-=======
 		hue: 230, // 主题色的默认色相，范围从 0 到 360。例如：红色：0，青色：200，蓝绿色：250，粉色：345
 		fixed: false, // 对访问者隐藏主题色选择器
 	},
@@ -51,13 +37,13 @@ export const siteConfig: SiteConfig = {
 	// 特色页面开关配置(关闭不在使用的页面有助于提升SEO,关闭后直接在顶部导航删除对应的页面就行)
 	featurePages: {
 		anime: true, // 番剧页面开关
-		diary: true, // 日记页面开关
-		friends: true, // 友链页面开关
-		projects: true, // 项目页面开关
-		skills: true, // 技能页面开关
-		timeline: true, // 时间线页面开关
-		albums: true, // 相册页面开关
-		devices: true, // 设备页面开关
+		diary: false, // 日记页面开关
+		friends: false, // 友链页面开关
+		projects: false, // 项目页面开关
+		skills: false, // 技能页面开关
+		timeline: false, // 时间线页面开关
+		albums: false, // 相册页面开关
+		devices: false, // 设备页面开关
 	},
 
 	// 顶栏标题配置
@@ -68,7 +54,6 @@ export const siteConfig: SiteConfig = {
 		icon: "assets/home/home.png",
 	},
 
->>>>>>> upstream/master
 	bangumi: {
 		userId: "1158041", // 在此处设置你的Bangumi用户ID，可以设置为 "sai" 测试
 	},
@@ -77,11 +62,6 @@ export const siteConfig: SiteConfig = {
 		mode: "bangumi", // 番剧页面模式："bangumi" 使用Bangumi API，"local" 使用本地配置
 	},
 
-<<<<<<< HEAD
-	
-	banner: {
-		enable: true, // 是否启动Banner壁纸模式
-=======
 	// 文章列表布局配置
 	postListLayout: {
 		// 默认布局模式："list" 列表模式（单列布局），"grid" 网格模式（双列布局）
@@ -90,7 +70,6 @@ export const siteConfig: SiteConfig = {
 		// 是否允许用户切换布局
 		allowSwitch: true,
 	},
->>>>>>> upstream/master
 
 	// 标签样式配置
 	tagStyle: {
@@ -114,7 +93,6 @@ export const siteConfig: SiteConfig = {
 		// 支持单张图片或图片数组，当数组长度 > 1 时自动启用轮播
 		src: {
 			desktop: [
-<<<<<<< HEAD
 				"/assets/desktop-banner/w1.webp",
 				"/assets/desktop-banner/w2.webp",
 				"/assets/desktop-banner/w3.webp",
@@ -137,22 +115,6 @@ export const siteConfig: SiteConfig = {
 				"/assets/mobile-banner/m8.webp",
 				"/assets/mobile-banner/m9.webp",
 				"/assets/mobile-banner/m10.webp",
-=======
-				"/assets/desktop-banner/1.webp",
-				"/assets/desktop-banner/2.webp",
-				"/assets/desktop-banner/3.webp",
-				"/assets/desktop-banner/4.webp",
-				"/assets/desktop-banner/5.webp",
-				"/assets/desktop-banner/6.webp",
-			], // 桌面横幅图片
-			mobile: [
-				"/assets/mobile-banner/1.webp",
-				"/assets/mobile-banner/2.webp",
-				"/assets/mobile-banner/3.webp",
-				"/assets/mobile-banner/4.webp",
-				"/assets/mobile-banner/5.webp",
-				"/assets/mobile-banner/6.webp",
->>>>>>> upstream/master
 			], // 移动横幅图片
 		}, // 使用本地横幅图片
 
@@ -181,7 +143,6 @@ export const siteConfig: SiteConfig = {
 
 		homeText: {
 			enable: true, // 在主页显示自定义文本
-<<<<<<< HEAD
 			title: "armの博客", // 主页横幅主标题
 
 			subtitle: [
@@ -189,16 +150,9 @@ export const siteConfig: SiteConfig = {
 				"人を信じよ、しかしその百倍も自らを信じよ",
 				"一日は貴い一生である。これを空費してはならない",
 				"青春は永遠に、はじめからのやり直しだ",
-=======
-			title: "美しいミズキ", // 主页横幅主标题
-
-			subtitle: [
-				"特別なことはないけど、君がいると十分です",
-				"今でもあなたは私の光",
 				"君ってさ、知らないうちに私の毎日になってたよ",
 				"君と話すと、なんか毎日がちょっと楽しくなるんだ",
 				"今日はなんでもない日。でも、ちょっとだけいい日",
->>>>>>> upstream/master
 			],
 			typewriter: {
 				enable: true, // 启用副标题打字机效果
@@ -263,7 +217,6 @@ export const siteConfig: SiteConfig = {
 export const fullscreenWallpaperConfig: FullscreenWallpaperConfig = {
 	src: {
 		desktop: [
-<<<<<<< HEAD
 			"/assets/desktop-banner/w1.webp",
 			"/assets/desktop-banner/w2.webp",
 			"/assets/desktop-banner/w3.webp",
@@ -274,14 +227,6 @@ export const fullscreenWallpaperConfig: FullscreenWallpaperConfig = {
 			"/assets/desktop-banner/w8.webb",
 			"/assets/desktop-banner/w9.webp",
 			"/assets/desktop-banner/w10.webp",
-=======
-			"/assets/desktop-banner/1.webp",
-			"/assets/desktop-banner/2.webp",
-			"/assets/desktop-banner/3.webp",
-			"/assets/desktop-banner/4.webp",
-			"/assets/desktop-banner/5.webp",
-			"/assets/desktop-banner/6.webp",
->>>>>>> upstream/master
 		], // 桌面横幅图片
 		mobile: [
 			"/assets/mobile-banner/1.webp",
@@ -331,9 +276,6 @@ export const navBarConfig: NavBarConfig = {
 			url: "/content/",
 			icon: "material-symbols:person",
 			children: [
-<<<<<<< HEAD
-				LinkPreset.Anime,
-=======
 				{
 					name: "Anime",
 					url: "/anime/",
@@ -394,26 +336,19 @@ export const navBarConfig: NavBarConfig = {
 					url: "/timeline/",
 					icon: "material-symbols:timeline",
 				},
->>>>>>> upstream/master
 			],
 		},
 	],
 };
 
 export const profileConfig: ProfileConfig = {
-<<<<<<< HEAD
 	avatar: "assets/images/n0.webp", // 相对于 /src 目录。如果以 '/' 开头，则相对于 /public 目录
 	name: "arm",
 	bio: "愛する人が皆愛を得ますように",
-=======
-	avatar: "assets/images/avatar.webp", // 相对于 /src 目录。如果以 '/' 开头，则相对于 /public 目录
-	name: "Matsuzaka Yuki",
-	bio: "The world is big, you have to go and see",
 	typewriter: {
 		enable: true, // 启用个人简介打字机效果
 		speed: 80, // 打字速度（毫秒）
 	},
->>>>>>> upstream/master
 	links: [
 		{
 			name: "Bilibli",
@@ -423,21 +358,7 @@ export const profileConfig: ProfileConfig = {
 		{
 			name: "GitHub",
 			icon: "fa6-brands:github",
-<<<<<<< HEAD
 			url: "https://github.com/magisk-for-arm",
-=======
-			url: "https://github.com/matsuzaka-yuki",
-		},
-		{
-			name: "Codeberg",
-			icon: "simple-icons:codeberg",
-			url: "https://codeberg.org",
-		},
-		{
-			name: "Discord",
-			icon: "fa6-brands:discord",
-			url: "https://discord.gg/MqW6TcQtVM",
->>>>>>> upstream/master
 		},
 	],
 };
@@ -477,17 +398,13 @@ export const announcementConfig: AnnouncementConfig = {
 };
 
 export const musicPlayerConfig: MusicPlayerConfig = {
-<<<<<<< HEAD
 	enable: false, // 启用音乐播放器功能
-=======
-	enable: true, // 启用音乐播放器功能
 	mode: "meting", // 音乐播放器模式，可选 "local" 或 "meting"
 	meting_api:
 		"https://www.bilibili.uno/api?server=:server&type=:type&id=:id&auth=:auth&r=:r", // Meting API 地址
 	id: "14164869977", // 歌单ID
 	server: "netease", // 音乐源服务器。有的meting的api源支持更多平台,一般来说,netease=网易云音乐, tencent=QQ音乐, kugou=酷狗音乐, xiami=虾米音乐, baidu=百度音乐
 	type: "playlist", // 播单类型
->>>>>>> upstream/master
 };
 
 export const footerConfig: FooterConfig = {
@@ -714,15 +631,9 @@ export const widgetConfigs = {
 } as const;
 
 export const umamiConfig = {
-<<<<<<< HEAD
-	enabled: true, // 是否显示Umami统计
-	apiKey: "api_OnamcnJfWNWkXrXQbeltLtAZE66Uc69H", // 你的API密钥
-	baseUrl: "https://umami.520403.xyz/share/fRWqwh9SekD4obe2", // Umami Cloud API地址
-=======
 	enabled: false, // 是否显示Umami统计
 	apiKey: import.meta.env.UMAMI_API_KEY || "api_xxxxxxxx", // API密钥优先从环境变量读取，否则使用配置文件中的值
 	baseUrl: "https://api.umami.is", // Umami Cloud API地址
->>>>>>> upstream/master
 	scripts: `
 <script defer src="https://cloud.umami.is/script.js" data-website-id="399b8ac5-2487-4887-8cd7-65f5c6ac36d2"></script>
   `.trim(), // 上面填你要插入的Script,不用再去Layout中插入
