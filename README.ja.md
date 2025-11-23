@@ -31,13 +31,6 @@
 [**日本語**](./README.ja.md) /
 [**中文繁体**](./README.tw.md) /
 
-<<<<<<< HEAD:docs/README.ja.md
-## 🆕 v4.9 アップデート
-- **Pio Live2D統合**: Pio Live2Dキャラクターを統合し、可愛らしいインタラクティブな仲間を提供してユーザーエンゲージメントを向上させます。
-- **高度な設定**: モデルパス、位置、サイズ、会話内容など、`src/config.ts`で詳細な設定をサポートし、パーソナライズされたニーズに対応します。
-- **シームレスなナビゲーション**: 「ホームに戻る」機能は、テーマに組み込まれたSwupを使用して、スムーズでリフレッシュなしのページ遷移を提供します。
-=======
->>>>>>> upstream/master:README.ja.md
 
 
 ![設定](../configuration.svg)
@@ -287,24 +280,16 @@ export const siteConfig: SiteConfig = {
 
 - オリジナルの[Fuwari](https://github.com/saicaca/fuwari)テンプレートをベースにしています
 - [Yukina](https://github.com/WhitePaper233/yukina) - 美しくエレガントなブログテンプレートにインスパイアされました
-<<<<<<< HEAD:docs/README.ja.md
-- 翻訳機能は[translate](https://gitee.com/mail_osc/translate)によって提供 - AI i18n自動HTML翻訳ソリューション
-=======
 - 一部のデザインは[Firefly](https://github.com/CuteLeaf/Firefly)テンプレートからインスピレーションを得ています
 - [Pio](https://github.com/Dreamer-Paul/Pio)を使用してかわいいLive2D看板娘プラグインを実装
 - [Astro](https://astro.build)と[Tailwind CSS](https://tailwindcss.com)で構築
->>>>>>> upstream/master:README.ja.md
 - アイコンは[Iconify](https://iconify.design/)から
 
 ### 🌸 特別な感謝
 
 - **[Fuwari](https://github.com/saicaca/fuwari)** by saicaca - このプロジェクトのベースとなるオリジナルテンプレート。このような美しく機能的なテンプレートを作成していただきありがとうございます。
 - **[Yukina](https://github.com/WhitePaper233/yukina)** - このプロジェクトの形成に役立ったデザインのインスピレーションと創造性を提供してくれたことに感謝します。Yukinaは優れたデザイン原則とユーザーエクスペリエンスを示す、エレガントなブログテンプレートです。
-<<<<<<< HEAD:docs/README.ja.md
-- **[translate](https://gitee.com/mail_osc/translate)** - JavaScriptコードたった2行で自動HTML翻訳を可能にする革新的なAI駆動のi18nソリューションを提供してくれたことに感謝します。このオープンソースツールは、多言語サポートを非常にシンプルかつ効率的にします。
-=======
 - **[Firefly](https://github.com/CuteLeaf/Firefly)** - 優れたレイアウトデザインのアイデアを提供していただきありがとうございます。デュアルサイドバーレイアウト、記事の2カラムグリッドレイアウト、およびいくつかのウィジェットのデザインと実装により、Mizukiのインターフェースがより豊かになりました。
->>>>>>> upstream/master:README.ja.md
 
 ## 🍀 コントリビューター
 
