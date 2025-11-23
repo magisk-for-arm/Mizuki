@@ -3,6 +3,8 @@ import { Icon } from "astro-icon/components";
 import { LinkPresets } from "../../constants/link-presets";
 import { LinkPreset, type NavBarLink } from "../../types/config";
 import { url } from "../../utils/url-utils";
+import I18nKey from "../../i18n/i18nKey";
+import { i18n } from "../../i18n/translation";
 
 interface Props {
 	link: NavBarLink;
@@ -10,6 +12,31 @@ interface Props {
 }
 
 const { link, class: className } = Astro.props;
+
+// 国际化标题映射
+const navTitleMap: Record<string, string> = {
+	"Links": I18nKey.navLinks,
+	"My": I18nKey.navMy,
+	"About": I18nKey.navAbout,
+	"Others": I18nKey.navOthers,
+	"Anime": I18nKey.anime,
+	"Diary": I18nKey.diary,
+	"Gallery": I18nKey.albums,
+	"Devices": I18nKey.devices,
+	"Projects": I18nKey.projects,
+	"Skills": I18nKey.skills,
+	"Timeline": I18nKey.timeline,
+	"Friends": I18nKey.friends,
+};
+
+// 获取国际化的标题
+const getLocalizedName = (name: string): string => {
+	const keyValue = navTitleMap[name];
+	if (keyValue) {
+		return i18n(keyValue);
+	}
+	return name;
+};
 
 // 转换子菜单中的LinkPreset为NavBarLink
 const processedLink = {
@@ -35,7 +62,7 @@ const hasChildren = processedLink.children && processedLink.children.length > 0;
 		>
 			<div class="flex items-center">
 				{processedLink.icon && <Icon name={processedLink.icon} class="text-[1.1rem] mr-2" />}
-				{processedLink.name}
+				{getLocalizedName(processedLink.name)}
 				<Icon name="material-symbols:keyboard-arrow-down-rounded" class="text-[1.25rem] transition-transform duration-200 dropdown-arrow ml-1" />
 			</div>
 		</button>
@@ -50,7 +77,7 @@ const hasChildren = processedLink.children && processedLink.children.length > 0;
 					>
 						<div class="flex items-center">
 							{child.icon && <Icon name={child.icon} class="text-[1rem] mr-2" />}
-							<span>{child.name}</span>
+							<span>{getLocalizedName(child.name)}</span>
 						</div>
 						{child.external && (
 							<Icon name="fa6-solid:arrow-up-right-from-square" class="text-[0.75rem] text-black/25 dark:text-white/25" />
@@ -68,7 +95,7 @@ const hasChildren = processedLink.children && processedLink.children.length > 0;
 		>
 			<div class="flex items-center">
 				{processedLink.icon && <Icon name={processedLink.icon} class="text-[1.1rem] mr-2" />}
-				{processedLink.name}
+				{getLocalizedName(processedLink.name)}
 				{processedLink.external && <Icon name="fa6-solid:arrow-up-right-from-square" class="text-[0.875rem] transition -translate-y-[1px] ml-1 text-black/[0.2] dark:text-white/[0.2]" />}
 			</div>
 		</a>

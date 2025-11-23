@@ -8,7 +8,8 @@ import I18nKey from "@i18n/i18nKey";
 import { i18n } from "@i18n/translation";
 import MainGridLayout from "@layouts/MainGridLayout.astro";
 import { getSortedPosts } from "@utils/content-utils";
-import { getDir, getPostUrlBySlug } from "@utils/url-utils";
+import { getDir, getPostUrlBySlug, removeFileExtension, getFileDirFromPath } from "@utils/url-utils";
+import { render } from "astro:content";
 import { Icon } from "astro-icon/components";
 import bcryptjs from "bcryptjs";
 import CryptoJS from "crypto-js";
@@ -19,18 +20,44 @@ import ImageWrapper from "../../components/misc/ImageWrapper.astro";
 import PostMetadata from "../../components/PostMeta.astro";
 import { profileConfig, siteConfig } from "../../config";
 import { formatDateToYYYYMMDD } from "../../utils/date-utils";
+import type { CollectionEntry } from "astro:content";
+
 export async function getStaticPaths() {
 	const blogEntries = await getSortedPosts();
-	return blogEntries.map((entry) => ({
-		params: { slug: entry.slug },
-		props: { entry },
-	}));
+	const paths: { params: { slug: string }, props: { entry: CollectionEntry<"posts"> } }[] = [];
+	
+	for (const entry of blogEntries) {
+        // 将 id 转换为 slug（移除扩展名）以匹配路由参数
+        const slug = removeFileExtension(entry.id);
+
+		// 为每篇文章创建默认的 slug 路径
+		paths.push({
+			params: { slug },
+			props: { entry },
+		});
+		
+		// 如果文章有自定义固定链接，也创建对应的路径
+		if (entry.data.permalink) {
+			// 移除开头的斜杠和结尾的斜杠
+			// 同时移除可能的 "posts/" 前缀，避免重复
+			let permalink = entry.data.permalink.replace(/^\/+/, '').replace(/\/+$/, '');
+			if (permalink.startsWith('posts/')) {
+				permalink = permalink.replace(/^posts\//, '');
+			}
+			paths.push({
+				params: { slug: permalink },
+				props: { entry },
+			});
+		}
+	}
+	
+	return paths;
 }
 
 const { entry } = Astro.props;
-const { Content, headings } = await entry.render();
+const { Content, headings } = await render(entry);
 
-const { remarkPluginFrontmatter } = await entry.render();
+const { remarkPluginFrontmatter } = await render(entry);
 
 // 处理加密逻辑
 let encryptedContent = "";
@@ -42,15 +69,22 @@ if (isEncrypted) {
 	// 在客户端解密后，会通过JavaScript重新渲染
 	const contentToEncrypt = entry.body;
 
-	// 使用AES加密内容
+	// 生成密码哈希（使用环境变量配置盐值轮数，默认12）
+	const saltRounds = Number.parseInt(
+		import.meta.env.BCRYPT_SALT_ROUNDS || "12",
+		10,
+	);
+	passwordHash = bcryptjs.hashSync(entry.data.password, saltRounds);
+
+	// 使用密码哈希的一部分作为加密密钥，而不是明文密码
+	// 这样即使攻击者获取到加密内容，也无法直接用原始密码解密
+	const encryptionKey = passwordHash.substring(0, 32); // 使用哈希的前32个字符作为密钥
+
+	// 使用派生密钥加密内容
 	encryptedContent = CryptoJS.AES.encrypt(
 		contentToEncrypt,
-		entry.data.password,
+		encryptionKey,
 	).toString();
-
-	// 生成密码哈希
-	const saltRounds = 10;
-	passwordHash = bcryptjs.hashSync(entry.data.password, saltRounds);
 }
 
 dayjs.extend(utc);
@@ -83,15 +117,14 @@ const jsonLd = {
     description={entry.data.description}
     lang={entry.data.lang}
     setOGTypeArticle={true}
-    postSlug={entry.slug}
+    postSlug={entry.id}
     headings={headings}
 >
-    <script
-        is:inline
-        slot="head"
-        type="application/ld+json"
-        set:html={JSON.stringify(jsonLd)}
-    />
+    <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    <!-- 引入右侧边栏布局管理器 -->
+  <script>
+    import('../../scripts/right-sidebar-layout.js');
+  </script>
     <div
         class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative mb-4"
     >
@@ -162,8 +195,8 @@ const jsonLd = {
                     published={entry.data.published}
                     updated={entry.data.updated}
                     tags={entry.data.tags}
-                    category={entry.data.category}
-                    slug={entry.slug}
+                    category={entry.data.category || undefined}
+                    id={entry.id}
                 />
                 {
                     !entry.data.image && (
@@ -181,7 +214,7 @@ const jsonLd = {
                         <ImageWrapper
                             id="post-cover"
                             src={entry.data.image}
-                            basePath={path.join("content/posts/", getDir(entry.id))}
+                            basePath={getFileDirFromPath(entry.filePath || '')}
                             class="mb-8 rounded-xl banner-container onload-animation"
                         />
                     </>
@@ -202,7 +235,7 @@ const jsonLd = {
                         {licenseConfig.enable && (
                             <License
                                 title={entry.data.title}
-                                slug={entry.slug}
+                                id={entry.id}
                                 pubDate={entry.data.published}
                                 author={entry.data.author}
                                 sourceLink={entry.data.sourceLink}
@@ -288,21 +321,19 @@ const jsonLd = {
                     }
                     setInterval(runtime, 1000);
                 </script>
-                <div class="card-base p-1 mb-0.1">
-                    <div class="flex items-center gap-2">
-                        <div class="transition h-9 w-9 rounded-lg overflow-hidden relative flex items-center justify-center mr-0">
-                            <Icon
-                                name="material-symbols:history-rounded"
-                                class="text-4xl text-[var(--primary)] transition-transform group-hover:translate-x-0.5 bg-[var(--enter-btn-bg)] p-2 rounded-md"
-                            />
-                        </div>
-                       
-                        <div class="flex flex-col gap-0.1">
-                            <div id="modifiedtime" class="text-[1.0rem] leading-tight text-black/75 dark:text-white/75"></div>
-                            <p class="text-[0.8rem] leading-tight text-black/75 dark:text-white/75">
-                                {i18n(I18nKey.lastModifiedOutdated)}
-                            </p>
-                        </div>
+                <div class="flex items-center gap-3">
+                    <div class="flex items-center justify-center h-12 w-12 rounded-lg bg-[var(--enter-btn-bg)]">
+                        <Icon
+                            name="material-symbols:history-rounded"
+                            class="text-3xl text-[var(--primary)]"
+                        />
+                    </div>
+                   
+                    <div class="flex flex-col gap-1">
+                        <div id="modifiedtime" class="text-[1.0rem] leading-tight text-black/75 dark:text-white/75"></div>
+                        <p class="text-[0.8rem] leading-tight text-black/75 dark:text-white/75">
+                            {i18n(I18nKey.lastModifiedOutdated)}
+                        </p>
                     </div>
                 </div>
             </div>

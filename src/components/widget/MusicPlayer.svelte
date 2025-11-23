@@ -52,14 +52,23 @@ let showError = false;
 
 // 当前歌曲信息
 let currentSong = {
-	title: "示例歌曲",
-	artist: "示例艺术家",
-	cover: "/favicon/favicon-light-192.png",
+	title: "Sample Song",
+	artist: "Sample Artist",
+	cover: "/favicon/favicon.ico",
 	url: "",
 	duration: 0,
 };
 
-let playlist = [];
+type Song = {
+	id: number;
+	title: string;
+	artist: string;
+	cover: string;
+	url: string;
+	duration: number;
+};
+
+let playlist: Song[] = [];
 let currentIndex = 0;
 let audio: HTMLAudioElement;
 let progressBar: HTMLElement;
@@ -247,7 +256,7 @@ function handleLoadSuccess() {
 	}
 }
 
-function handleLoadError(event: Event) {
+function handleLoadError(_event: Event) {
 	isLoading = false;
 	showErrorMessage(`无法播放 "${currentSong.title}"，正在尝试下一首...`);
 	if (playlist.length > 1) setTimeout(() => nextSong(), 1000);
@@ -326,7 +335,7 @@ function handleAudioEvents() {
 			isPlaying = false;
 		}
 	});
-	audio.addEventListener("error", (event) => {
+	audio.addEventListener("error", (_event) => {
 		isLoading = false;
 	});
 	audio.addEventListener("stalled", () => {});
@@ -408,19 +417,20 @@ onDestroy(() => {
     <div class="mini-player card-base bg-[var(--float-panel-bg)] shadow-xl rounded-2xl p-3 transition-all duration-500 ease-in-out"
          class:opacity-0={isExpanded || isHidden}
          class:scale-95={isExpanded || isHidden}
-         class:pointer-events-none={isExpanded || isHidden}
-         on:click={toggleExpanded}
-         on:keydown={(e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                toggleExpanded();
-            }
-         }}
-         role="button"
-         tabindex="0"
-         aria-label="展开音乐播放器">
-        <div class="flex items-center gap-3 cursor-pointer">
-            <div class="cover-container relative w-12 h-12 rounded-full overflow-hidden">
+         class:pointer-events-none={isExpanded || isHidden}>
+        <div class="flex items-center gap-3">
+            <!-- 封面区域：点击控制播放/暂停 -->
+            <div class="cover-container relative w-12 h-12 rounded-full overflow-hidden cursor-pointer"
+                 on:click={togglePlay}
+                 on:keydown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        togglePlay();
+                    }
+                 }}
+                 role="button"
+                 tabindex="0"
+                 aria-label={isPlaying ? '暂停' : '播放'}>
                 <img src={getAssetPath(currentSong.cover)} alt="封面"
                      class="w-full h-full object-cover transition-transform duration-300"
                      class:spinning={isPlaying && !isLoading}
@@ -435,7 +445,18 @@ onDestroy(() => {
                     {/if}
                 </div>
             </div>
-            <div class="flex-1 min-w-0">
+            <!-- 歌曲信息区域：点击展开播放器 -->
+            <div class="flex-1 min-w-0 cursor-pointer"
+                 on:click={toggleExpanded}
+                 on:keydown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        toggleExpanded();
+                    }
+                 }}
+                 role="button"
+                 tabindex="0"
+                 aria-label="展开音乐播放器">
                 <div class="text-sm font-medium text-90 truncate">{currentSong.title}</div>
                 <div class="text-xs text-50 truncate">{currentSong.artist}</div>
             </div>

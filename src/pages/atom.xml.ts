@@ -6,6 +6,7 @@ import { parse as htmlParser } from "node-html-parser";
 import sanitizeHtml from "sanitize-html";
 import { siteConfig, profileConfig } from "@/config";
 import { getSortedPosts } from "@/utils/content-utils";
+import { getPostUrl } from "@/utils/url-utils";
 
 const markdownParser = new MarkdownIt();
 
@@ -35,8 +36,8 @@ export async function GET(context: APIContext) {
   <language>${siteConfig.lang}</language>`;
 
 	for (const post of posts) {
-		// convert markdown to html string
-		const body = markdownParser.render(post.body);
+		// convert markdown to html string, ensure post.body is a string
+        const body = markdownParser.render(String(post.body ?? ""));
 		// convert html string to DOM-like structure
 		const html = htmlParser.parse(body);
 		// hold all img tags in variable images
@@ -105,7 +106,7 @@ export async function GET(context: APIContext) {
 		}
 
 		// 添加Atom条目
-		const postUrl = new URL(`posts/${post.slug}/`, context.site).href;
+		const postUrl = new URL(getPostUrl(post), context.site).href;
 		const content = sanitizeHtml(html.toString(), {
 			allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]),
 		});

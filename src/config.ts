@@ -14,23 +14,61 @@ import type {
 } from "./types/config";
 import { LinkPreset } from "./types/config";
 
-
 // 移除i18n导入以避免循环依赖
 
 // 定义站点语言
+<<<<<<< HEAD
 const SITE_LANG = "zh_CN"; // 语言代码，例如：'en', 'zh_CN', 'ja' 等。
 
 export const siteConfig: SiteConfig = {
 	title: "arm",
 	subtitle: "主页",
+=======
+const SITE_LANG = "en"; // 语言代码，例如：'en', 'zh_CN', 'ja' 等。
+const SITE_TIMEZONE = 8; //设置你的网站时区 from -12 to 12 default in UTC+8
+export const siteConfig: SiteConfig = {
+	title: "Mizuki",
+	subtitle: "One demo website",
+	siteURL: "https://mizuki.mysqil.com/", // 请替换为你的站点URL，以斜杠结尾
+	siteStartDate: "2025-01-01", // 站点开始运行日期，用于站点统计组件计算运行天数
+
+	timeZone: SITE_TIMEZONE,
+>>>>>>> upstream/master
 
 	lang: SITE_LANG,
 
 	themeColor: {
+<<<<<<< HEAD
 		hue: 280, // 主题色的默认色相，范围从 0 到 360。例如：红色：0，青色：200，蓝绿色：250，粉色：345
 		fixed: false, // 对访问者隐藏主题色选择器
 	},
 
+=======
+		hue: 230, // 主题色的默认色相，范围从 0 到 360。例如：红色：0，青色：200，蓝绿色：250，粉色：345
+		fixed: false, // 对访问者隐藏主题色选择器
+	},
+
+	// 特色页面开关配置(关闭不在使用的页面有助于提升SEO,关闭后直接在顶部导航删除对应的页面就行)
+	featurePages: {
+		anime: true, // 番剧页面开关
+		diary: true, // 日记页面开关
+		friends: true, // 友链页面开关
+		projects: true, // 项目页面开关
+		skills: true, // 技能页面开关
+		timeline: true, // 时间线页面开关
+		albums: true, // 相册页面开关
+		devices: true, // 设备页面开关
+	},
+
+	// 顶栏标题配置
+	navbarTitle: {
+		// 顶栏标题文本
+		text: "MizukiUI",
+		// 顶栏标题图标路径，默认使用 public/assets/home/home.png
+		icon: "assets/home/home.png",
+	},
+
+>>>>>>> upstream/master
 	bangumi: {
 		userId: "1158041", // 在此处设置你的Bangumi用户ID，可以设置为 "sai" 测试
 	},
@@ -39,13 +77,44 @@ export const siteConfig: SiteConfig = {
 		mode: "bangumi", // 番剧页面模式："bangumi" 使用Bangumi API，"local" 使用本地配置
 	},
 
+<<<<<<< HEAD
 	
 	banner: {
 		enable: true, // 是否启动Banner壁纸模式
+=======
+	// 文章列表布局配置
+	postListLayout: {
+		// 默认布局模式："list" 列表模式（单列布局），"grid" 网格模式（双列布局）
+		// 注意：如果侧边栏配置启用了"both"双侧边栏，则无法使用文章列表"grid"网格（双列）布局
+		defaultMode: "list",
+		// 是否允许用户切换布局
+		allowSwitch: true,
+	},
+>>>>>>> upstream/master
 
+	// 标签样式配置
+	tagStyle: {
+		// 是否使用新样式（悬停高亮样式）还是旧样式（外框常亮样式）
+		useNewStyle: false,
+	},
+
+	// 壁纸模式配置
+	wallpaperMode: {
+		// 默认壁纸模式：banner=顶部横幅，fullscreen=全屏壁纸，none=无壁纸
+		defaultMode: "banner",
+		// 整体布局方案切换按钮显示设置（默认："desktop"）
+		// "off" = 不显示
+		// "mobile" = 仅在移动端显示
+		// "desktop" = 仅在桌面端显示
+		// "both" = 在所有设备上显示
+		showModeSwitchOnMobile: "desktop",
+	},
+
+	banner: {
 		// 支持单张图片或图片数组，当数组长度 > 1 时自动启用轮播
 		src: {
 			desktop: [
+<<<<<<< HEAD
 				"/assets/desktop-banner/w1.webp",
 				"/assets/desktop-banner/w2.webp",
 				"/assets/desktop-banner/w3.webp",
@@ -68,6 +137,22 @@ export const siteConfig: SiteConfig = {
 				"/assets/mobile-banner/m8.webp",
 				"/assets/mobile-banner/m9.webp",
 				"/assets/mobile-banner/m10.webp",
+=======
+				"/assets/desktop-banner/1.webp",
+				"/assets/desktop-banner/2.webp",
+				"/assets/desktop-banner/3.webp",
+				"/assets/desktop-banner/4.webp",
+				"/assets/desktop-banner/5.webp",
+				"/assets/desktop-banner/6.webp",
+			], // 桌面横幅图片
+			mobile: [
+				"/assets/mobile-banner/1.webp",
+				"/assets/mobile-banner/2.webp",
+				"/assets/mobile-banner/3.webp",
+				"/assets/mobile-banner/4.webp",
+				"/assets/mobile-banner/5.webp",
+				"/assets/mobile-banner/6.webp",
+>>>>>>> upstream/master
 			], // 移动横幅图片
 		}, // 使用本地横幅图片
 
@@ -77,6 +162,12 @@ export const siteConfig: SiteConfig = {
 			enable: true, // 为 true 时：为多张图片启用轮播。为 false 时：从数组中随机显示一张图片
 
 			interval: 2, // 轮播间隔时间（秒）
+		},
+
+		waves: {
+			enable: true, // 是否启用水波纹效果(这个功能比较吃性能)
+			performanceMode: false, // 性能模式：减少动画复杂度(性能提升40%)
+			mobileDisable: false, // 移动端禁用
 		},
 
 		// PicFlow API支持(智能图片API)
@@ -90,6 +181,7 @@ export const siteConfig: SiteConfig = {
 
 		homeText: {
 			enable: true, // 在主页显示自定义文本
+<<<<<<< HEAD
 			title: "armの博客", // 主页横幅主标题
 
 			subtitle: [
@@ -97,6 +189,16 @@ export const siteConfig: SiteConfig = {
 				"人を信じよ、しかしその百倍も自らを信じよ",
 				"一日は貴い一生である。これを空費してはならない",
 				"青春は永遠に、はじめからのやり直しだ",
+=======
+			title: "美しいミズキ", // 主页横幅主标题
+
+			subtitle: [
+				"特別なことはないけど、君がいると十分です",
+				"今でもあなたは私の光",
+				"君ってさ、知らないうちに私の毎日になってたよ",
+				"君と話すと、なんか毎日がちょっと楽しくなるんだ",
+				"今日はなんでもない日。でも、ちょっとだけいい日",
+>>>>>>> upstream/master
 			],
 			typewriter: {
 				enable: true, // 启用副标题打字机效果
@@ -120,7 +222,8 @@ export const siteConfig: SiteConfig = {
 	},
 	toc: {
 		enable: true, // 启用目录功能
-		depth: 3, // 目录深度，1-6，1 表示只显示 h1 标题，2 表示显示 h1 和 h2 标题，依此类推
+		depth: 2, // 目录深度，1-6，1 表示只显示 h1 标题，2 表示显示 h1 和 h2 标题，依此类推
+		useJapaneseBadge: true, // 使用日语假名标记（あいうえお...）代替数字，开启后会将 1、2、3... 改为 あ、い、う...
 	},
 	generateOgImages: false, // 启用生成OpenGraph图片功能,注意开启后要渲染很长时间，不建议本地调试的时候开启
 	favicon: [
@@ -137,19 +240,30 @@ export const siteConfig: SiteConfig = {
 
 	// 字体配置
 	font: {
-		zenMaruGothic: {
-			enable: true, // 启用全局圆体适合日语和英语，对中文适配一般
+		// 注意：自定义字体需要在 src/styles/main.css 中引入字体文件
+		// 注意：字体子集优化功能目前仅支持 TTF 格式字体,开启后需要在生产环境才能看到效果,在Dev环境下显示的是浏览器默认字体!
+		asciiFont: {
+			// 英文字体 - 优先级最高
+			// 指定为英文字体则无论字体包含多大范围，都只会保留 ASCII 字符子集
+			fontFamily: "ZenMaruGothic-Medium",
+			fontWeight: "400",
+			localFonts: ["ZenMaruGothic-Medium.ttf"],
+			enableCompress: true, // 启用字体子集优化，减少字体文件大小
 		},
-		hanalei: {
-			enable: false, // 启用 Hanalei 字体作为全局字体，适合中文去使用
+		cjkFont: {
+			// 中日韩字体 - 作为回退字体
+			fontFamily: "萝莉体 第二版",
+			fontWeight: "500",
+			localFonts: ["萝莉体 第二版.ttf"],
+			enableCompress: true, // 启用字体子集优化，减少字体文件大小
 		},
 	},
 	showLastModified: true, // 控制“上次编辑”卡片显示的开关
 };
 export const fullscreenWallpaperConfig: FullscreenWallpaperConfig = {
-	enable: true, // 启用全屏壁纸功能,非Banner模式下生效
 	src: {
 		desktop: [
+<<<<<<< HEAD
 			"/assets/desktop-banner/w1.webp",
 			"/assets/desktop-banner/w2.webp",
 			"/assets/desktop-banner/w3.webp",
@@ -160,22 +274,28 @@ export const fullscreenWallpaperConfig: FullscreenWallpaperConfig = {
 			"/assets/desktop-banner/w8.webb",
 			"/assets/desktop-banner/w9.webp",
 			"/assets/desktop-banner/w10.webp",
+=======
+			"/assets/desktop-banner/1.webp",
+			"/assets/desktop-banner/2.webp",
+			"/assets/desktop-banner/3.webp",
+			"/assets/desktop-banner/4.webp",
+			"/assets/desktop-banner/5.webp",
+			"/assets/desktop-banner/6.webp",
+>>>>>>> upstream/master
 		], // 桌面横幅图片
 		mobile: [
-			"/assets/mobile-banner/m1.webp",
-			"/assets/mobile-banner/m2.webp",
-			"/assets/mobile-banner/m3.webp",
-			"/assets/mobile-banner/m4.webp",
-			"/assets/mobile-banner/m5.webp",
-			"/assets/mobile-banner/m6.webp",
-			"/assets/mobile-banner/m7.webp",
-			"/assets/mobile-banner/m8.webp",
+			"/assets/mobile-banner/1.webp",
+			"/assets/mobile-banner/2.webp",
+			"/assets/mobile-banner/3.webp",
+			"/assets/mobile-banner/4.webp",
+			"/assets/mobile-banner/5.webp",
+			"/assets/mobile-banner/6.webp",
 		], // 移动横幅图片
 	}, // 使用本地横幅图片
 	position: "center", // 壁纸位置，等同于 object-position
 	carousel: {
 		enable: true, // 启用轮播
-		interval: 1, // 轮播间隔时间（秒）
+		interval: 5, // 轮播间隔时间（秒）
 	},
 	zIndex: -1, // 层级，确保壁纸在背景层
 	opacity: 0.8, // 壁纸透明度
@@ -211,16 +331,89 @@ export const navBarConfig: NavBarConfig = {
 			url: "/content/",
 			icon: "material-symbols:person",
 			children: [
+<<<<<<< HEAD
 				LinkPreset.Anime,
+=======
+				{
+					name: "Anime",
+					url: "/anime/",
+					icon: "material-symbols:movie",
+				},
+				{
+					name: "Diary",
+					url: "/diary/",
+					icon: "material-symbols:book",
+				},
+				{
+					name: "Gallery",
+					url: "/albums/",
+					icon: "material-symbols:photo-library",
+				},
+				{
+					name: "Devices",
+					url: "devices/",
+					icon: "material-symbols:devices",
+					external: false,
+				},
+			],
+		},
+		{
+			name: "About",
+			url: "/content/",
+			icon: "material-symbols:info",
+			children: [
+				{
+					name: "About",
+					url: "/about/",
+					icon: "material-symbols:person",
+				},
+				{
+					name: "Friends",
+					url: "/friends/",
+					icon: "material-symbols:group",
+				},
+			],
+		},
+		{
+			name: "Others",
+			url: "#",
+			icon: "material-symbols:more-horiz",
+			children: [
+				{
+					name: "Projects",
+					url: "/projects/",
+					icon: "material-symbols:work",
+				},
+				{
+					name: "Skills",
+					url: "/skills/",
+					icon: "material-symbols:psychology",
+				},
+				{
+					name: "Timeline",
+					url: "/timeline/",
+					icon: "material-symbols:timeline",
+				},
+>>>>>>> upstream/master
 			],
 		},
 	],
 };
 
 export const profileConfig: ProfileConfig = {
+<<<<<<< HEAD
 	avatar: "assets/images/n0.webp", // 相对于 /src 目录。如果以 '/' 开头，则相对于 /public 目录
 	name: "arm",
 	bio: "愛する人が皆愛を得ますように",
+=======
+	avatar: "assets/images/avatar.webp", // 相对于 /src 目录。如果以 '/' 开头，则相对于 /public 目录
+	name: "Matsuzaka Yuki",
+	bio: "The world is big, you have to go and see",
+	typewriter: {
+		enable: true, // 启用个人简介打字机效果
+		speed: 80, // 打字速度（毫秒）
+	},
+>>>>>>> upstream/master
 	links: [
 		{
 			name: "Bilibli",
@@ -230,7 +423,21 @@ export const profileConfig: ProfileConfig = {
 		{
 			name: "GitHub",
 			icon: "fa6-brands:github",
+<<<<<<< HEAD
 			url: "https://github.com/magisk-for-arm",
+=======
+			url: "https://github.com/matsuzaka-yuki",
+		},
+		{
+			name: "Codeberg",
+			icon: "simple-icons:codeberg",
+			url: "https://codeberg.org",
+		},
+		{
+			name: "Discord",
+			icon: "fa6-brands:discord",
+			url: "https://discord.gg/MqW6TcQtVM",
+>>>>>>> upstream/master
 		},
 	],
 };
@@ -245,6 +452,8 @@ export const expressiveCodeConfig: ExpressiveCodeConfig = {
 	// 注意：某些样式（如背景颜色）已被覆盖，请参阅 astro.config.mjs 文件。
 	// 请选择深色主题，因为此博客主题目前仅支持深色背景
 	theme: "github-dark",
+	// 是否在主题切换时隐藏代码块以避免卡顿问题
+	hideDuringThemeTransition: true,
 };
 
 export const commentConfig: CommentConfig = {
@@ -268,25 +477,35 @@ export const announcementConfig: AnnouncementConfig = {
 };
 
 export const musicPlayerConfig: MusicPlayerConfig = {
+<<<<<<< HEAD
 	enable: false, // 启用音乐播放器功能
+=======
+	enable: true, // 启用音乐播放器功能
+	mode: "meting", // 音乐播放器模式，可选 "local" 或 "meting"
+	meting_api:
+		"https://www.bilibili.uno/api?server=:server&type=:type&id=:id&auth=:auth&r=:r", // Meting API 地址
+	id: "14164869977", // 歌单ID
+	server: "netease", // 音乐源服务器。有的meting的api源支持更多平台,一般来说,netease=网易云音乐, tencent=QQ音乐, kugou=酷狗音乐, xiami=虾米音乐, baidu=百度音乐
+	type: "playlist", // 播单类型
+>>>>>>> upstream/master
 };
 
 export const footerConfig: FooterConfig = {
 	enable: false, // 是否启用Footer HTML注入功能
+	customHtml: "", // HTML格式的自定义页脚信息，例如备案号等，默认留空
+	// 也可以直接编辑 FooterConfig.html 文件来添加备案号等自定义内容
+	// 注意：若 customHtml 不为空，则使用 customHtml 中的内容；若 customHtml 留空，则使用 FooterConfig.html 文件中的内容
+	// FooterConfig.html 可能会在未来的某个版本弃用
 };
-
-// 直接编辑 FooterConfig.html 文件来添加备案号等自定义内容
 
 /**
  * 侧边栏布局配置
  * 用于控制侧边栏组件的显示、排序、动画和响应式行为
+ * sidebar: 控制组件在左侧栏和右侧栏,注意移动端是不会显示右侧栏的内容(unilateral模式除外),在设置了right属性的时候请确保你使用双侧(both)布局
  */
 export const sidebarLayoutConfig: SidebarLayoutConfig = {
-	// 是否启用侧边栏功能
-	enable: true,
-
-	// 侧边栏位置：左侧或右侧
-	position: "left",
+	// 侧边栏位置：单侧(unilateral)或双侧(both)
+	position: "both",
 
 	// 侧边栏组件配置列表
 	components: [
@@ -299,6 +518,8 @@ export const sidebarLayoutConfig: SidebarLayoutConfig = {
 			order: 1,
 			// 组件位置："top" 表示固定在顶部
 			position: "top",
+			// 所在侧边栏
+			sidebar: "left",
 			// CSS 类名，用于应用样式和动画
 			class: "onload-animation",
 			// 动画延迟时间（毫秒），用于错开动画效果
@@ -313,6 +534,8 @@ export const sidebarLayoutConfig: SidebarLayoutConfig = {
 			order: 2,
 			// 组件位置："top" 表示固定在顶部
 			position: "top",
+			// 所在侧边栏
+			sidebar: "left",
 			// CSS 类名
 			class: "onload-animation",
 			// 动画延迟时间
@@ -327,6 +550,8 @@ export const sidebarLayoutConfig: SidebarLayoutConfig = {
 			order: 3,
 			// 组件位置："sticky" 表示粘性定位，可滚动
 			position: "sticky",
+			// 所在侧边栏
+			sidebar: "left",
 			// CSS 类名
 			class: "onload-animation",
 			// 动画延迟时间
@@ -345,7 +570,9 @@ export const sidebarLayoutConfig: SidebarLayoutConfig = {
 			// 组件显示顺序
 			order: 5,
 			// 组件位置："sticky" 表示粘性定位
-			position: "sticky",
+			position: "top",
+			// 所在侧边栏
+			sidebar: "left",
 			// CSS 类名
 			class: "onload-animation",
 			// 动画延迟时间
@@ -355,6 +582,38 @@ export const sidebarLayoutConfig: SidebarLayoutConfig = {
 				// 折叠阈值：当标签数量超过20个时自动折叠
 				collapseThreshold: 20,
 			},
+		},
+		{
+			// 组件类型：站点统计组件
+			type: "site-stats",
+			// 是否启用该组件
+			enable: true,
+			// 组件显示顺序
+			order: 5,
+			// 组件位置
+			position: "top",
+			// 所在侧边栏
+			sidebar: "right",
+			// CSS 类名
+			class: "onload-animation",
+			// 动画延迟时间
+			animationDelay: 200,
+		},
+		{
+			// 组件类型：日历组件(移动端不显示)
+			type: "calendar",
+			// 是否启用该组件
+			enable: true,
+			// 组件显示顺序
+			order: 6,
+			// 组件位置
+			position: "top",
+			// 所在侧边栏
+			sidebar: "right",
+			// CSS 类名
+			class: "onload-animation",
+			// 动画延迟时间
+			animationDelay: 250,
 		},
 	],
 
@@ -374,8 +633,8 @@ export const sidebarLayoutConfig: SidebarLayoutConfig = {
 		breakpoints: {
 			// 移动端断点：屏幕宽度小于768px
 			mobile: 768,
-			// 平板端断点：屏幕宽度小于1024px
-			tablet: 1024,
+			// 平板端断点：屏幕宽度小于1280px
+			tablet: 1280,
 			// 桌面端断点：屏幕宽度小于1280px
 			desktop: 1280,
 		},
@@ -400,6 +659,10 @@ export const sakuraConfig: SakuraConfig = {
 		min: 0.5, // 樱花最小尺寸倍数
 		max: 1.1, // 樱花最大尺寸倍数
 	},
+	opacity: {
+		min: 0.3, // 樱花最小不透明度
+		max: 0.9, // 樱花最大不透明度
+	},
 	speed: {
 		horizontal: {
 			min: -1.7, // 水平移动速度最小值
@@ -410,6 +673,7 @@ export const sakuraConfig: SakuraConfig = {
 			max: 2.2, // 垂直移动速度最大值
 		},
 		rotation: 0.03, // 旋转速度
+		fadeSpeed: 0.03, // 消失速度，不应大于最小不透明度
 	},
 	zIndex: 100, // 层级，确保樱花在合适的层级显示
 };
@@ -450,9 +714,15 @@ export const widgetConfigs = {
 } as const;
 
 export const umamiConfig = {
+<<<<<<< HEAD
 	enabled: true, // 是否显示Umami统计
 	apiKey: "api_OnamcnJfWNWkXrXQbeltLtAZE66Uc69H", // 你的API密钥
 	baseUrl: "https://umami.520403.xyz/share/fRWqwh9SekD4obe2", // Umami Cloud API地址
+=======
+	enabled: false, // 是否显示Umami统计
+	apiKey: import.meta.env.UMAMI_API_KEY || "api_xxxxxxxx", // API密钥优先从环境变量读取，否则使用配置文件中的值
+	baseUrl: "https://api.umami.is", // Umami Cloud API地址
+>>>>>>> upstream/master
 	scripts: `
 <script defer src="https://cloud.umami.is/script.js" data-website-id="399b8ac5-2487-4887-8cd7-65f5c6ac36d2"></script>
   `.trim(), // 上面填你要插入的Script,不用再去Layout中插入

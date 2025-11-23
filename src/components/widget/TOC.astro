@@ -1,7 +1,8 @@
 ---
 import type { MarkdownHeading } from "astro";
 import { siteConfig } from "../../config";
-import { url } from "../../utils/url-utils";
+
+// import { url } from "../../utils/url-utils";
 
 interface Props {
 	class?: string;
@@ -283,16 +284,49 @@ class TableOfContents extends HTMLElement {
         }
         // 重新生成TOC HTML
         const minDepth = Math.min(...headings.map(h => h.depth));
-        const maxLevel = 3; // siteConfig.toc.depth
+        // 获取配置信息
+        const siteConfig = (window as any).siteConfig || {};
+        const maxLevel = siteConfig.toc?.depth || 3;
+        const useJapaneseBadge = siteConfig.toc?.useJapaneseBadge || false;
+        
+        // 添加调试信息
+        console.log('TOC Config in regenerateTOC:', { siteConfig: siteConfig.toc, maxLevel, useJapaneseBadge });
+        
+        // 日语片假名字符集
+        const japaneseKatakana = [
+            "ア", "イ", "ウ", "エ", "オ",
+            "カ", "キ", "ク", "ケ", "コ",
+            "サ", "シ", "ス", "セ", "ソ",
+            "タ", "チ", "ツ", "テ", "ト",
+            "ナ", "ニ", "ヌ", "ネ", "ノ",
+            "ハ", "ヒ", "フ", "ヘ", "ホ",
+            "マ", "ミ", "ム", "メ", "モ",
+            "ヤ", "ユ", "ヨ",
+            "ラ", "リ", "ル", "レ", "ロ",
+            "ワ", "ヲ", "ン"
+        ];
+        
         let heading1Count = 1;
         const tocHTML = headings
             .filter(heading => heading.depth < minDepth + maxLevel)
             .map(heading => {
                 const depthClass = heading.depth === minDepth ? '' : 
                     heading.depth === minDepth + 1 ? 'ml-4' : 'ml-8';
-                const badgeContent = heading.depth === minDepth ? (heading1Count++) :
-                    heading.depth === minDepth + 1 ? '<div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div>' :
-                    '<div class="transition w-1.5 h-1.5 rounded-sm bg-black/5 dark:bg-white/10"></div>';
+                
+                let badgeContent = '';
+                if (heading.depth === minDepth) {
+                    if (useJapaneseBadge && heading1Count - 1 < japaneseKatakana.length) {
+                        badgeContent = japaneseKatakana[heading1Count - 1];
+                    } else {
+                        badgeContent = heading1Count.toString();
+                    }
+                    heading1Count++;
+                } else if (heading.depth === minDepth + 1) {
+                    badgeContent = '<div class="transition w-2 h-2 rounded-[0.1875rem] bg-[var(--toc-badge-bg)]"></div>';
+                } else {
+                    badgeContent = '<div class="transition w-1.5 h-1.5 rounded-sm bg-black/5 dark:bg-white/10"></div>';
+                }
+                
                 return `<a href="#${heading.slug}" class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl hover:bg-[var(--toc-btn-hover)] active:bg-[var(--toc-btn-active)] py-2">
                     <div class="transition w-5 h-5 shrink-0 rounded-lg text-xs flex items-center justify-center font-bold ${depthClass} ${heading.depth === minDepth ? 'bg-[var(--toc-badge-bg)] text-[var(--btn-content)]' : ''}">
                         ${badgeContent}
@@ -316,3 +350,17 @@ if (!customElements.get("table-of-contents")) {
     customElements.define("table-of-contents", TableOfContents);
 }
 </script>
+
+<style>
+  table-of-contents#toc {
+      max-height: 100%;
+      overflow: auto;
+      position: relative;
+      scroll-behavior: smooth;
+      display: block;
+  }
+
+  table-of-contents#toc::-webkit-scrollbar {
+      display: none;
+  }
+</style>

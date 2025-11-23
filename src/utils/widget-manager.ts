@@ -16,6 +16,8 @@ export const WIDGET_COMPONENT_MAP = {
 	toc: "../components/widget/TOC.astro",
 	"music-player": "../components/widget/MusicPlayer.svelte",
 	pio: "../components/widget/Pio.astro", // 添加 Pio 组件映射
+	"site-stats": "../components/widget/SiteStats.astro", // 站点统计组件
+	calendar: "../components/widget/Calendar.astro", // 日历组件
 	custom: null, // 自定义组件需要在配置中指定路径
 } as const;
 
@@ -51,11 +53,30 @@ export class WidgetManager {
 	/**
 	 * 根据位置获取组件列表
 	 * @param position 组件位置：'top' | 'sticky'
+	 * @param sidebar 侧边栏位置（可选）：'left' | 'right'
 	 */
-	getComponentsByPosition(position: "top" | "sticky"): WidgetComponentConfig[] {
-		return this.enabledComponents.filter(
-			(component) => component.position === position,
+	getComponentsByPosition(position: "top" | "sticky", sidebar?: "left" | "right"): WidgetComponentConfig[] {
+		let components = this.enabledComponents.filter(
+			(component) => component.position === position
 		);
+		
+		// 如果指定了侧边栏位置，则进一步过滤
+		if (sidebar) {
+			components = components.filter((component) => {
+				// 如果组件没有指定 sidebar 属性,默认分配到左侧
+				const componentSidebar = component.sidebar || "left";
+				return componentSidebar === sidebar;
+			});
+		} else if (this.config.position === "left" || this.config.position === "right") {
+			// 单侧边栏模式下，只显示对应侧的组件
+			const currentSidebar = this.config.position;
+			components = components.filter((component) => {
+				const componentSidebar = component.sidebar || "left";
+				return componentSidebar === currentSidebar;
+			});
+		}
+		
+		return components;
 	}
 
 	/**
@@ -89,6 +110,12 @@ export class WidgetManager {
 		// 添加基础类名
 		if (component.class) {
 			classes.push(component.class);
+		}
+
+		// 双侧边栏模式下，右侧边栏的组件在平板端自动隐藏
+		// 使用 Tailwind 标准断点：lg(1024px) 以下全部隐藏
+		if (this.config.position === "both" && component.sidebar === "right") {
+			classes.push("hidden", "lg:block");
 		}
 
 		// 添加响应式隐藏类名
@@ -158,10 +185,6 @@ export class WidgetManager {
 	 * @param deviceType 设备类型
 	 */
 	shouldShowSidebar(deviceType: "mobile" | "tablet" | "desktop"): boolean {
-		if (!this.config.enable) {
-			return false;
-		}
-
 		const layoutMode = this.config.responsive.layout[deviceType];
 		return layoutMode === "sidebar";
 	}
@@ -271,11 +294,11 @@ export function isComponentEnabled(
 }
 
 /**
- * 工具函数：获取所有启用的组件类型
+ * 工具函数：获取所有启用的组件类型(左侧边栏为主)
  */
 export function getEnabledComponentTypes(): WidgetComponentType[] {
 	const enabledComponents = widgetManager
-		.getComponentsByPosition("top")
-		.concat(widgetManager.getComponentsByPosition("sticky"));
+		.getComponentsByPosition("top", "left")
+		.concat(widgetManager.getComponentsByPosition("sticky", "left"));
 	return enabledComponents.map((c) => c.type);
 }
