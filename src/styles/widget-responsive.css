@@ -31,13 +31,6 @@
   --widget-max-height-desktop: 400px;
 }
 
-/* 基础侧边栏样式 */
-#dynamic-sidebar {
-  width: var(--sidebar-width-desktop);
-  transition: all var(--widget-animation-duration) var(--widget-animation-timing);
-  position: relative;
-}
-
 /* 组件容器基础样式 */
 .widget-container {
   min-height: var(--widget-min-height);
@@ -54,120 +47,6 @@
 .widget-container.widget-hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-/* 移动端样式 (< 768px) */
-@media (max-width: 767px) {
-  #dynamic-sidebar {
-    width: var(--sidebar-width-mobile);
-    padding: 0.5rem;
-    /* 移动端优化：添加硬件加速 */
-    -webkit-transform: translateZ(0);
-    transform: translateZ(0);
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-  }
-  
-  .sidebar-top-section,
-  .sidebar-sticky-section {
-    gap: var(--widget-gap-mobile);
-  }
-  
-  .widget-container {
-    max-height: var(--widget-max-height-mobile);
-    /* 移动端优化：减少过渡效果，避免闪烁 */
-    transition: all 0.2s ease-in-out;
-  }
-  
-  /* 移动端隐藏的组件 */
-  .widget-container[data-mobile-hidden="true"] {
-    display: none;
-  }
-  
-  /* 移动端特殊布局 */
-  .sidebar-sticky-section {
-    position: static !important;
-    top: auto !important;
-  }
-  
-  /* 移动端组件简化显示 */
-  .widget-container[data-widget-type="announcement"] {
-    order: -1; /* 公告优先显示 */
-  }
-  
-  .widget-container[data-widget-type="categories"],
-  .widget-container[data-widget-type="tags"] {
-    /* 分类和标签在移动端可折叠 */
-    max-height: 120px;
-    overflow-y: auto;
-  }
-}
-
-/* 平板端样式 (768px - 1024px) */
-@media (min-width: 768px) and (max-width: 1024px) {
-  #dynamic-sidebar {
-    width: var(--sidebar-width-tablet);
-    padding: 0.75rem;
-  }
-  
-  .sidebar-top-section,
-  .sidebar-sticky-section {
-    gap: var(--widget-gap-tablet);
-  }
-  
-  .widget-container {
-    max-height: var(--widget-max-height-tablet);
-  }
-  
-  /* 平板端隐藏的组件 */
-  .widget-container[data-tablet-hidden="true"] {
-    display: none;
-  }
-  
-  /* 平板端优化 */
-  .widget-container[data-widget-type="music-player"] {
-    /* 音乐播放器在平板端紧凑显示 */
-    transform: scale(0.95);
-  }
-}
-
-/* 桌面端样式 (> 1024px) */
-@media (min-width: 1025px) {
-  #dynamic-sidebar {
-    width: var(--sidebar-width-desktop);
-    padding: 1rem;
-  }
-  
-  .sidebar-top-section,
-  .sidebar-sticky-section {
-    gap: var(--widget-gap-desktop);
-  }
-  
-  .widget-container {
-    max-height: var(--widget-max-height-desktop);
-  }
-  
-  /* 桌面端隐藏的组件 */
-  .widget-container[data-desktop-hidden="true"] {
-    display: none;
-  }
-  
-  /* 桌面端增强效果 */
-  .widget-container:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-  }
-}
-
-/* 超宽屏样式 (> 1440px) */
-@media (min-width: 1441px) {
-  #dynamic-sidebar {
-    width: 360px;
-  }
-  
-  .widget-container {
-    max-height: 500px;
-  }
 }
 
 /* 组件位置特定样式 */
@@ -439,37 +318,6 @@
   
   .widget-container:hover {
     transform: none;
-  }
-}
-
-/* 打印样式 */
-@media print {
-  #dynamic-sidebar {
-    display: none;
-  }
-}
-
-/* 容器查询支持 (现代浏览器) */
-@supports (container-type: inline-size) {
-  #dynamic-sidebar {
-    container-type: inline-size;
-  }
-  
-  @container (max-width: 280px) {
-    .widget-container {
-      font-size: 0.875rem;
-    }
-    
-    .widget-container[data-widget-type="categories"],
-    .widget-container[data-widget-type="tags"] {
-      max-height: 150px;
-    }
-  }
-  
-  @container (min-width: 360px) {
-    .widget-container {
-      padding: 1.25rem;
-    }
   }
 }
 

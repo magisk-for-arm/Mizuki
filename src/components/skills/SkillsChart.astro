@@ -3,7 +3,13 @@ import I18nKey from "../../i18n/i18nKey";
 import { i18n } from "../../i18n/translation";
 
 // 计算SVG圆环路径数据的函数（Donut Chart）
-const calculatePathData = (segment) => {
+interface ChartSegment {
+	startAngle: number;
+	endAngle: number;
+	angle: number;
+}
+
+const calculatePathData = (segment: ChartSegment) => {
 	if (segment.angle <= 0) return "";
 
 	// 外圆和内圆半径

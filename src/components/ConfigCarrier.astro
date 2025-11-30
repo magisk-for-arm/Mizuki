@@ -7,7 +7,7 @@ import { siteConfig, expressiveCodeConfig } from "../config";
 <div id="config-carrier" data-hue={siteConfig.themeColor.hue} data-hide-code-blocks-during-transition={expressiveCodeConfig.hideDuringThemeTransition ? "true" : "false"}>
 </div>
 
-<script define:vars={{ tocEnable: siteConfig.toc.enable, tocDepth: siteConfig.toc.depth, tocUseJapaneseBadge: siteConfig.toc.useJapaneseBadge }}>
+<script is:inline define:vars={{ tocEnable: siteConfig.toc.enable, tocDepth: siteConfig.toc.depth, tocUseJapaneseBadge: siteConfig.toc.useJapaneseBadge }}>
   // 将TOC配置传递到前端
   window.siteConfig = window.siteConfig || {};
   window.siteConfig.toc = {

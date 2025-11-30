@@ -126,7 +126,7 @@ const {
 
 <!-- 只有在非首页且启用umami且有slug时才加载脚本 -->
 {!isHome && umamiEnabled && id && (
-    <script define:vars={{ id, umamiBaseUrl, umamiApiKey, umamiWebsiteId, umamiConfig }}>
+    <script is:inline define:vars={{ id, umamiBaseUrl, umamiApiKey, umamiWebsiteId, umamiConfig }}>
         // 客户端统计文案生成函数
         function generateStatsText(pageViews, visitors) {
             return `浏览量 ${pageViews} · 访客 ${visitors}`;

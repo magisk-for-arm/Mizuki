@@ -111,7 +111,7 @@ const brands = Object.keys(devices);
     </div>
   </div>
 
-  <script define:vars={{ devices }}>
+  <script is:inline define:vars={{ devices }}>
     const brandTabs = document.querySelectorAll('.filter-tag');
     const devicesContainer = document.getElementById('devices-container');
 

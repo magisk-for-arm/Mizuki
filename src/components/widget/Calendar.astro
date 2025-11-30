@@ -90,7 +90,7 @@ const yearSuffix = isChinese ? '年' : ' ';
   </div>
 </WidgetLayout>
 
-<script define:vars={{ postDateMap: Object.fromEntries(postDateMap), allPostsData, monthNames, weekDays, yearSuffix }}>
+<script is:inline define:vars={{ postDateMap: Object.fromEntries(postDateMap), allPostsData, monthNames, weekDays, yearSuffix }}>
   // 客户端动态渲染日历
   function renderCalendar() {
     const now = new Date();
