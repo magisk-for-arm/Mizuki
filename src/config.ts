@@ -51,7 +51,7 @@ export const siteConfig: SiteConfig = {
 		// 顶栏标题文本
 		text: "Blog",
 		// 顶栏标题图标路径，默认使用 public/assets/home/home.png
-		icon: "assets/images/n0.webp",
+		icon: "src/assets/images/n0.webp",
 	},
 
 	bangumi: {
@@ -277,7 +277,7 @@ export const navBarConfig: NavBarConfig = {
 			icon: "material-symbols:person",
 			children: [
 				{
-					name: "Anime",
+					name: "番剧",
 					url: "/anime/",
 					icon: "material-symbols:movie",
 				},
@@ -300,7 +300,7 @@ export const navBarConfig: NavBarConfig = {
 			],
 		},
 		{
-			name: "About",
+			name: "关于",
 			url: "/content/",
 			icon: "material-symbols:info",
 			children: [
@@ -310,7 +310,7 @@ export const navBarConfig: NavBarConfig = {
 					icon: "material-symbols:person",
 				},
 				{
-					name: "Friends",
+					name: "友链",
 					url: "/friends/",
 					icon: "material-symbols:group",
 				},
@@ -598,7 +598,7 @@ export const sakuraConfig: SakuraConfig = {
 // Pio 看板娘配置
 // Pio 看板娘配置
 export const pioConfig: import("./types/config").PioConfig = {
-	enable: true, // 启用看板娘
+	enable: false, // 启用看板娘
 	models: ["/pio/models/pio/model.json"], // 默认模型路径
 	position: "left", // 默认位置在右侧
 	width: 280, // 默认宽度
@@ -631,8 +631,8 @@ export const widgetConfigs = {
 } as const;
 
 export const umamiConfig = {
-	enabled: false, // 是否显示Umami统计
-	apiKey: import.meta.env.UMAMI_API_KEY || "api_xxxxxxxx", // API密钥优先从环境变量读取，否则使用配置文件中的值
+	enabled: true, // 是否显示Umami统计
+	apiKey: "api_OnamcnJfWNWkXrXQbeltLtAZE66Uc69H", // API密钥优先从环境变量读取，否则使用配置文件中的值
 	baseUrl: "https://api.umami.is", // Umami Cloud API地址
 	scripts: `
 <script defer src="https://cloud.umami.is/script.js" data-website-id="399b8ac5-2487-4887-8cd7-65f5c6ac36d2"></script>
