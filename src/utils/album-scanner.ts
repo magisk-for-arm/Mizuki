@@ -1,6 +1,6 @@
 import * as fs from "node:fs";
 import * as path from "node:path";
-import type { AlbumGroup, Photo } from "../data/1";
+import type { AlbumGroup, Photo } from "../types/album";
 
 export async function scanAlbums(): Promise<AlbumGroup[]> {
 	const albumsDir = path.join(process.cwd(), "public/images/albums");
@@ -167,9 +167,9 @@ function processExternalPhotos(
 			location: photo.location,
 			width: photo.width,
 			height: photo.height,
-			camera: photo.camera,
-			lens: photo.lens,
-			settings: photo.settings,
+			// camera: photo.camera,
+			// lens: photo.lens,
+			// settings: photo.settings,
 		});
 	});
 

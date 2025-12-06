@@ -1,6 +1,6 @@
 ---
 import { Icon } from "astro-icon/components";
-import { profileConfig, umamiConfig } from "../config";
+import { umamiConfig } from "../config";
 import I18nKey from "../i18n/i18nKey";
 import { i18n } from "../i18n/translation";
 import { formatDateToYYYYMMDD } from "../utils/date-utils";
@@ -41,7 +41,7 @@ const {
 	id,
 	showOnlyBasicMeta = false, // 默认为false，保持原有行为
 	words,
-	minutes,
+	// minutes,
 	showWordCount = false, // 默认不显示字数统计
 } = Astro.props;
 ---
@@ -134,9 +134,8 @@ const {
         
         // 获取访问量统计
         async function fetchPageViews(isRetry = false) {
-            if (!umamiConfig.enabled) {
-                return;
-            }
+            // @ts-ignore
+            if (!umamiConfig.enabled || !umamiWebsiteId || !id || !isRetry) return;
             
             try {
                 // 构造文章页面的URL路径

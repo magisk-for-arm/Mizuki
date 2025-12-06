@@ -1,4 +1,10 @@
-import type { DARK_MODE, LIGHT_MODE, WALLPAPER_BANNER, WALLPAPER_FULLSCREEN, WALLPAPER_NONE } from "../constants/constants";
+import type {
+	DARK_MODE,
+	LIGHT_MODE,
+	WALLPAPER_BANNER,
+	WALLPAPER_FULLSCREEN,
+	WALLPAPER_NONE,
+} from "../constants/constants";
 
 export type SiteConfig = {
 	title: string;
@@ -7,8 +13,33 @@ export type SiteConfig = {
 	keywords?: string[]; // 站点关键词，用于生成 <meta name="keywords">
 	siteStartDate?: string; // 站点开始日期，格式：YYYY-MM-DD，用于计算运行天数
 
-	timeZone:|-12|-11|-10|-9|-8|-7|-6|-5|-4|-3|-2|-1|0|1|2|3|4|5|6|7|8|9|10|11|12;
-	
+	timeZone:
+		| -12
+		| -11
+		| -10
+		| -9
+		| -8
+		| -7
+		| -6
+		| -5
+		| -4
+		| -3
+		| -2
+		| -1
+		| 0
+		| 1
+		| 2
+		| 3
+		| 4
+		| 5
+		| 6
+		| 7
+		| 8
+		| 9
+		| 10
+		| 11
+		| 12;
+
 	lang:
 		| "en"
 		| "zh_CN"
@@ -131,6 +162,7 @@ export type SiteConfig = {
 	};
 	toc: {
 		enable: boolean;
+		mode: "float" | "sidebar"; // 目录显示模式："float" 悬浮按钮模式，"sidebar" 侧边栏模式
 		depth: 1 | 2 | 3;
 		useJapaneseBadge?: boolean; // 使用日语假名标记（あいうえお...）代替数字
 	};
@@ -205,7 +237,10 @@ type TwikooConfig = {
 
 export type LIGHT_DARK_MODE = typeof LIGHT_MODE | typeof DARK_MODE;
 
-export type WALLPAPER_MODE = typeof WALLPAPER_BANNER | typeof WALLPAPER_FULLSCREEN | typeof WALLPAPER_NONE;
+export type WALLPAPER_MODE =
+	| typeof WALLPAPER_BANNER
+	| typeof WALLPAPER_FULLSCREEN
+	| typeof WALLPAPER_NONE;
 
 export type BlogPostData = {
 	body: string;

@@ -4,8 +4,8 @@ import { navBarConfig, siteConfig } from "../config";
 import { LinkPresets } from "../constants/link-presets";
 import { LinkPreset, type NavBarLink } from "../types/config";
 import { url } from "../utils/url-utils";
-import LightDarkSwitch from "./LightDarkSwitch.svelte";
 import LayoutSwitchButton from "./LayoutSwitchButton.svelte";
+import LightDarkSwitch from "./LightDarkSwitch.svelte";
 import MobileTOC from "./MobileTOC.svelte";
 import Search from "./Search.svelte";
 import WallpaperSwitch from "./WallpaperSwitch.svelte";
@@ -20,7 +20,8 @@ const navbarTransparentMode =
 	siteConfig.banner?.navbar?.transparentMode || "semi";
 
 // 获取整体布局方案切换按钮显示设置
-const modeSwitchDisplay = siteConfig.wallpaperMode?.showModeSwitchOnMobile || "desktop";
+const modeSwitchDisplay =
+	siteConfig.wallpaperMode?.showModeSwitchOnMobile || "desktop";
 
 // 检查是否为首页
 const isHomePage = Astro.url.pathname === "/" || Astro.url.pathname === "";
@@ -88,15 +89,15 @@ let links: NavBarLink[] = navBarConfig.links.map(
 </div>
 
 <script>
-function switchTheme() {
-    if (localStorage.theme === 'dark') {
-        document.documentElement.classList.remove('dark');
-        localStorage.theme = 'light';
-    } else {
-        document.documentElement.classList.add('dark');
-        localStorage.theme = 'dark';
-    }
-}
+// function switchTheme() {
+//     if (localStorage.theme === 'dark') {
+//         document.documentElement.classList.remove('dark');
+//         localStorage.theme = 'light';
+//     } else {
+//         document.documentElement.classList.add('dark');
+//         localStorage.theme = 'dark';
+//     }
+// }
 
 async function loadButtonScript() {
     try {

@@ -81,16 +81,16 @@ export default defineConfig({
 						showLineNumbers: false,
 					},
 					bash: {
-						frame: 'code',
+						frame: "code",
 					},
 					shell: {
-						frame: 'code',
+						frame: "code",
 					},
 					sh: {
-						frame: 'code',
+						frame: "code",
 					},
 					zsh: {
-						frame: 'code',
+						frame: "code",
 					},
 				},
 			},

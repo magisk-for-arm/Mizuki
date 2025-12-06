@@ -8,11 +8,11 @@ interface Props {
 	post: CollectionEntry<"posts">;
 }
 
-const { id, data } = Astro.props.post;
+const { id, data: _data } = Astro.props.post;
 
 const slug = removeFileExtension(id);
 const path = `/posts/${slug}`;
-const url = `${Astro.site?.href}${path}`;
+// const url = `${Astro.site?.href}${path}`;
 
 let commentService = "";
 if (commentConfig?.enable && commentConfig?.twikoo) {

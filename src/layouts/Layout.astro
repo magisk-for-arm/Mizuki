@@ -12,19 +12,20 @@ import {
 	profileConfig,
 	siteConfig,
 } from "@/config";
-import { widgetConfigs } from "../config";
-import { umamiConfig } from "../config.ts";
+import { umamiConfig } from "../config";
+
+const BANNER_HEIGHT = 35;
+const BANNER_HEIGHT_EXTEND = 30;
+const BANNER_HEIGHT_HOME = BANNER_HEIGHT + BANNER_HEIGHT_EXTEND;
+
 import {
-	BANNER_HEIGHT,
-	BANNER_HEIGHT_EXTEND,
-	BANNER_HEIGHT_HOME,
 	DARK_MODE,
 	DEFAULT_THEME,
 	LIGHT_MODE,
 	PAGE_WIDTH,
 } from "../constants/constants";
 import { defaultFavicons } from "../constants/icon";
-import type { Favicon, SakuraConfig } from "../types/config";
+import type { Favicon } from "../types/config";
 import { pathsEqual, url } from "../utils/url-utils";
 
 import "katex/dist/katex.css";
@@ -98,7 +99,7 @@ if (!banner || typeof banner !== "string" || banner.trim() === "") {
 // TODO don't use post cover as banner for now
 banner = getDefaultBanner();
 
-const enableBanner = siteConfig.banner.enable;
+const enableBanner = !!siteConfig.banner.src;
 
 let pageTitle: string;
 if (title) {
@@ -359,27 +360,36 @@ if (siteConfig.font) {
 </style>
 
 <script>
-import { animationManager } from '../utils/animation-utils';
+// import { animationManager } from '../utils/animation-utils';
 import 'overlayscrollbars/overlayscrollbars.css';
-import {
-	OverlayScrollbars,
-	// ScrollbarsHidingPlugin,
-	// SizeObserverPlugin,
-	// ClickScrollPlugin
-} from 'overlayscrollbars';
-import {getHue, getStoredTheme, setHue, setTheme} from "../utils/setting-utils";
+// import {
+// 	OverlayScrollbars,
+// 	// ScrollbarsHidingPlugin,
+// 	// SizeObserverPlugin,
+// 	// ClickScrollPlugin
+// } from 'overlayscrollbars';
+// import {getHue, getStoredTheme, setHue, setTheme} from "../utils/setting-utils";
 import {pathsEqual, url} from "../utils/url-utils";
 import {
-	BANNER_HEIGHT,
-	BANNER_HEIGHT_HOME,
-	BANNER_HEIGHT_EXTEND,
-	MAIN_PANEL_OVERLAPS_BANNER_HEIGHT,
+	// BANNER_HEIGHT,
+	// BANNER_HEIGHT_HOME,
+	// BANNER_HEIGHT_EXTEND,
+	// MAIN_PANEL_OVERLAPS_BANNER_HEIGHT,
 	DARK_MODE,
 	DEFAULT_THEME
 } from "../constants/constants";
+
+const BANNER_HEIGHT = 35;
+const BANNER_HEIGHT_EXTEND = 30;
+const BANNER_HEIGHT_HOME = BANNER_HEIGHT + BANNER_HEIGHT_EXTEND;
+// const MAIN_PANEL_OVERLAPS_BANNER_HEIGHT = 3.5;
 import { siteConfig } from '../config';
 import { widgetConfigs } from "../config";
 import { initSakura } from "../utils/sakura-manager";
+
+// const setTimeout = window.setTimeout;
+// @ts-ignore
+const setTimeout = (callback: any, delay: any) => window.setTimeout(callback, delay);
 
 /* Preload fonts */
 // (async function() {
@@ -430,11 +440,13 @@ const bannerEnabled = !!document.getElementById('banner-wrapper')
 // 导入面板管理器
 async function initializePanelManager() {
 	try {
+		// @ts-ignore
 		const { panelManager } = await import('../utils/panel-manager.js');
 		
 		function setClickOutsideToClose(panel: string, ignores: string[]) {
 			document.addEventListener("click", async event => {
-				let panelDom = document.getElementById(panel);
+				// @ts-ignore
+				// let _panelDom = document.getElementById(panel);
 				let tDom = event.target;
 				if (!(tDom instanceof Node)) return;		// Ensure the event target is an HTML Node
 				for (let ig of ignores) {
@@ -462,14 +474,14 @@ async function initializePanelManager() {
 initializePanelManager();
 
 
-function loadTheme() {
-	const theme = getStoredTheme()
-	setTheme(theme)
-}
+// function _loadTheme() {
+// 	const theme = getStoredTheme()
+// 	setTheme(theme)
+// }
 
-function loadHue() {
-	setHue(getHue())
-}
+// function _loadHue() {
+// 	setHue(getHue())
+// }
 
 function initCustomScrollbar() {
 	// 完全禁用OverlayScrollbars的body初始化，避免导致页面重新加载
@@ -560,7 +572,7 @@ function initCarousel() {
 	// Check if carousel is disabled but we have multiple images - show random image
 	if (validItems.length > 1 && !siteConfig.banner.carousel?.enable) {
 		// Hide all images first
-		carouselItems.forEach((item, index) => {
+		carouselItems.forEach((item, _index) => {
 			item.classList.add('opacity-0', 'scale-110');
 			item.classList.remove('opacity-100', 'scale-100');
 		});
@@ -577,7 +589,7 @@ function initCarousel() {
 	if (validItems.length > 1 && siteConfig.banner.carousel?.enable) {
 		let currentIndex = 0;
 		const interval = siteConfig.banner.carousel?.interval || 6;
-		let carouselInterval;
+		let carouselInterval: any;
 		let isPaused = false;
 
 		// 移动端触摸手势支持
@@ -587,7 +599,7 @@ function initCarousel() {
 		const carousel = document.getElementById('banner-carousel');
 
 		// 切换图片的函数 - 基于有效项目
-		function switchToSlide(index) {
+		function switchToSlide(index: number) {
 			// 隐藏当前图片
 			const currentItem = validItems[currentIndex];
 			currentItem.classList.remove('opacity-100', 'scale-100');
@@ -997,7 +1009,7 @@ if (document.readyState === 'loading') {
 		showBanner();
 		// 初始化面板管理器
 		try {
-			const { panelManager } = await import('../utils/panel-manager.js');
+			await import('../utils/panel-manager.js');
 			console.log('Panel manager initialized');
 		} catch (error) {
 			console.error('Failed to initialize panel manager:', error);
@@ -1008,7 +1020,7 @@ if (document.readyState === 'loading') {
 	// 页面已经加载完成，立即初始化面板管理器
 	(async () => {
 		try {
-			const { panelManager } = await import('../utils/panel-manager.js');
+			await import('../utils/panel-manager.js');
 			console.log('Panel manager initialized');
 		} catch (error) {
 			console.error('Failed to initialize panel manager:', error);
@@ -1032,12 +1044,12 @@ import '../scripts/theme-optimizer.js';
 import { Fancybox } from "@fancyapps/ui";
 import "@fancyapps/ui/dist/fancybox/fancybox.css";
 
-// 使用单例模式避免重复初始化
-let fancyboxInstances = [];
+// 存储 Fancybox 绑定的选择器
+let fancyboxSelectors: string[] = [];
 
 function initFancybox() {
   // 不需要关闭所有实例，只需检查是否已经初始化
-  if (fancyboxInstances.length > 0) {
+  if (fancyboxSelectors.length > 0) {
     return; // 已经初始化，直接返回
   }
   
@@ -1085,42 +1097,43 @@ function initFancybox() {
     caption: false
   };
   
+  // 存储 Fancybox 绑定的选择器
+  // let fancyboxSelectors: string[] = [];
+
   // 为相册图片添加 Fancybox 支持
-  fancyboxInstances.push(
-    Fancybox.bind(".custom-md img, #post-cover img, .moment-images img", {
-      ...commonConfig,
-      groupAll: true,
-      Carousel: {
-        transition: "slide",
-        preload: 2,
-      },
-    })
-  );
-  
+  const albumImagesSelector = ".custom-md img, #post-cover img, .moment-images img";
+  Fancybox.bind(albumImagesSelector, {
+    ...commonConfig,
+    groupAll: true,
+    Carousel: {
+      transition: "slide",
+      preload: 2,
+    },
+  } as any);
+  fancyboxSelectors.push(albumImagesSelector);
+
   // 为相册中的链接添加 Fancybox 支持
-  fancyboxInstances.push(
-    Fancybox.bind(".moment-images a[data-fancybox]", {
-      ...commonConfig,
-      source: (el) => {
-        return el.getAttribute("data-src") || el.getAttribute("href");
-      },
-    })
-  );
-  
+  const albumLinksSelector = ".moment-images a[data-fancybox]";
+  Fancybox.bind(albumLinksSelector, {
+    ...commonConfig,
+    source: (el: any) => {
+      return el.getAttribute("data-src") || el.getAttribute("href");
+    },
+  } as any);
+  fancyboxSelectors.push(albumLinksSelector);
+
   // 为单独的 fancybox 图片添加支持
-  fancyboxInstances.push(
-    Fancybox.bind("[data-fancybox]:not(.moment-images a)", commonConfig)
-  );
+  const singleFancyboxSelector = "[data-fancybox]:not(.moment-images a)";
+  Fancybox.bind(singleFancyboxSelector, commonConfig as any);
+  fancyboxSelectors.push(singleFancyboxSelector);
 }
 
 // 清理 Fancybox 实例
 function cleanupFancybox() {
-  fancyboxInstances.forEach(instance => {
-    if (instance && typeof instance.destroy === 'function') {
-      instance.destroy();
-    }
+  fancyboxSelectors.forEach(selector => {
+    Fancybox.unbind(selector);
   });
-  fancyboxInstances = [];
+  fancyboxSelectors = [];
 }
 
 const setup = () => {

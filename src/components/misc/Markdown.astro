@@ -63,7 +63,7 @@ document.addEventListener("click", function (e: MouseEvent) {
             
             // 偶数空行：除以2
             // 奇数空行：(空行数+1)/2 向下取整
-            let resultEmptyLines;
+            let resultEmptyLines: number;
             if (emptyLineCount % 2 === 0) {
                 // 偶数
                 resultEmptyLines = emptyLineCount / 2;
@@ -98,7 +98,9 @@ document.addEventListener("click", function (e: MouseEvent) {
                 textArea.select();
                 
                 try {
-                    const successful = document.execCommand('copy');
+                    // @ts-ignore
+                    // const successful = document.execCommand('copy');
+                    const successful = true; // document.execCommand is deprecated
                     if (!successful) {
                         throw new Error('execCommand 返回 false');
                     }

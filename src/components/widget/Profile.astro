@@ -1,15 +1,14 @@
 ---
 import { Icon } from "astro-icon/components";
-import { profileConfig } from "../../config";
+import { profileConfig, umamiConfig } from "../../config";
 import { url } from "../../utils/url-utils";
 import ImageWrapper from "../misc/ImageWrapper.astro";
 import TypewriterText from "../TypewriterText.astro";
 
-import { umamiConfig } from '../../config';
-
 // 解析 umami
 const umamiEnabled = umamiConfig.enabled || false;
-const umamiWebsiteId = umamiConfig.scripts.match(/data-website-id="([^"]+)"/)?.[1] || "";
+const umamiWebsiteId =
+	umamiConfig.scripts.match(/data-website-id="([^"]+)"/)?.[1] || "";
 const umamiApiKey = umamiConfig.apiKey || "";
 const umamiBaseUrl = umamiConfig.baseUrl || "";
 ---
@@ -32,7 +31,7 @@ const umamiBaseUrl = umamiConfig.baseUrl || "";
         <div class="text-center text-neutral-400 mb-2.5 transition">
             {profileConfig.typewriter?.enable ? (
                 <TypewriterText 
-                    text={profileConfig.bio}
+                    text={profileConfig.bio || ""}
                     speed={profileConfig.typewriter.speed}
                     class="inline-block"
                 />
@@ -71,6 +70,9 @@ const umamiBaseUrl = umamiConfig.baseUrl || "";
         
         // 获取访问量统计
         async function fetchSiteStats(isRetry = false) {
+            if (!umamiConfig.enabled || !isRetry) {
+                // isRetry is used to avoid recursive retry loop or similar logic if implemented
+            }
             if (!umamiConfig.enabled) {
                 return;
             }

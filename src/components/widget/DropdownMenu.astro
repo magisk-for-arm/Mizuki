@@ -1,10 +1,10 @@
 ---
 import { Icon } from "astro-icon/components";
 import { LinkPresets } from "../../constants/link-presets";
-import { LinkPreset, type NavBarLink } from "../../types/config";
-import { url } from "../../utils/url-utils";
 import I18nKey from "../../i18n/i18nKey";
 import { i18n } from "../../i18n/translation";
+import { LinkPreset, type NavBarLink } from "../../types/config";
+import { url } from "../../utils/url-utils";
 
 interface Props {
 	link: NavBarLink;
@@ -15,25 +15,25 @@ const { link, class: className } = Astro.props;
 
 // 国际化标题映射
 const navTitleMap: Record<string, string> = {
-	"Links": I18nKey.navLinks,
-	"My": I18nKey.navMy,
-	"About": I18nKey.navAbout,
-	"Others": I18nKey.navOthers,
-	"Anime": I18nKey.anime,
-	"Diary": I18nKey.diary,
-	"Gallery": I18nKey.albums,
-	"Devices": I18nKey.devices,
-	"Projects": I18nKey.projects,
-	"Skills": I18nKey.skills,
-	"Timeline": I18nKey.timeline,
-	"Friends": I18nKey.friends,
+	Links: I18nKey.navLinks,
+	My: I18nKey.navMy,
+	About: I18nKey.navAbout,
+	Others: I18nKey.navOthers,
+	Anime: I18nKey.anime,
+	Diary: I18nKey.diary,
+	Gallery: I18nKey.albums,
+	Devices: I18nKey.devices,
+	Projects: I18nKey.projects,
+	Skills: I18nKey.skills,
+	Timeline: I18nKey.timeline,
+	Friends: I18nKey.friends,
 };
 
 // 获取国际化的标题
 const getLocalizedName = (name: string): string => {
 	const keyValue = navTitleMap[name];
 	if (keyValue) {
-		return i18n(keyValue);
+		return i18n(keyValue as I18nKey);
 	}
 	return name;
 };
@@ -217,13 +217,13 @@ const hasChildren = processedLink.children && processedLink.children.length > 0;
 		}
 	}
 	
-	function openDropdown(dropdown: Element, trigger: HTMLElement, menu: HTMLElement) {
+	function openDropdown(_dropdown: Element, trigger: HTMLElement, menu: HTMLElement) {
 		trigger.setAttribute('aria-expanded', 'true');
 		menu.classList.remove('opacity-0', 'invisible', 'pointer-events-none', 'translate-y-[-8px]');
 		menu.classList.add('opacity-100', 'visible', 'pointer-events-auto', 'translate-y-0');
 	}
 	
-	function closeDropdown(dropdown: Element, trigger: HTMLElement, menu: HTMLElement) {
+	function closeDropdown(_dropdown: Element, trigger: HTMLElement, menu: HTMLElement) {
 		trigger.setAttribute('aria-expanded', 'false');
 		menu.classList.add('opacity-0', 'invisible', 'pointer-events-none', 'translate-y-[-8px]');
 		menu.classList.remove('opacity-100', 'visible', 'pointer-events-auto', 'translate-y-0');

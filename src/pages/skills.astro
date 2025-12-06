@@ -21,7 +21,7 @@ if (!siteConfig.featurePages.skills) {
 	return Astro.redirect("/404/");
 }
 
-const { lang } = Astro.props;
+// const { lang } = Astro.props;
 
 // 获取技能统计信息
 const stats = getSkillStats();
@@ -99,7 +99,7 @@ const subtitle = i18n(I18nKey.skillsSubtitle);
 const allIcons = skillsData.map((skill) => skill.icon).filter(Boolean);
 
 // 进度条动画状态
-let animated = false;
+// let animated = false;
 ---
 
 <MainGridLayout title={title} description={subtitle}>
@@ -110,7 +110,7 @@ let animated = false;
   
   <!-- 引入右侧边栏布局管理器 -->
   <script>
-    import('/src/scripts/right-sidebar-layout.js');
+    import('../scripts/right-sidebar-layout.js');
   </script>
   <!-- 图标加载器，预加载所有技能图标 -->
   <IconifyLoader preloadIcons={allIcons} />

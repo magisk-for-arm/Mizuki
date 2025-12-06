@@ -11,7 +11,7 @@ const sortedPostsList = await getSortedPostsList();
 <MainGridLayout title={i18n(I18nKey.archive)}>
     <!-- 引入右侧边栏布局管理器 -->
   <script>
-    import('/src/scripts/right-sidebar-layout.js');
+    import('../scripts/right-sidebar-layout.js');
   </script>
     <ArchivePanel sortedPosts={sortedPostsList} client:only="svelte"></ArchivePanel>
 </MainGridLayout>

@@ -26,10 +26,10 @@ const stickyComponents = rightSidebarComponents.filter(
 <div class="right-sidebar" id="right-sidebar">
   <!-- 顶部固定区域 -->
   <div class="sidebar-top">
-    {topComponents.map((component, index) => (
+    {topComponents.map((component, _index) => (
       <div class={`sidebar-component ${component.class || ''}`} 
            style={`animation-delay: ${component.animationDelay || 0}ms; ${component.style || ''}`}>
-        {component.type === "stats" && <SiteStats />}
+        {component.type === "site-stats" && <SiteStats />}
         {component.type === "calendar" && <Calendar />}
       </div>
     ))}
@@ -37,10 +37,10 @@ const stickyComponents = rightSidebarComponents.filter(
   
   <!-- 粘性定位区域 -->
   <div class="sidebar-sticky">
-    {stickyComponents.map((component, index) => (
+    {stickyComponents.map((component, _index) => (
       <div class={`sidebar-component ${component.class || ''}`} 
            style={`animation-delay: ${component.animationDelay || 0}ms; ${component.style || ''}`}>
-        {component.type === "stats" && <SiteStats />}
+        {component.type === "site-stats" && <SiteStats />}
         {component.type === "calendar" && <Calendar />}
       </div>
     ))}

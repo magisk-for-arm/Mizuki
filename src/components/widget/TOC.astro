@@ -1,6 +1,7 @@
 ---
 import type { MarkdownHeading } from "astro";
-import { siteConfig } from "../../config";
+
+// import { siteConfig } from "../../config";
 
 // import { url } from "../../utils/url-utils";
 
@@ -17,22 +18,21 @@ for (const heading of headings) {
 }
 
 const className = Astro.props.class;
-// 修复路由判断逻辑，确保在文章页面能正确显示TOC
-const isPostsRoute =
-	Astro.url.pathname.includes("/posts/") || headings.length > 0;
+// const isPostsRoute =
+// 	Astro.url.pathname.includes("/posts/") || headings.length > 0;
 
-const removeTailingHash = (text: string) => {
-	let lastIndexOfHash = text.lastIndexOf("#");
-	if (lastIndexOfHash !== text.length - 1) {
-		return text;
-	}
+// const removeTailingHash = (text: string) => {
+// 	let lastIndexOfHash = text.lastIndexOf("#");
+// 	if (lastIndexOfHash !== text.length - 1) {
+// 		return text;
+// 	}
+//
+// 	return text.substring(0, lastIndexOfHash);
+// };
 
-	return text.substring(0, lastIndexOfHash);
-};
+// let heading1Count = 1;
 
-let heading1Count = 1;
-
-const maxLevel = siteConfig.toc.depth;
+// const maxLevel = siteConfig.toc.depth;
 ---
 <table-of-contents class:list={[className, "group"]} id="toc">
     <!-- TOC内容将由JavaScript动态生成 -->
@@ -116,7 +116,7 @@ class TableOfContents extends HTMLElement {
         const bottommost = activeHeading[activeHeading.length - 1];
         const tocHeight = this.tocEl.clientHeight;
 
-        let top;
+        let top: number;
         if (bottommost.getBoundingClientRect().bottom -
             topmost.getBoundingClientRect().top < 0.9 * tocHeight)
             top = topmost.offsetTop - 32;

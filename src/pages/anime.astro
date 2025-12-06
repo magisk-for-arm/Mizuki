@@ -228,19 +228,19 @@ function getStatusInfo(status: string) {
 }
 
 // 计算统计数据
-const stats = {
-	total: animeList.length,
-	watching: animeList.filter((anime) => anime.status === "watching").length,
-	completed: animeList.filter((anime) => anime.status === "completed").length,
-	avgRating: (() => {
-		const ratedAnime = animeList.filter((anime) => anime.rating > 0);
-		if (ratedAnime.length === 0) return "0.0";
-		return (
-			ratedAnime.reduce((sum, anime) => sum + anime.rating, 0) /
-			ratedAnime.length
-		).toFixed(1);
-	})(),
-};
+// const stats = {
+// 	total: animeList.length,
+// 	watching: animeList.filter((anime) => anime.status === "watching").length,
+// 	completed: animeList.filter((anime) => anime.status === "completed").length,
+// 	avgRating: (() => {
+// 		const ratedAnime = animeList.filter((anime) => anime.rating > 0);
+// 		if (ratedAnime.length === 0) return "0.0";
+// 		return (
+// 			ratedAnime.reduce((sum, anime) => sum + anime.rating, 0) /
+// 			ratedAnime.length
+// 		).toFixed(1);
+// 	})(),
+// };
 ---
 
 <MainGridLayout title={i18n(I18nKey.anime)} description={i18n(I18nKey.animeSubtitle)}>
@@ -389,77 +389,101 @@ const stats = {
   <script is:inline define:vars={{ isBothSidebarMode }}>
   // 动画列表布局切换脚本
   (function() {
-    // 延迟执行以确保DOM已完全加载
-    setTimeout(() => {
+    // 使用更可靠的初始化检查机制
+    function initAnimeLayout() {
       const animeListContainer = document.getElementById("anime-list-container");
       if (!animeListContainer) {
-        console.debug("anime-list-container not found, skipping layout initialization");
-        return;
+        return false; // 容器未找到，继续重试
       }
 
-      // 初始化布局管理器
-      if (typeof window.layoutManager !== 'undefined') {
-        window.layoutManager.init(isBothSidebarMode);
-        
-        // 根据当前布局状态添加CSS类
-        const currentLayout = window.layoutManager.getLayout();
-        updateAnimeListLayout(currentLayout);
-        
-        // 检查屏幕尺寸并调整布局
-        window.layoutManager.checkScreenSizeAndAdjust();
+      // 获取当前布局设置
+      const currentLayout = localStorage.getItem("postListLayout") || "list";
+      
+      // 初始化布局（不依赖 window.layoutManager）
+      updateAnimeListLayout(currentLayout);
+      
+      return true; // 初始化成功
+    }
+
+    // 尝试初始化，带有指数退避的重试机制
+    let retryCount = 0;
+    const maxRetries = 10;
+    
+    function tryInit() {
+      if (initAnimeLayout()) return;
+      
+      if (retryCount < maxRetries) {
+        retryCount++;
+        const delay = Math.min(100 * Math.pow(1.5, retryCount), 1000);
+        setTimeout(tryInit, delay);
       } else {
-        // 如果布局管理器还未加载，延迟初始化
+        console.warn("Failed to initialize anime layout after multiple attempts");
+        // 最后尝试一次强制初始化
         setTimeout(() => {
-          if (typeof window.layoutManager !== 'undefined') {
-            window.layoutManager.init(isBothSidebarMode);
-            
-            // 根据当前布局状态添加CSS类
-            const currentLayout = window.layoutManager.getLayout();
-            updateAnimeListLayout(currentLayout);
-            
-            // 检查屏幕尺寸并调整布局
-            window.layoutManager.checkScreenSizeAndAdjust();
-          }
-        }, 300);
+            const animeListContainer = document.getElementById("anime-list-container");
+            if (animeListContainer) {
+                const currentLayout = localStorage.getItem("postListLayout") || "list";
+                updateAnimeListLayout(currentLayout);
+            }
+        }, 2000);
       }
-    }, 50);
+    }
+    
+    // 立即尝试第一次
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', tryInit);
+    } else {
+        tryInit();
+    }
 
     function updateAnimeListLayout(layout) {
       const animeListContainer = document.getElementById("anime-list-container");
       if (!animeListContainer) return;
 
+      // 避免重复执行
+      if (animeListContainer.dataset.currentLayout === layout) return;
+      animeListContainer.dataset.currentLayout = layout;
+
       // FLIP 动画技术实现布局切换动画
       // First: 记录所有卡片的初始位置
       const animeItems = Array.from(document.querySelectorAll('[data-anime-status]'));
       const firstPositions = new Map();
+      
       animeItems.forEach(item => {
         const rect = item.getBoundingClientRect();
-        firstPositions.set(item, {
-          left: rect.left,
-          top: rect.top,
-          width: rect.width,
-          height: rect.height
-        });
+        if (rect.width > 0 && rect.height > 0) {
+            firstPositions.set(item, {
+                left: rect.left,
+                top: rect.top,
+                width: rect.width,
+                height: rect.height
+            });
+        }
       });
       
-      // 移除现有布局类
+      // 暂时禁用过渡
+      const style = document.createElement('style');
+      style.innerHTML = `
+        .anime-item, .anime-item * {
+            transition: none !important;
+        }
+      `;
+      document.head.appendChild(style);
+      
+      // 立即应用布局更改
       animeListContainer.classList.remove("list-mode", "grid-mode");
       
-      // 添加新布局类
       if (layout === "grid") {
         animeListContainer.classList.add("grid-mode");
-        // 网格模式：双列布局
         animeListContainer.classList.add("grid", "grid-cols-1", "md:grid-cols-2", "lg:grid-cols-3");
         animeListContainer.classList.remove("flex", "flex-col");
         
-        // 在 grid 模式下隐藏右侧边栏
         const rightSidebar = document.querySelector('.right-sidebar-container');
         if (rightSidebar) {
           rightSidebar.style.display = 'none';
           rightSidebar.classList.add('hidden-in-grid-mode');
         }
         
-        // 调整主网格布局以使用更多空间
         const mainGrid = document.getElementById('main-grid');
         if (mainGrid) {
           mainGrid.style.gridTemplateColumns = '17.5rem 1fr';
@@ -468,18 +492,15 @@ const stats = {
         }
       } else {
         animeListContainer.classList.add("list-mode");
-        // 列表模式：单列布局
         animeListContainer.classList.add("flex", "flex-col");
         animeListContainer.classList.remove("grid", "grid-cols-1", "md:grid-cols-2", "lg:grid-cols-3");
         
-        // 在 list 模式下显示右侧边栏
         const rightSidebar = document.querySelector('.right-sidebar-container');
         if (rightSidebar) {
           rightSidebar.style.display = '';
           rightSidebar.classList.remove('hidden-in-grid-mode');
         }
         
-        // 恢复主网格布局
         const mainGrid = document.getElementById('main-grid');
         if (mainGrid) {
           mainGrid.style.gridTemplateColumns = '';
@@ -488,55 +509,58 @@ const stats = {
         }
       }
 
-      // 等待布局更新
+      // 强制重排
+      void animeListContainer.offsetHeight;
+
+      // 在下一帧执行 Invert & Play
       requestAnimationFrame(() => {
-        // Last: 记录所有卡片的最终位置
-        const lastPositions = new Map();
-        animeItems.forEach(item => {
-          const rect = item.getBoundingClientRect();
-          lastPositions.set(item, {
-            left: rect.left,
-            top: rect.top
-          });
-        });
-        
-        // Invert: 应用反向变换
-        animeItems.forEach(item => {
-          const first = firstPositions.get(item);
-          const last = lastPositions.get(item);
-          
-          if (first && last) {
+          // 移除禁用过渡的样式
+          if (style.parentNode) {
+              style.parentNode.removeChild(style);
+          }
+
+          animeItems.forEach(item => {
+            const first = firstPositions.get(item);
+            if (!first) return;
+            
+            const last = item.getBoundingClientRect();
+            
             const deltaX = first.left - last.left;
             const deltaY = first.top - last.top;
+            const deltaW = first.width / last.width;
+            const deltaH = first.height / last.height;
             
-            // 立即应用反向变换（不使用过渡）
+            if (Math.abs(deltaX) < 1 && Math.abs(deltaY) < 1 && Math.abs(deltaW - 1) < 0.01 && Math.abs(deltaH - 1) < 0.01) {
+                return;
+            }
+
+            // Invert: 立即应用反向变换（此时没有过渡，因为上面虽然移除了style，但新样式生效需要时间，或者我们可以显式设置 transition: none）
             item.style.transition = 'none';
-            item.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
-          }
-        });
-        
-        // Play: 触发动画
-        requestAnimationFrame(() => {
-          animeItems.forEach((item, index) => {
-            // 错开动画开始时间，创建波浪效果
-            setTimeout(() => {
-              item.classList.add('anime-animating');
-              
-              // 移动到最终位置
-              item.style.transition = '';
-              item.style.transform = '';
-            }, index * 20); // 每个卡片延迟20ms
+            item.style.transformOrigin = 'top left';
+            item.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(${deltaW}, ${deltaH})`;
           });
           
-          // 动画完成后清理
-          setTimeout(() => {
-            animeItems.forEach(item => {
-              item.classList.remove('anime-animating');
-              item.style.transition = '';
-              item.style.transform = '';
-            });
-          }, 500 + animeItems.length * 20); // 等待所有动画完成
-        });
+          // 强制重排
+          void animeListContainer.offsetHeight;
+          
+          // Play: 启用过渡并移除变换
+          requestAnimationFrame(() => {
+              animeItems.forEach(item => {
+                  if (!firstPositions.has(item)) return;
+                  
+                  item.style.transition = 'transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1)';
+                  item.style.transform = '';
+              });
+              
+              // 动画结束后清理
+              setTimeout(() => {
+                  animeItems.forEach(item => {
+                      item.style.transition = '';
+                      item.style.transformOrigin = '';
+                      item.style.transform = '';
+                  });
+              }, 500);
+          });
       });
     }
 

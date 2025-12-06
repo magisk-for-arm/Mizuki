@@ -4,7 +4,7 @@ import IconifyLoader from "../components/misc/IconifyLoader.astro";
 import { siteConfig } from "../config";
 import {
 	getCurrentItems,
-	getFeaturedTimeline,
+	// getFeaturedTimeline,
 	getTimelineByType,
 	getTimelineStats,
 	getTotalWorkExperience,
@@ -19,7 +19,7 @@ if (!siteConfig.featurePages.timeline) {
 	return Astro.redirect("/404/");
 }
 
-const { lang } = Astro.props;
+// const { lang } = Astro.props;
 
 // 收集所有时间线图标用于预加载
 const allIcons = timelineData
@@ -28,7 +28,7 @@ const allIcons = timelineData
 
 // 获取时间线统计信息
 const stats = getTimelineStats();
-const featuredItems = getFeaturedTimeline();
+// const featuredItems = getFeaturedTimeline();
 const currentItems = getCurrentItems();
 const workExperience = getTotalWorkExperience();
 
@@ -52,20 +52,20 @@ const getTypeIcon = (type: string) => {
 };
 
 // 类型颜色映射
-const getTypeColor = (type: string) => {
-	switch (type) {
-		case "education":
-			return "bg-blue-500";
-		case "work":
-			return "bg-green-500";
-		case "project":
-			return "bg-purple-500";
-		case "achievement":
-			return "bg-orange-500";
-		default:
-			return "bg-gray-500";
-	}
-};
+// const getTypeColor = (type: string) => {
+// 	switch (type) {
+// 		case "education":
+// 			return "bg-blue-500";
+// 		case "work":
+// 			return "bg-green-500";
+// 		case "project":
+// 			return "bg-purple-500";
+// 		case "achievement":
+// 			return "bg-orange-500";
+// 		default:
+// 			return "bg-gray-500";
+// 	}
+// };
 
 // 格式化日期
 const formatDate = (dateString: string) => {
@@ -99,7 +99,7 @@ const subtitle = i18n(I18nKey.timelineSubtitle);
 <MainGridLayout title={title} description={subtitle}>
   <!-- 引入右侧边栏布局管理器 -->
   <script>
-    import('/src/scripts/right-sidebar-layout.js');
+    import('../scripts/right-sidebar-layout.js');
   </script>
   <!-- 图标加载器，预加载所有时间线图标 -->
   <IconifyLoader preloadIcons={allIcons} />
@@ -382,7 +382,7 @@ const subtitle = i18n(I18nKey.timelineSubtitle);
     var timelineNodes = document.querySelectorAll('.timeline-node');
     timelineNodes.forEach(function(node, index) {
       // 添加延迟，使动画依次出现
-      node.style.animationDelay = (index * 0.2) + 's';
+      (node as HTMLElement).style.animationDelay = (index * 0.2) + 's';
     });
   }
   
@@ -398,7 +398,7 @@ const subtitle = i18n(I18nKey.timelineSubtitle);
       if (event.persisted && window.__iconifyLoader) {
         // 页面从缓存恢复，重新检查图标状态
         setTimeout(function() {
-          window.__iconifyLoader.load().catch(console.error);
+          window.__iconifyLoader?.load().catch(console.error);
         }, 100);
       }
     });

@@ -20,6 +20,15 @@ declare global {
 		};
 
 		mobileTOCInit?: () => void;
+		initSemifullScrollDetection?: () => void;
+		iconifyLoaded?: boolean;
+		__iconifyLoader?: {
+			load: () => Promise<void>;
+			addToPreloadQueue: (icons: string[]) => void;
+			onLoad: (callback: () => void) => void;
+			isLoaded: boolean;
+		};
+		siteConfig: any;
 	}
 }
 
