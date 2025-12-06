@@ -375,6 +375,41 @@ html {
         @apply text-black/25 dark:text-white/25
     }
 
+    /* 悬浮TOC样式 */
+    .floating-toc-item {
+        @apply flex items-center gap-2 py-2 px-2 rounded-lg text-sm leading-relaxed;
+        @apply text-black/70 dark:text-white/70;
+        @apply hover:bg-[var(--btn-plain-bg-hover)] hover:text-[var(--primary)];
+        @apply transition-all duration-150;
+        text-decoration: none;
+    }
+
+    .floating-toc-item[data-level="0"] {
+        @apply font-semibold;
+    }
+
+    .floating-toc-badge {
+        @apply inline-flex items-center justify-center shrink-0;
+        @apply min-w-5 h-5 px-1 rounded-md;
+        @apply bg-[var(--toc-badge-bg)] text-[var(--btn-content)];
+        @apply text-xs font-semibold;
+    }
+
+    .floating-toc-dot {
+        @apply inline-block shrink-0 ml-1.5;
+        @apply w-2 h-2 rounded-sm bg-[var(--toc-badge-bg)];
+    }
+
+    .floating-toc-dot-small {
+        @apply inline-block shrink-0 ml-1.5;
+        @apply w-1.5 h-1.5 rounded-sm;
+        @apply bg-black/10 dark:bg-white/15;
+    }
+
+    .floating-toc-text {
+        @apply overflow-hidden text-ellipsis whitespace-nowrap flex-1 min-w-0;
+    }
+
     /* 下拉菜单样式 */
     .dropdown-container {
         @apply relative;
