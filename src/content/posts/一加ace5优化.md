@@ -1,7 +1,7 @@
 ---
 title: "一加Ace5使用的模块"
 description: "一加Ace5（骁龙8Gen3）ColorOS 流畅省电和游戏性能优化指南"
-category: "教程"
+category: "推荐"
 published: 2025-10-12
 licenseName: "CC BY-SA 4.0"
 tags: [Moudle, Phone]
@@ -20,8 +20,6 @@ tags: [Moudle, Phone]
 
 - **GKI模式用户**：Xinran大佬优化内核（支持BBR/SusFS，6.1内核专用，@Xinran_StarBai 查看链接或者秋刀鱼内核（6.6内核专用）
 其他内核请参考 @一只小小w 的内核
-
-- **LKM模式/magisk用户**：潘多拉内核（r4p1/r2p2版本，内存管理优秀，游戏/日用兼顾，[链接]查看链接
 
 ### 2. 温控模块
 

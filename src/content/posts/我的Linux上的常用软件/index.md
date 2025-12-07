@@ -35,6 +35,7 @@ Shell: Zsh
 ## 系统类
 
 **Stacer** 有了它,妈妈在也不用担心我的电脑没有系统管家了😎
+
 **peazip**和**Ark** 这两个都是很好的压缩软件
 
 ## 生产力
@@ -42,16 +43,18 @@ Shell: Zsh
 ### 图像,视频处理工具
 
 **Kdenlive** linux下相当不错的视频编辑器
+
 **Gimg** Linux下的Photoshop
 
 ### 文字编辑工具
 
 **LibreOffice** Linux下的MSffics
+
 **calibre** epub等电子书阅读器
 
 ## Windows,安卓软件
 
-windows用wine
+windows用wine,
 安卓用waydriod
 
 ## 浏览器
