@@ -186,6 +186,7 @@ export const siteConfig: SiteConfig = {
 	favicon: [
 		{
 			src: '/favicon/icon.png',
+			theme: 'dark'
 		}
 		// 留空以使用默认 favicon
 		// {
@@ -247,7 +248,7 @@ export const fullscreenWallpaperConfig: FullscreenWallpaperConfig = {
 	},
 	zIndex: -1, // 层级，确保壁纸在背景层
 	opacity: 0.8, // 壁纸透明度
-	blur: 1, // 背景模糊程度
+	blur: 3, // 背景模糊程度
 };
 
 export const navBarConfig: NavBarConfig = {
