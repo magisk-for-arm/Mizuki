@@ -148,6 +148,88 @@
     }
   }
 
+  /* --- 表格样式 --- */
+  table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    max-width: 100%;
+
+    /* 外观设置 */
+    border: 1px solid var(--line-divider);
+    border-radius: var(--radius-large);
+    border-spacing: 0;
+    border-collapse: separate;
+    margin: 1.5rem 0;
+    background-color: var(--card-bg);
+
+    /* --- 滚动条样式 --- */
+    &::-webkit-scrollbar {
+      height: 6px;
+      width: 6px;
+    }
+    &::-webkit-scrollbar-track {
+      background: transparent;
+      margin: 0 calc(var(--radius-large) + 2px); 
+    }
+    &::-webkit-scrollbar-thumb {
+      background: var(--scrollbar-bg);
+      border-radius: 4px;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+      background: var(--scrollbar-bg-hover);
+    }
+    &::-webkit-scrollbar-thumb:active {
+      background: var(--scrollbar-bg-active);
+    }
+  }
+
+  th, td {
+    padding: 0.75rem 1rem;
+    white-space: nowrap;
+    border-bottom: 1px solid var(--line-divider);
+    border-right: 1px solid var(--line-divider);
+    transition: none !important;
+  }
+
+  th {
+    background-color: var(--btn-regular-bg);
+    color: var(--btn-content);
+    font-weight: 600;
+    text-align: left;
+  }
+
+  /* 圆角处理 */
+  th:first-child {
+    border-top-left-radius: calc(var(--radius-large) - 1px);
+  }
+  th:last-child {
+    border-top-right-radius: calc(var(--radius-large) - 1px);
+    border-right: none;
+  }
+  tr:last-child td:first-child {
+    border-bottom-left-radius: calc(var(--radius-large) - 1px);
+  }
+  tr:last-child td:last-child {
+    border-bottom-right-radius: calc(var(--radius-large) - 1px);
+    border-right: none;
+  }
+
+  tr:last-child td {
+    border-bottom: none;
+  }
+  td:last-child {
+    border-right: none;
+  }
+
+  tr:nth-child(even) {
+    background-color: var(--codeblock-bg);
+  }
+  tr:hover td {
+    background-color: var(--btn-plain-bg-hover);
+    transition: none !important;
+  }
+
   .katex-display-container {
     max-width: 100%;
     overflow-x: auto;
@@ -159,4 +241,7 @@
 .custom-md .expressive-code ul li::marker,
 .custom-md .expressive-code ol li::marker {
   @apply text-inherit;
+}
+:root:not(.dark) .custom-md spoiler {
+  --_spoiler-mask: color-mix(in oklch, var(--primary) 55%, white 45%);
 }
