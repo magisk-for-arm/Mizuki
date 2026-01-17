@@ -50,10 +50,14 @@ export const siteConfig: SiteConfig = {
 
 	// 顶栏标题配置
 	navbarTitle: {
+		// 显示模式："text-icon" 显示图标+文本，"logo" 仅显示Logo
+		mode: "logo",
 		// 顶栏标题文本
 		text: "Blog",
 		// 顶栏标题图标路径，默认使用 public/assets/home/home.png
-		icon: "src/assets/images/n0.webp",
+		icon: "assets/home/fix.webp",
+		// 网站Logo图片路径
+		logo: "assets/home/default-logo.png",
 	},
 
 	bangumi: {
@@ -126,7 +130,7 @@ export const siteConfig: SiteConfig = {
 		carousel: {
 			enable: true, // 为 true 时：为多张图片启用轮播。为 false 时：从数组中随机显示一张图片
 
-			interval: 2, // 轮播间隔时间（秒）
+			interval: 1.5, // 轮播间隔时间（秒）
 		},
 
 		waves: {
@@ -287,22 +291,22 @@ export const navBarConfig: NavBarConfig = {
 					url: "/anime/",
 					icon: "material-symbols:movie",
 				},
-				// {
-				// 	name: "Diary",
-				// 	url: "/diary/",
-				// 	icon: "material-symbols:book",
-				// },
-				// {
-				// 	name: "Gallery",
-				// 	url: "/albums/",
-				// 	icon: "material-symbols:photo-library",
-				// },
-				// {
-				// 	name: "Devices",
-				// 	url: "devices/",
-				// 	icon: "material-symbols:devices",
-				// 	external: false,
-				// },
+				{
+					name: "Diary",
+					url: "/diary/",
+					icon: "material-symbols:book",
+				},
+				{
+					name: "Gallery",
+					url: "/albums/",
+					icon: "material-symbols:photo-library",
+				},
+				{
+					name: "Devices",
+					url: "devices/",
+					icon: "material-symbols:devices",
+					external: false,
+				},
 			],
 		},
 		{
@@ -418,7 +422,7 @@ export const commentConfig: CommentConfig = {
 };
 
 export const shareConfig: ShareConfig = {
-	enable: true, // 启用分享功能。当设置为 false 时，分享组件将不会显示在文章区域，且不会加载分享组件使用的库
+	enable: true, // 启用分享功能
 };
 
 export const announcementConfig: AnnouncementConfig = {
