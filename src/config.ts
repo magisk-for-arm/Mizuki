@@ -1,18 +1,18 @@
 import type {
-	AnnouncementConfig,
-	CommentConfig,
-	ExpressiveCodeConfig,
-	FooterConfig,
-	FullscreenWallpaperConfig,
-	LicenseConfig,
-	MusicPlayerConfig,
-	NavBarConfig,
-	PermalinkConfig,
-	ProfileConfig,
-	SakuraConfig,
-	ShareConfig,
-	SidebarLayoutConfig,
-	SiteConfig,
+  AnnouncementConfig,
+  CommentConfig,
+  ExpressiveCodeConfig,
+  FooterConfig,
+  FullscreenWallpaperConfig,
+  LicenseConfig,
+  MusicPlayerConfig,
+  NavBarConfig,
+  PermalinkConfig,
+  ProfileConfig,
+  SakuraConfig,
+  ShareConfig,
+  SidebarLayoutConfig,
+  SiteConfig,
 } from "./types/config";
 import { LinkPreset } from "./types/config";
 
@@ -27,26 +27,27 @@ export const siteConfig: SiteConfig = {
 	siteURL: "https://vc.520403,xyz/", // 请替换为你的站点URL，以斜杠结尾
 	siteStartDate: "2025-07-30", // 站点开始运行日期，用于站点统计组件计算运行天数
 
-	timeZone: SITE_TIMEZONE,
+  timeZone: SITE_TIMEZONE,
 
-	lang: SITE_LANG,
+  lang: SITE_LANG,
 
-	themeColor: {
-		hue: 230, // 主题色的默认色相，范围从 0 到 360。例如：红色：0，青色：200，蓝绿色：250，粉色：345
-		fixed: false, // 对访问者隐藏主题色选择器
-	},
+  themeColor: {
+    hue: 230, // 主题色的默认色相，范围从 0 到 360。例如：红色：0，青色：200，蓝绿色：250，粉色：345
+    fixed: false, // 对访问者隐藏主题色选择器
+  },
 
-	// 特色页面开关配置(关闭不在使用的页面有助于提升SEO,关闭后直接在顶部导航删除对应的页面就行)
-	featurePages: {
-		anime: true, // 番剧页面开关
-		diary: false, // 日记页面开关
-		friends: true, // 友链页面开关
-		projects: false, // 项目页面开关
-		skills: false, // 技能页面开关
-		timeline: false, // 时间线页面开关
-		albums: false, // 相册页面开关
-		devices: false, // 设备页面开关
-	},
+  // 特色页面开关配置(关闭不在使用的页面有助于提升SEO,关闭后直接在顶部导航删除对应的页面就行)
+  featurePages: {
+    anime: true, // 番剧页面开关
+    diary: false, // 日记页面开关
+    friends: true, // 友链页面开关
+    projects: false, // 项目页面开关
+    skills: false, // 技能页面开关
+    timeline: false, // 时间线页面开关
+    albums: false, // 相册页面开关
+    devices: false, // 设备页面开关
+    galgame: true, // galgame页面开关
+  },
 
 	// 顶栏标题配置
 	navbarTitle: {
@@ -69,14 +70,18 @@ export const siteConfig: SiteConfig = {
 		mode: "bangumi", // 番剧页面模式："bangumi" 使用Bangumi API，"local" 使用本地配置
 	},
 
-	// 文章列表布局配置
-	postListLayout: {
-		// 默认布局模式："list" 列表模式（单列布局），"grid" 网格模式（双列布局）
-		// 注意：如果侧边栏配置启用了"both"双侧边栏，则无法使用文章列表"grid"网格（双列）布局
-		defaultMode: "list",
-		// 是否允许用户切换布局
-		allowSwitch: true,
+	galgame: {
+	 mode: "bangumi", // galgame页面模式："bangumi" 使用Bangumi API，"local" 使用本地配置
 	},
+
+  // 文章列表布局配置
+  postListLayout: {
+    // 默认布局模式："list" 列表模式（单列布局），"grid" 网格模式（双列布局）
+    // 注意：如果侧边栏配置启用了"both"双侧边栏，则无法使用文章列表"grid"网格（双列）布局
+    defaultMode: "list",
+    // 是否允许用户切换布局
+    allowSwitch: true,
+  },
 
 	// 标签样式配置
 	tagStyle: {
@@ -125,7 +130,7 @@ export const siteConfig: SiteConfig = {
 			], // 移动横幅图片
 		}, // 使用本地横幅图片
 
-		position: "center", // 等同于 object-position，仅支持 'top', 'center', 'bottom'。默认为 'center'
+    position: "center", // 等同于 object-position，仅支持 'top', 'center', 'bottom'。默认为 'center'
 
 		carousel: {
 			enable: true, // 为 true 时：为多张图片启用轮播。为 false 时：从数组中随机显示一张图片
@@ -133,11 +138,11 @@ export const siteConfig: SiteConfig = {
 			interval: 1.5, // 轮播间隔时间（秒）
 		},
 
-		waves: {
-			enable: true, // 是否启用水波纹效果(这个功能比较吃性能)
-			performanceMode: false, // 性能模式：减少动画复杂度(性能提升40%)
-			mobileDisable: false, // 移动端禁用
-		},
+    waves: {
+      enable: true, // 是否启用水波纹效果(这个功能比较吃性能)
+      performanceMode: false, // 性能模式：减少动画复杂度(性能提升40%)
+      mobileDisable: false, // 移动端禁用
+    },
 
 		// PicFlow API支持(智能图片API)
 		imageApi: {
@@ -170,12 +175,12 @@ export const siteConfig: SiteConfig = {
 			},
 		},
 
-		credit: {
-			enable: false, // 显示横幅图片来源文本
+    credit: {
+      enable: false, // 显示横幅图片来源文本
 
-			text: "Describe", // 要显示的来源文本
-			url: "", // （可选）原始艺术品或艺术家页面的 URL 链接
-		},
+      text: "Describe", // 要显示的来源文本
+      url: "", // （可选）原始艺术品或艺术家页面的 URL 链接
+    },
 
 		navbar: {
 			transparentMode: "semi", // 导航栏透明模式："semi" 半透明加圆角，"full" 完全透明，"semifull" 动态透明
@@ -291,6 +296,11 @@ export const navBarConfig: NavBarConfig = {
 					url: "/anime/",
 					icon: "material-symbols:movie",
 				},
+				 {
+          		    name: "Galgame",
+          		    url: "/galgame/",
+          		    icon: "material-symbols:videogame-asset",
+        		},
 				{
 					name: "Diary",
 					url: "/diary/",
@@ -374,43 +384,43 @@ export const profileConfig: ProfileConfig = {
 };
 
 export const licenseConfig: LicenseConfig = {
-	enable: true,
-	name: "CC BY-NC-SA 4.0",
-	url: "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+  enable: true,
+  name: "CC BY-NC-SA 4.0",
+  url: "https://creativecommons.org/licenses/by-nc-sa/4.0/",
 };
 
 // Permalink 固定链接配置
 export const permalinkConfig: PermalinkConfig = {
-	enable: false, // 是否启用全局 permalink 功能，关闭时使用默认的文件名作为链接
-	/**
-	 * permalink 格式模板
-	 * 支持的占位符：
-	 * - %year% : 4位年份 (2024)
-	 * - %monthnum% : 2位月份 (01-12)
-	 * - %day% : 2位日期 (01-31)
-	 * - %hour% : 2位小时 (00-23)
-	 * - %minute% : 2位分钟 (00-59)
-	 * - %second% : 2位秒数 (00-59)
-	 * - %post_id% : 文章序号（按发布时间升序排列，最早的文章为1）
-	 * - %postname% : 文章文件名（slug）
-	 * - %category% : 分类名（无分类时为 "uncategorized"）
-	 *
-	 * 示例：
-	 * - "%year%-%monthnum%-%postname%" => "/2024-12-my-post/"
-	 * - "%post_id%-%postname%" => "/42-my-post/"
-	 * - "%category%-%postname%" => "/tech-my-post/"
-	 *
-	 * 注意：不支持斜杠 "/"，所有生成的链接都在根目录下
-	 */
-	format: "%postname%", // 默认使用文件名
+  enable: false, // 是否启用全局 permalink 功能，关闭时使用默认的文件名作为链接
+  /**
+   * permalink 格式模板
+   * 支持的占位符：
+   * - %year% : 4位年份 (2024)
+   * - %monthnum% : 2位月份 (01-12)
+   * - %day% : 2位日期 (01-31)
+   * - %hour% : 2位小时 (00-23)
+   * - %minute% : 2位分钟 (00-59)
+   * - %second% : 2位秒数 (00-59)
+   * - %post_id% : 文章序号（按发布时间升序排列，最早的文章为1）
+   * - %postname% : 文章文件名（slug）
+   * - %category% : 分类名（无分类时为 "uncategorized"）
+   *
+   * 示例：
+   * - "%year%-%monthnum%-%postname%" => "/2024-12-my-post/"
+   * - "%post_id%-%postname%" => "/42-my-post/"
+   * - "%category%-%postname%" => "/tech-my-post/"
+   *
+   * 注意：不支持斜杠 "/"，所有生成的链接都在根目录下
+   */
+  format: "%postname%", // 默认使用文件名
 };
 
 export const expressiveCodeConfig: ExpressiveCodeConfig = {
-	// 注意：某些样式（如背景颜色）已被覆盖，请参阅 astro.config.mjs 文件。
-	// 请选择深色主题，因为此博客主题目前仅支持深色背景
-	theme: "github-dark",
-	// 是否在主题切换时隐藏代码块以避免卡顿问题
-	hideDuringThemeTransition: true,
+  // 注意：某些样式（如背景颜色）已被覆盖，请参阅 astro.config.mjs 文件。
+  // 请选择深色主题，因为此博客主题目前仅支持深色背景
+  theme: "github-dark",
+  // 是否在主题切换时隐藏代码块以避免卡顿问题
+  hideDuringThemeTransition: true,
 };
 
 export const commentConfig: CommentConfig = {
@@ -422,7 +432,7 @@ export const commentConfig: CommentConfig = {
 };
 
 export const shareConfig: ShareConfig = {
-	enable: true, // 启用分享功能
+  enable: true, // 启用分享功能
 };
 
 export const announcementConfig: AnnouncementConfig = {
@@ -461,151 +471,151 @@ export const footerConfig: FooterConfig = {
  * sidebar: 控制组件在左侧栏和右侧栏,注意移动端是不会显示右侧栏的内容(unilateral模式除外),在设置了right属性的时候请确保你使用双侧(both)布局
  */
 export const sidebarLayoutConfig: SidebarLayoutConfig = {
-	// 侧边栏位置：单侧(unilateral)或双侧(both)
-	position: "both",
+  // 侧边栏位置：单侧(unilateral)或双侧(both)
+  position: "both",
 
-	// 侧边栏组件配置列表
-	components: [
-		{
-			// 组件类型：用户资料组件
-			type: "profile",
-			// 是否启用该组件
-			enable: true,
-			// 组件显示顺序（数字越小越靠前）
-			order: 1,
-			// 组件位置："top" 表示固定在顶部
-			position: "top",
-			// 所在侧边栏
-			sidebar: "left",
-			// CSS 类名，用于应用样式和动画
-			class: "onload-animation",
-			// 动画延迟时间（毫秒），用于错开动画效果
-			animationDelay: 0,
-		},
-		{
-			// 组件类型：公告组件
-			type: "announcement",
-			// 是否启用该组件（现在通过统一配置控制）
-			enable: true,
-			// 组件显示顺序
-			order: 2,
-			// 组件位置："top" 表示固定在顶部
-			position: "top",
-			// 所在侧边栏
-			sidebar: "left",
-			// CSS 类名
-			class: "onload-animation",
-			// 动画延迟时间
-			animationDelay: 50,
-		},
-		{
-			// 组件类型：分类组件
-			type: "categories",
-			// 是否启用该组件
-			enable: true,
-			// 组件显示顺序
-			order: 3,
-			// 组件位置："sticky" 表示粘性定位，可滚动
-			position: "sticky",
-			// 所在侧边栏
-			sidebar: "left",
-			// CSS 类名
-			class: "onload-animation",
-			// 动画延迟时间
-			animationDelay: 150,
-			// 响应式配置
-			responsive: {
-				// 折叠阈值：当分类数量超过5个时自动折叠
-				collapseThreshold: 5,
-			},
-		},
-		{
-			// 组件类型：标签组件
-			type: "tags",
-			// 是否启用该组件
-			enable: true,
-			// 组件显示顺序
-			order: 5,
-			// 组件位置："sticky" 表示粘性定位
-			position: "top",
-			// 所在侧边栏
-			sidebar: "left",
-			// CSS 类名
-			class: "onload-animation",
-			// 动画延迟时间
-			animationDelay: 250,
-			// 响应式配置
-			responsive: {
-				// 折叠阈值：当标签数量超过20个时自动折叠
-				collapseThreshold: 20,
-			},
-		},
-		{
-			// 组件类型：站点统计组件
-			type: "site-stats",
-			// 是否启用该组件
-			enable: true,
-			// 组件显示顺序
-			order: 5,
-			// 组件位置
-			position: "top",
-			// 所在侧边栏
-			sidebar: "right",
-			// CSS 类名
-			class: "onload-animation",
-			// 动画延迟时间
-			animationDelay: 200,
-		},
-		{
-			// 组件类型：日历组件(移动端不显示)
-			type: "calendar",
-			// 是否启用该组件
-			enable: true,
-			// 组件显示顺序
-			order: 6,
-			// 组件位置
-			position: "top",
-			// 所在侧边栏
-			sidebar: "right",
-			// CSS 类名
-			class: "onload-animation",
-			// 动画延迟时间
-			animationDelay: 250,
-		},
-	],
+  // 侧边栏组件配置列表
+  components: [
+    {
+      // 组件类型：用户资料组件
+      type: "profile",
+      // 是否启用该组件
+      enable: true,
+      // 组件显示顺序（数字越小越靠前）
+      order: 1,
+      // 组件位置："top" 表示固定在顶部
+      position: "top",
+      // 所在侧边栏
+      sidebar: "left",
+      // CSS 类名，用于应用样式和动画
+      class: "onload-animation",
+      // 动画延迟时间（毫秒），用于错开动画效果
+      animationDelay: 0,
+    },
+    {
+      // 组件类型：公告组件
+      type: "announcement",
+      // 是否启用该组件（现在通过统一配置控制）
+      enable: true,
+      // 组件显示顺序
+      order: 2,
+      // 组件位置："top" 表示固定在顶部
+      position: "top",
+      // 所在侧边栏
+      sidebar: "left",
+      // CSS 类名
+      class: "onload-animation",
+      // 动画延迟时间
+      animationDelay: 50,
+    },
+    {
+      // 组件类型：分类组件
+      type: "categories",
+      // 是否启用该组件
+      enable: true,
+      // 组件显示顺序
+      order: 3,
+      // 组件位置："sticky" 表示粘性定位，可滚动
+      position: "sticky",
+      // 所在侧边栏
+      sidebar: "left",
+      // CSS 类名
+      class: "onload-animation",
+      // 动画延迟时间
+      animationDelay: 150,
+      // 响应式配置
+      responsive: {
+        // 折叠阈值：当分类数量超过5个时自动折叠
+        collapseThreshold: 5,
+      },
+    },
+    {
+      // 组件类型：标签组件
+      type: "tags",
+      // 是否启用该组件
+      enable: true,
+      // 组件显示顺序
+      order: 5,
+      // 组件位置："sticky" 表示粘性定位
+      position: "top",
+      // 所在侧边栏
+      sidebar: "left",
+      // CSS 类名
+      class: "onload-animation",
+      // 动画延迟时间
+      animationDelay: 250,
+      // 响应式配置
+      responsive: {
+        // 折叠阈值：当标签数量超过20个时自动折叠
+        collapseThreshold: 20,
+      },
+    },
+    {
+      // 组件类型：站点统计组件
+      type: "site-stats",
+      // 是否启用该组件
+      enable: true,
+      // 组件显示顺序
+      order: 5,
+      // 组件位置
+      position: "top",
+      // 所在侧边栏
+      sidebar: "right",
+      // CSS 类名
+      class: "onload-animation",
+      // 动画延迟时间
+      animationDelay: 200,
+    },
+    {
+      // 组件类型：日历组件(移动端不显示)
+      type: "calendar",
+      // 是否启用该组件
+      enable: true,
+      // 组件显示顺序
+      order: 6,
+      // 组件位置
+      position: "top",
+      // 所在侧边栏
+      sidebar: "right",
+      // CSS 类名
+      class: "onload-animation",
+      // 动画延迟时间
+      animationDelay: 250,
+    },
+  ],
 
-	// 默认动画配置
-	defaultAnimation: {
-		// 是否启用默认动画
-		enable: true,
-		// 基础延迟时间（毫秒）
-		baseDelay: 0,
-		// 递增延迟时间（毫秒），每个组件依次增加的延迟
-		increment: 50,
-	},
+  // 默认动画配置
+  defaultAnimation: {
+    // 是否启用默认动画
+    enable: true,
+    // 基础延迟时间（毫秒）
+    baseDelay: 0,
+    // 递增延迟时间（毫秒），每个组件依次增加的延迟
+    increment: 50,
+  },
 
-	// 响应式布局配置
-	responsive: {
-		// 断点配置（像素值）
-		breakpoints: {
-			// 移动端断点：屏幕宽度小于768px
-			mobile: 768,
-			// 平板端断点：屏幕宽度小于1280px
-			tablet: 1280,
-			// 桌面端断点：屏幕宽度小于1280px
-			desktop: 1280,
-		},
-		// 不同设备的布局模式
-		//hidden:不显示侧边栏(桌面端)   drawer:抽屉模式(移动端不显示)   sidebar:显示侧边栏
-		layout: {
-			// 移动端：抽屉模式
-			mobile: "sidebar",
-			// 平板端：显示侧边栏
-			tablet: "sidebar",
-			// 桌面端：显示侧边栏
-			desktop: "sidebar",
-		},
-	},
+  // 响应式布局配置
+  responsive: {
+    // 断点配置（像素值）
+    breakpoints: {
+      // 移动端断点：屏幕宽度小于768px
+      mobile: 768,
+      // 平板端断点：屏幕宽度小于1280px
+      tablet: 1280,
+      // 桌面端断点：屏幕宽度小于1280px
+      desktop: 1280,
+    },
+    // 不同设备的布局模式
+    //hidden:不显示侧边栏(桌面端)   drawer:抽屉模式(移动端不显示)   sidebar:显示侧边栏
+    layout: {
+      // 移动端：抽屉模式
+      mobile: "sidebar",
+      // 平板端：显示侧边栏
+      tablet: "sidebar",
+      // 桌面端：显示侧边栏
+      desktop: "sidebar",
+    },
+  },
 };
 
 export const sakuraConfig: SakuraConfig = {
@@ -661,14 +671,14 @@ export const pioConfig: import("./types/config").PioConfig = {
 };
 // 导出所有配置的统一接口
 export const widgetConfigs = {
-	profile: profileConfig,
-	announcement: announcementConfig,
-	music: musicPlayerConfig,
-	layout: sidebarLayoutConfig,
-	sakura: sakuraConfig,
-	fullscreenWallpaper: fullscreenWallpaperConfig,
-	pio: pioConfig, // 添加 pio 配置
-	share: shareConfig, // 添加分享配置
+  profile: profileConfig,
+  announcement: announcementConfig,
+  music: musicPlayerConfig,
+  layout: sidebarLayoutConfig,
+  sakura: sakuraConfig,
+  fullscreenWallpaper: fullscreenWallpaperConfig,
+  pio: pioConfig, // 添加 pio 配置
+  share: shareConfig, // 添加分享配置
 } as const;
 
 export const umamiConfig = {
