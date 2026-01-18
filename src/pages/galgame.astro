@@ -31,8 +31,14 @@ let galgameList: GalgameItem[] = [];
 if (GALGAME_MODE === "local") {
 	galgameList = localGalgameList;
 } else {
-    // Bangumi sync not implemented for galgame yet, fallback to empty or implement later
-    galgameList = [];
+	try {
+        // @ts-ignore
+        const bangumiData = await import("../data/bangumi-galgame-data.json");
+        galgameList = bangumiData.default || [];
+    } catch (e) {
+        console.error("Failed to load Bangumi Galgame data:", e);
+        galgameList = [];
+    }
 }
 
 function getStatusInfo(status: string) {

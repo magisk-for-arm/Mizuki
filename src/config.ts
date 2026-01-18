@@ -67,10 +67,10 @@ export const siteConfig: SiteConfig = {
   },
 
   anime: {
-    mode: "local", // 番剧页面模式："bangumi" 使用Bangumi API，"local" 使用本地配置
+    mode: "bangumi", // 番剧页面模式："bangumi" 使用Bangumi API，"local" 使用本地配置
   },
 
-	galgame: {
+  galgame: {
 	 mode: "bangumi", // galgame页面模式："bangumi" 使用Bangumi API，"local" 使用本地配置
 	},
 
