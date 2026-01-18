@@ -223,6 +223,26 @@ async function main() {
 		console.log(
 			`Both Anime and Galgame modes are set to 'local' (or not 'bangumi'). Skipping Bangumi data update.`,
 		);
+
+		// Ensure files exist to prevent build errors
+		async function ensureFileExists(filePath) {
+			try {
+				await fs.access(filePath);
+			} catch {
+				console.log(`Creating empty data file: ${filePath}`);
+				const dir = path.dirname(filePath);
+				try {
+					await fs.access(dir);
+				} catch {
+					await fs.mkdir(dir, { recursive: true });
+				}
+				await fs.writeFile(filePath, "[]");
+			}
+		}
+
+		await ensureFileExists(OUTPUT_FILE_ANIME);
+		await ensureFileExists(OUTPUT_FILE_GALGAME);
+
 		return;
 	}
 
