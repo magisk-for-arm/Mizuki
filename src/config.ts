@@ -71,7 +71,7 @@ export const siteConfig: SiteConfig = {
   },
 
 	galgame: {
-		mode: "banguumi", // galgame页面模式："bangumi" 使用Bangumi API，"local" 使用本地配置
+	 mode: "bangumi", // galgame页面模式："bangumi" 使用Bangumi API，"local" 使用本地配置
 	},
 
   // 文章列表布局配置
