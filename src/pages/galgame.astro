@@ -1,0 +1,905 @@
+---
+import ImageWrapper from "../components/misc/ImageWrapper.astro";
+import { sidebarLayoutConfig, siteConfig } from "../config";
+import localGalgameList from "../data/galgame";
+import I18nKey from "../i18n/i18nKey";
+import { i18n } from "../i18n/translation";
+import MainGridLayout from "../layouts/MainGridLayout.astro";
+
+interface GalgameItem {
+	title: string;
+	cover: string;
+	link: string;
+	status: string;
+	rating: number;
+	progress: number;
+	description: string;
+	year: string;
+	developer: string;
+	tags: string[];
+}
+
+if (!siteConfig.featurePages.galgame) {
+	return Astro.redirect("/404/");
+}
+
+const isBothSidebarMode = sidebarLayoutConfig.position === "both";
+const GALGAME_MODE = siteConfig.galgame?.mode || "local";
+
+let galgameList: GalgameItem[] = [];
+
+if (GALGAME_MODE === "local") {
+	galgameList = localGalgameList;
+} else {
+    // Bangumi sync not implemented for galgame yet, fallback to empty or implement later
+    galgameList = [];
+}
+
+function getStatusInfo(status: string) {
+	switch (status) {
+		case "playing":
+			return {
+				text: i18n(I18nKey.animeStatusWatching), // Reuse 'Watching' for Playing
+				class: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300",
+				icon: "▶",
+			};
+		case "completed":
+			return {
+				text: i18n(I18nKey.animeStatusCompleted),
+				class: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300",
+				icon: "✓",
+			};
+		case "planned":
+			return {
+				text: i18n(I18nKey.animeStatusPlanned),
+				class: "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300",
+				icon: "❤",
+			};
+		case "dropped":
+			return {
+				text: i18n(I18nKey.animeStatusDropped),
+				class: "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300",
+				icon: "✗",
+			};
+		default:
+			return {
+				text: status,
+				class: "bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300",
+				icon: "?",
+			};
+	}
+}
+
+const INITIAL_DISPLAY_COUNT = 24;
+const visibleGalgameList = galgameList.slice(0, INITIAL_DISPLAY_COUNT);
+const hiddenGalgameList = galgameList.slice(INITIAL_DISPLAY_COUNT);
+---
+
+<MainGridLayout
+	title="Galgame"
+	description="Galgame Collection"
+>
+	<div
+		class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative min-h-32"
+	>
+		<div class="card-base galgame-card-base z-10 px-9 py-6 relative w-full">
+			<div class="relative w-full mb-8">
+				<div class="mb-6">
+					<h1
+						class="text-4xl font-bold text-black/90 dark:text-white/90 mb-2 relative
+                    before:w-1 before:h-8 before:rounded-md before:bg-[var(--primary)]
+                    before:absolute before:top-1/2 before:-translate-y-1/2 before:-left-4"
+					>
+						Galgame
+					</h1>
+					<p class="text-black/75 dark:text-white/75">
+						我玩过 / 正在玩的 Galgame
+					</p>
+				</div>
+
+				<div class="mb-6">
+					<div class="galgame-filter-container flex flex-wrap gap-2">
+						<button
+							class="galgame-filter-tag galgame-active"
+							data-status="all"
+							>{i18n(I18nKey.animeFilterAll)}</button
+						>
+						<button class="galgame-filter-tag" data-status="playing"
+							>{i18n(I18nKey.animeStatusWatching)}</button
+						>
+						<button class="galgame-filter-tag" data-status="planned"
+							>{i18n(I18nKey.animeStatusPlanned)}</button
+						>
+						<button class="galgame-filter-tag" data-status="completed"
+							>{i18n(I18nKey.animeStatusCompleted)}</button
+						>
+                        <button class="galgame-filter-tag" data-status="dropped"
+							>{i18n(I18nKey.animeStatusDropped)}</button
+						>
+					</div>
+				</div>
+			</div>
+
+			<div class="mb-8">
+				{
+					visibleGalgameList.length > 0 ? (
+						<>
+							<div
+								id="galgame-list-container"
+								class={`galgame-grid-container grid gap-4 md:gap-6 opacity-0 transition-opacity duration-300`}
+							>
+								{visibleGalgameList.map((game) => {
+									const statusInfo = getStatusInfo(
+										game.status,
+									);
+                                    // Progress bar logic - if progress is 0-100
+									const progressPercent = game.progress || 0;
+
+									return (
+										<div
+											class="group relative bg-[var(--card-bg)] border border-[var(--line-divider)] rounded-[var(--radius-large)] overflow-hidden hover:shadow-lg"
+											data-galgame-status={game.status}
+										>
+											<div class="relative galgame-cover-container aspect-[2/3] overflow-hidden">
+												<a
+													href={game.link}
+													target="_blank"
+													rel="noopener noreferrer"
+													class="block w-full h-full"
+												>
+													<ImageWrapper
+														src={game.cover}
+														alt={game.title}
+														class="w-full h-full object-cover transition-transform duration-200 group-hover:scale-110"
+													/>
+													<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+														<div class="absolute inset-0 flex items-center justify-center">
+															<div class="w-12 h-12 rounded-full bg-white/90 flex items-center justify-center">
+																<svg
+																	class="w-6 h-6 text-gray-800 ml-1"
+																	fill="currentColor"
+																	viewBox="0 0 24 24"
+																>
+																	<path d="M8 5v14l11-7z" />
+																</svg>
+															</div>
+														</div>
+													</div>
+												</a>
+
+												<div
+													class={`absolute top-2 left-2 px-2 py-1 rounded-md text-xs font-medium ${statusInfo.class}`}
+												>
+													<span class="mr-1">
+														{statusInfo.icon}
+													</span>
+													<span>
+														{statusInfo.text}
+													</span>
+												</div>
+
+												<div class="absolute top-2 right-2 bg-black/70 text-white px-2 py-1 rounded-md text-xs font-medium flex items-center gap-1">
+													<svg
+														class="w-3 h-3 text-yellow-400"
+														fill="currentColor"
+														viewBox="0 0 20 20"
+													>
+														<path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+													</svg>
+													<span>{game.rating}</span>
+												</div>
+
+												{game.status ===
+													"playing" && (
+													<div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-2">
+														<div class="w-full bg-white/20 rounded-full h-1.5 mb-1">
+															<div
+																class="bg-gradient-to-r from-emerald-400 to-teal-400 h-1.5 rounded-full transition-all duration-300"
+																style={`width: ${progressPercent}%`}
+															/>
+														</div>
+														<div class="text-white text-xs font-medium">
+                                                            {progressPercent}%
+														</div>
+													</div>
+												)}
+											</div>
+
+											<div class="p-3">
+												<h3 class="text-sm font-bold text-black/90 dark:text-white/90 mb-1 leading-tight">
+													{game.title}
+												</h3>
+												<p
+													class="text-black/60 dark:text-white/60 text-xs mb-2 line-clamp-2"
+													title={game.description}
+												>
+													{game.description}
+												</p>
+
+												<div class="space-y-1 text-xs">
+													<div class="flex justify-between items-center">
+														<span class="text-black/50 dark:text-white/50 shrink-0">
+															{i18n(
+																I18nKey.animeYear,
+															)}
+														</span>
+														<span class="text-black/70 dark:text-white/70 truncate ml-2 text-right">
+															{game.year}
+														</span>
+													</div>
+													<div class="flex justify-between items-start">
+														<span class="text-black/50 dark:text-white/50 shrink-0 mt-0.5">
+															{i18n(
+																I18nKey.animeStudio,
+															)}
+														</span>
+														<span
+															class="text-black/70 dark:text-white/70 text-right ml-2 line-clamp-2 break-words"
+															title={game.developer}
+														>
+															{game.developer}
+														</span>
+													</div>
+													<div class="flex flex-wrap gap-1 mt-2">
+														{game.tags.map(
+															(g) => (
+																<span class="px-1.5 py-0.5 bg-[var(--btn-regular-bg)] text-black/70 dark:text-white/70 rounded text-xs">
+																	{g}
+																</span>
+															),
+														)}
+													</div>
+												</div>
+											</div>
+										</div>
+									);
+								})}
+							</div>
+
+							<template id="galgame-lazy-store">
+								{hiddenGalgameList.map((game) => {
+									const statusInfo = getStatusInfo(
+										game.status,
+									);
+									const progressPercent = game.progress || 0;
+
+									return (
+										<div
+											class="group relative bg-[var(--card-bg)] border border-[var(--line-divider)] rounded-[var(--radius-large)] overflow-hidden hover:shadow-lg"
+											data-galgame-status={game.status}
+										>
+											<div class="relative galgame-cover-container aspect-[2/3] overflow-hidden">
+												<a
+													href={game.link}
+													target="_blank"
+													rel="noopener noreferrer"
+													class="block w-full h-full"
+												>
+													<ImageWrapper
+														src={game.cover}
+														alt={game.title}
+														class="w-full h-full object-cover transition-transform duration-200 group-hover:scale-110"
+													/>
+													<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+														<div class="absolute inset-0 flex items-center justify-center">
+															<div class="w-12 h-12 rounded-full bg-white/90 flex items-center justify-center">
+																<svg
+																	class="w-6 h-6 text-gray-800 ml-1"
+																	fill="currentColor"
+																	viewBox="0 0 24 24"
+																>
+																	<path d="M8 5v14l11-7z" />
+																</svg>
+															</div>
+														</div>
+													</div>
+												</a>
+
+												<div
+													class={`absolute top-2 left-2 px-2 py-1 rounded-md text-xs font-medium ${statusInfo.class}`}
+												>
+													<span class="mr-1">
+														{statusInfo.icon}
+													</span>
+													<span>
+														{statusInfo.text}
+													</span>
+												</div>
+
+												<div class="absolute top-2 right-2 bg-black/70 text-white px-2 py-1 rounded-md text-xs font-medium flex items-center gap-1">
+													<svg
+														class="w-3 h-3 text-yellow-400"
+														fill="currentColor"
+														viewBox="0 0 20 20"
+													>
+														<path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+													</svg>
+													<span>{game.rating}</span>
+												</div>
+
+												{game.status ===
+													"playing" && (
+													<div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-2">
+														<div class="w-full bg-white/20 rounded-full h-1.5 mb-1">
+															<div
+																class="bg-gradient-to-r from-emerald-400 to-teal-400 h-1.5 rounded-full transition-all duration-300"
+																style={`width: ${progressPercent}%`}
+															/>
+														</div>
+														<div class="text-white text-xs font-medium">
+                                                            {progressPercent}%
+														</div>
+													</div>
+												)}
+											</div>
+
+											<div class="p-3">
+												<h3 class="text-sm font-bold text-black/90 dark:text-white/90 mb-1 leading-tight">
+													{game.title}
+												</h3>
+												<p
+													class="text-black/60 dark:text-white/60 text-xs mb-2 line-clamp-2"
+													title={game.description}
+												>
+													{game.description}
+												</p>
+
+												<div class="space-y-1 text-xs">
+													<div class="flex justify-between items-center">
+														<span class="text-black/50 dark:text-white/50 shrink-0">
+															{i18n(
+																I18nKey.animeYear,
+															)}
+														</span>
+														<span class="text-black/70 dark:text-white/70 truncate ml-2 text-right">
+															{game.year}
+														</span>
+													</div>
+													<div class="flex justify-between items-start">
+														<span class="text-black/50 dark:text-white/50 shrink-0 mt-0.5">
+															{i18n(
+																I18nKey.animeStudio,
+															)}
+														</span>
+														<span
+															class="text-black/70 dark:text-white/70 text-right ml-2 line-clamp-2 break-words"
+															title={game.developer}
+														>
+															{game.developer}
+														</span>
+													</div>
+													<div class="flex flex-wrap gap-1 mt-2">
+														{game.tags.map(
+															(g) => (
+																<span class="px-1.5 py-0.5 bg-[var(--btn-regular-bg)] text-black/70 dark:text-white/70 rounded text-xs">
+																	{g}
+																</span>
+															),
+														)}
+													</div>
+												</div>
+											</div>
+										</div>
+									);
+								})}
+							</template>
+
+							{hiddenGalgameList.length > 0 && (
+								<div
+									id="infinite-scroll-sentinel"
+									class="w-full h-20 flex items-center justify-center mt-8"
+								>
+									<div class="galgame-loading-spinner w-8 h-8 border-4 border-[var(--primary)] border-t-transparent rounded-full animate-spin" />
+								</div>
+							)}
+						</>
+					) : (
+						<div class="text-center py-12">
+							<div class="text-5xl mb-4">😢</div>
+							<h3 class="text-xl font-medium text-black/80 dark:text-white/80 mb-2">
+								{i18n(I18nKey.animeEmpty)}
+							</h3>
+							<p class="text-black/60 dark:text-white/60">
+								{GALGAME_MODE === "local"
+									? i18n(I18nKey.animeEmptyLocal)
+									: i18n(I18nKey.animeEmptyBangumi)}
+							</p>
+						</div>
+					)
+				}
+			</div>
+		</div>
+	</div>
+
+	<script is:inline define:vars={{ isBothSidebarMode }}>
+		(function () {
+			function initGalgameLayout() {
+				const listContainer = document.getElementById(
+					"galgame-list-container",
+				);
+				if (!listContainer) return false;
+				const currentLayout =
+					localStorage.getItem("postListLayout") || "list";
+				updateListLayout(currentLayout, false);
+				requestAnimationFrame(() => {
+					listContainer.classList.remove("opacity-0");
+				});
+				return true;
+			}
+
+			let retryCount = 0;
+			const maxRetries = 10;
+			function tryInit() {
+				if (initGalgameLayout()) return;
+				if (retryCount < maxRetries) {
+					retryCount++;
+					const delay = Math.min(
+						100 * Math.pow(1.5, retryCount),
+						1000,
+					);
+					setTimeout(tryInit, delay);
+				} else {
+					setTimeout(() => {
+						const listContainer = document.getElementById(
+							"galgame-list-container",
+						);
+						if (listContainer) {
+							const currentLayout =
+								localStorage.getItem("postListLayout") ||
+								"list";
+							updateListLayout(currentLayout, false);
+							listContainer.classList.remove("opacity-0");
+						}
+					}, 2000);
+				}
+			}
+
+			if (document.readyState === "loading") {
+				document.addEventListener("DOMContentLoaded", tryInit);
+			} else {
+				tryInit();
+			}
+
+			function updateListLayout(layout, shouldAnimate = true) {
+				const listContainer = document.getElementById(
+					"galgame-list-container",
+				);
+				if (!listContainer) return;
+				listContainer.dataset.currentLayout = layout;
+
+				const items = Array.from(
+					document.querySelectorAll("[data-galgame-status]"),
+				);
+				const visibleItems = items.filter(
+					(item) => item.offsetParent !== null,
+				);
+				const firstPositions = new Map();
+				if (shouldAnimate) {
+					visibleItems.forEach((item) => {
+						const rect = item.getBoundingClientRect();
+						firstPositions.set(item, {
+							left: rect.left,
+							top: rect.top,
+							width: rect.width,
+							height: rect.height,
+						});
+					});
+				}
+
+				const style = document.createElement("style");
+				style.innerHTML = `.galgame-grid-container .group { transition: none !important; }`;
+				document.head.appendChild(style);
+				listContainer.classList.remove(
+					"galgame-list-mode",
+					"galgame-grid-mode",
+				);
+				listContainer.classList.remove(
+					"grid-cols-1",
+					"md:grid-cols-2",
+					"lg:grid-cols-3",
+				);
+
+				if (layout === "grid") {
+					listContainer.classList.add("galgame-grid-mode");
+					const rightSidebar = document.querySelector(
+						".right-sidebar-container",
+					);
+					if (rightSidebar) {
+						rightSidebar.style.display = "none";
+						rightSidebar.classList.add("hidden-in-grid-mode");
+					}
+					const mainGrid = document.getElementById("main-grid");
+					if (mainGrid) {
+						mainGrid.style.gridTemplateColumns = "17.5rem 1fr";
+						mainGrid.classList.add("two-column-layout");
+					}
+				} else {
+					listContainer.classList.add("galgame-list-mode");
+					listContainer.classList.add(
+						"grid-cols-1",
+						"lg:grid-cols-2",
+					);
+					const rightSidebar = document.querySelector(
+						".right-sidebar-container",
+					);
+					if (rightSidebar) {
+						rightSidebar.style.display = "";
+						rightSidebar.classList.remove("hidden-in-grid-mode");
+					}
+					const mainGrid = document.getElementById("main-grid");
+					if (mainGrid) {
+						mainGrid.style.gridTemplateColumns = "";
+						mainGrid.classList.remove("two-column-layout");
+					}
+				}
+
+				void listContainer.offsetHeight;
+				if (!shouldAnimate) {
+					if (style.parentNode) style.parentNode.removeChild(style);
+					return;
+				}
+
+				requestAnimationFrame(() => {
+					if (style.parentNode) style.parentNode.removeChild(style);
+
+					visibleItems.forEach((item) => {
+						const first = firstPositions.get(item);
+						if (!first) return;
+						const last = item.getBoundingClientRect();
+
+						const deltaX = Math.round(first.left - last.left);
+						const deltaY = Math.round(first.top - last.top);
+						const deltaW = first.width / last.width;
+						const deltaH = first.height / last.height;
+
+						if (
+							Math.abs(deltaX) < 1 &&
+							Math.abs(deltaY) < 1 &&
+							Math.abs(deltaW - 1) < 0.01 &&
+							Math.abs(deltaH - 1) < 0.01
+						)
+							return;
+
+						item.style.willChange = "transform";
+						item.style.transition = "none";
+						item.style.transformOrigin = "top left";
+						item.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(${deltaW}, ${deltaH})`;
+					});
+
+					void listContainer.offsetHeight;
+					requestAnimationFrame(() => {
+						visibleItems.forEach((item) => {
+							item.style.transition =
+								"transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1)";
+							item.style.transform = "";
+						});
+						setTimeout(() => {
+							visibleItems.forEach((item) => {
+								item.style.transition = "";
+								item.style.transformOrigin = "";
+								item.style.transform = "";
+								item.style.willChange = "";
+							});
+						}, 500);
+					});
+				});
+			}
+
+			window.addEventListener("layoutChange", (event) => {
+				updateListLayout(event.detail.layout);
+			});
+		})();
+	</script>
+
+	<script is:inline>
+		if (typeof window.galgameFilterEventListeners === "undefined") {
+			window.galgameFilterEventListeners = [];
+		}
+
+		function initFilterButtons() {
+			const filterTags = document.querySelectorAll(".galgame-filter-tag");
+			const sentinel = document.getElementById(
+				"infinite-scroll-sentinel",
+			);
+			const listContainer = document.getElementById(
+				"galgame-list-container",
+			);
+			const lazyStore = document.getElementById("galgame-lazy-store");
+			window.galgameFilterEventListeners.forEach((listener) => {
+				const [element, type, handler] = listener;
+				element.removeEventListener(type, handler);
+			});
+			window.galgameFilterEventListeners = [];
+
+			filterTags.forEach((tag) => {
+				const clickHandler = function () {
+					if (this.classList.contains("galgame-active")) return;
+
+					filterTags.forEach((t) =>
+						t.classList.remove("galgame-active"),
+					);
+					this.classList.add("galgame-active");
+
+					if (
+						lazyStore &&
+						lazyStore.content.children.length > 0 &&
+						listContainer
+					) {
+						const fragment = document.createDocumentFragment();
+						while (lazyStore.content.firstChild) {
+							const node = lazyStore.content.firstChild;
+							fragment.appendChild(node);
+						}
+						listContainer.appendChild(fragment);
+					}
+
+					if (sentinel) sentinel.style.display = "none";
+					const initialHidden =
+						listContainer.querySelectorAll(".initial-hidden");
+					initialHidden.forEach((el) => {
+						el.classList.remove("hidden", "initial-hidden");
+					});
+
+					const status = this.getAttribute("data-status");
+					const items = Array.from(
+						listContainer.children,
+					).filter((item) => item.hasAttribute("data-galgame-status"));
+					const itemsToHide = [];
+					const itemsToShow = [];
+					const itemsToKeep = [];
+					items.forEach((item) => {
+						const itemStatus =
+							item.getAttribute("data-galgame-status");
+						const shouldShow =
+							status === "all" || itemStatus === status;
+						const isCurrentlyVisible =
+							!item.classList.contains("galgame-hidden");
+
+						if (shouldShow) {
+							isCurrentlyVisible
+								? itemsToKeep.push(item)
+								: itemsToShow.push(item);
+						} else {
+							if (isCurrentlyVisible) itemsToHide.push(item);
+						}
+					});
+					const firstPositions = new Map();
+					itemsToKeep.forEach((item) => {
+						const rect = item.getBoundingClientRect();
+						firstPositions.set(item, {
+							left: rect.left,
+							top: rect.top,
+						});
+					});
+					const runAnimation = () => {
+						itemsToHide.forEach((item) => {
+							item.classList.add("galgame-hidden");
+							item.classList.remove("galgame-fade-out");
+						});
+						itemsToShow.forEach((item) => {
+							item.classList.remove("galgame-hidden");
+							item.classList.add("galgame-fade-in");
+							item.style.transition = "none";
+						});
+						itemsToKeep.forEach((item) => {
+							const first = firstPositions.get(item);
+							if (!first) return;
+
+							const rect = item.getBoundingClientRect();
+							const deltaX = Math.round(first.left - rect.left);
+							const deltaY = Math.round(first.top - rect.top);
+
+							if (deltaX !== 0 || deltaY !== 0) {
+								item.style.willChange = "transform";
+								item.style.transition = "none";
+								item.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+							}
+						});
+						requestAnimationFrame(() => {
+							itemsToKeep.forEach((item) => {
+								item.style.transition =
+									"transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)";
+								item.style.transform = "";
+							});
+
+							const STAGGER_LIMIT = 20;
+							itemsToShow.forEach((item, index) => {
+								item.style.transition = "";
+								item.style.willChange = "opacity, transform";
+
+								const delay =
+									index < STAGGER_LIMIT ? index * 30 : 0;
+								item.style.transitionDelay = `${delay}ms`;
+
+								requestAnimationFrame(() => {
+									item.classList.remove("galgame-fade-in");
+									item.classList.add("galgame-fade-in-active");
+								});
+							});
+
+							setTimeout(
+								() => {
+									[...itemsToKeep, ...itemsToShow].forEach(
+										(item) => {
+											item.classList.remove(
+												"galgame-fade-in-active",
+											);
+											item.style.transition = "";
+											item.style.transform = "";
+											item.style.opacity = "";
+											item.style.willChange = "";
+											item.style.transitionDelay = "";
+										},
+									);
+								},
+								600 +
+									(itemsToShow.length > 0
+										? Math.min(itemsToShow.length, 20) * 30
+										: 0),
+							);
+						});
+					};
+
+					if (itemsToHide.length > 0) {
+						itemsToHide.forEach((item) =>
+							item.classList.add("galgame-fade-out"),
+						);
+						setTimeout(runAnimation, 200);
+					} else {
+						runAnimation();
+					}
+				};
+
+				tag.addEventListener("click", clickHandler);
+				window.galgameFilterEventListeners.push([
+					tag,
+					"click",
+					clickHandler,
+				]);
+			});
+			if (sentinel && lazyStore && listContainer) {
+				const observer = new IntersectionObserver(
+					(entries) => {
+						if (entries[0].isIntersecting) {
+							const BATCH_SIZE = 24;
+							if (lazyStore.content.children.length === 0) {
+								sentinel.style.display = "none";
+								observer.disconnect();
+								return;
+							}
+
+							const fragment = document.createDocumentFragment();
+							let movedCount = 0;
+							while (
+								lazyStore.content.firstChild &&
+								movedCount < BATCH_SIZE
+							) {
+								const node = lazyStore.content.firstChild;
+								if (node.nodeType === 1) {
+									node.classList.add("galgame-fade-in-active");
+								}
+								fragment.appendChild(node);
+								movedCount++;
+							}
+
+							requestAnimationFrame(() => {
+								listContainer.appendChild(fragment);
+								if (lazyStore.content.children.length === 0) {
+									sentinel.style.display = "none";
+									observer.disconnect();
+								}
+							});
+						}
+					},
+					{ rootMargin: "200px" },
+				);
+				observer.observe(sentinel);
+			} else if (sentinel) {
+				sentinel.style.display = "none";
+			}
+		}
+
+		document.addEventListener("DOMContentLoaded", initFilterButtons);
+		function setupSwupListeners() {
+			if (window.swup) {
+				window.swup.hooks.on("content:replace", () =>
+					setTimeout(initFilterButtons, 150),
+				);
+				window.swup.hooks.on("page:view", () =>
+					setTimeout(initFilterButtons, 150),
+				);
+			}
+		}
+
+		if (typeof window !== "undefined") {
+			if (window.swup) {
+				setupSwupListeners();
+			} else {
+				document.addEventListener("swup:enable", setupSwupListeners);
+			}
+		}
+	</script>
+
+    <style>
+        /* 复用 anime.css 的样式，但为了避免修改 global CSS，这里简单内联关键的动画样式 */
+        /* 如果需要完全一致，可以在 global CSS 中添加 .galgame- 类 */
+        
+        .galgame-card-base {
+            min-height: 200px;
+        }
+
+        .galgame-filter-tag {
+            @apply px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-300
+            bg-[var(--btn-regular-bg)] text-[var(--btn-content)]
+            hover:bg-[var(--btn-regular-bg-hover)] active:scale-95;
+        }
+
+        .galgame-filter-tag.galgame-active {
+            @apply bg-[var(--primary)] text-white;
+        }
+
+        .galgame-grid-container {
+            grid-template-columns: repeat(1, minmax(0, 1fr));
+        }
+
+        @media (min-width: 768px) {
+            .galgame-grid-container {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .galgame-grid-container {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+        }
+
+        /* 列表模式 */
+        .galgame-list-mode {
+            @apply flex flex-col gap-4;
+        }
+        
+        .galgame-list-mode .group {
+            @apply flex flex-row h-48;
+        }
+        
+        .galgame-list-mode .galgame-cover-container {
+            @apply w-32 aspect-[2/3] shrink-0;
+        }
+
+        /* 网格模式 (2列) - 覆盖上面的 grid-container */
+        .galgame-grid-mode {
+            display: grid !important;
+            grid-template-columns: repeat(1, 1fr) !important;
+            gap: 1rem;
+        }
+        
+        @media (min-width: 768px) {
+            .galgame-grid-mode {
+                grid-template-columns: repeat(2, 1fr) !important;
+            }
+        }
+
+        /* 动画类 */
+        .galgame-hidden {
+            display: none !important;
+        }
+        
+        .galgame-fade-out {
+            opacity: 0;
+            transform: scale(0.95);
+            transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+        }
+        
+        .galgame-fade-in {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        
+        .galgame-fade-in-active {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+        }
+    </style>
+</MainGridLayout>

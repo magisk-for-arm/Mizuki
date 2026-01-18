@@ -67,6 +67,7 @@ export type SiteConfig = {
 		timeline: boolean; // 时间线页面开关
 		albums: boolean; // 相册页面开关
 		devices: boolean; // 设备页面开关
+		galgame: boolean; // galgame开关
 	};
 
 	// 文章列表布局配置
@@ -109,6 +110,10 @@ export type SiteConfig = {
 	anime?: {
 		mode?: "bangumi" | "local"; // 番剧页面模式
 	};
+
+	galgame?: {
+		mode?: "bangumi" | "local"; //galgame页面模式
+	}
 
 	// 标签样式配置
 	tagStyle?: {
@@ -192,6 +197,7 @@ export enum LinkPreset {
 	Projects = 7,
 	Skills = 8,
 	Timeline = 9,
+	galgame = 10,
 }
 
 export type NavBarLink = {
