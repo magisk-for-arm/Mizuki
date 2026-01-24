@@ -16,6 +16,7 @@ enum I18nKey {
 	recentPosts = "recentPosts",
 	postList = "postList",
 	tableOfContents = "tableOfContents",
+	tocEmpty = "tocEmpty",
 
 	// 公告栏
 	announcement = "announcement",
@@ -317,6 +318,10 @@ enum I18nKey {
 	profileStatsPageViews = "profileStatsPageViews",
 	profileStatsVisits = "profileStatsVisits",
 	profileStatsUnavailable = "profileStatsUnavailable",
+
+	// 布局切换按钮
+	switchToGridMode = "switchToGridMode",
+	switchToListMode = "switchToListMode",
 }
 
 export default I18nKey;
