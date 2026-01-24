@@ -59,6 +59,7 @@ export const zh_CN: Translation = {
 	[Key.license]: "许可协议",
 	[Key.anime]: "追番",
 	[Key.diary]: "日记",
+	[Key.galgame]: "Galgame",
 
 	// 番剧页面
 	[Key.animeTitle]: "我的追番记录",

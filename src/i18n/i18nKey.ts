@@ -57,6 +57,7 @@ enum I18nKey {
 	friendsTags = "friendsTags",
 	anime = "anime",
 	diary = "diary",
+	galgame = "galgame",
 
 	// 番剧页面
 	animeTitle = "animeTitle",
