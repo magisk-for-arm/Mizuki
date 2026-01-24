@@ -45,19 +45,18 @@ const useJapaneseBadge = siteConfig.toc.useJapaneseBadge;
 	.floating-toc-wrapper {
 		position: fixed;
 		right: 6rem;
-		bottom: 14rem;
+		bottom: 15rem;
 		z-index: 50;
 		pointer-events: auto;
 		transform: translateX(5rem);
-		opacity: 0.6;
+		display: none;
 		transition:
 			opacity 0.3s ease,
 			transform 0.3s ease;
 	}
 
-	.floating-toc-wrapper:hover,
-	.floating-toc-wrapper.active {
-		opacity: 1;
+	.floating-toc-wrapper.active-toc {
+		display: block;
 	}
 
 	.floating-toc-btn {
@@ -70,7 +69,6 @@ const useJapaneseBadge = siteConfig.toc.useJapaneseBadge;
 		color: var(--primary);
 		position: relative;
 		background: var(--card-bg);
-		box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 	}
 
 	.floating-toc-btn.active {
@@ -145,36 +143,32 @@ const useJapaneseBadge = siteConfig.toc.useJapaneseBadge;
 		border-radius: 2px;
 	}
 
-	.floating-toc-wrapper.no-toc {
-		display: none;
+	@media (max-width: 1560px) {
+		.floating-toc-btn {
+			box-shadow:
+				0 0 0 1px var(--btn-regular-bg),
+				0 0 1em var(--btn-regular-bg);
+		}
 	}
 
-	/* 移动端适配 */
-	@media (max-width: 1024px) {
+	@media (max-width: 768px) {
 		.floating-toc-wrapper {
+			transform: none;
 			right: 2rem;
 			bottom: 6rem;
-			transform: none;
+			opacity: 0.6;
+		}
+
+		.floating-toc-wrapper:active,
+		.floating-toc-wrapper.active {
+			opacity: 1;
 		}
 
 		.floating-toc-panel {
 			width: 85vw;
-			max-width: 22rem;
-			bottom: 5rem;
-		}
-
-		.floating-toc-panel-content {
-			padding: 1rem;
-			max-height: 50vh;
-		}
-	}
-
-	@media (max-width: 1560px) {
-		.floating-toc-wrapper {
-			box-shadow:
-				0 0 0 1px var(--btn-regular-bg),
-				0 0 1em var(--btn-regular-bg);
-			border-radius: 1rem;
+			max-width: 20rem;
+			right: 0;
+			bottom: 4.5rem;
 		}
 	}
 
@@ -188,19 +182,6 @@ const useJapaneseBadge = siteConfig.toc.useJapaneseBadge;
 		line-height: 1.5;
 		border-radius: 0.5rem;
 		transition: all 0.2s;
-	}
-
-	@media (max-width: 1024px) {
-		:global(.floating-toc-item) {
-			font-size: 1.05rem !important;
-			padding: 0.75rem 0.5rem !important;
-			margin-bottom: 0.25rem;
-		}
-		:global(.floating-toc-badge) {
-			width: 1.5rem;
-			height: 1.5rem;
-			font-size: 0.9rem;
-		}
 	}
 
 	:global(.floating-toc-item:hover) {
@@ -348,12 +329,10 @@ const useJapaneseBadge = siteConfig.toc.useJapaneseBadge;
 
 		private updateActiveHeading() {
 			if (!this.content || this.headings.length === 0) return;
-
 			const scrollY = window.scrollY;
 			const offsetTop = 150;
 
 			let activeIndex = -1;
-
 			for (let i = 0; i < this.headings.length; i++) {
 				const heading = this.headings[i];
 				if (
@@ -395,7 +374,9 @@ const useJapaneseBadge = siteConfig.toc.useJapaneseBadge;
 
 		private generateTOC() {
 			const container = document.getElementById("post-container");
+
 			if (!container) {
+				this.wrapper?.classList.remove("active-toc");
 				this.wrapper?.classList.add("no-toc");
 				return;
 			}
@@ -405,12 +386,14 @@ const useJapaneseBadge = siteConfig.toc.useJapaneseBadge;
 			);
 
 			if (allHeadings.length === 0) {
+				this.wrapper?.classList.remove("active-toc");
 				this.wrapper?.classList.add("no-toc");
 				this.headings = [];
 				return;
 			}
 
 			this.wrapper?.classList.remove("no-toc");
+			this.wrapper?.classList.add("active-toc");
 			this.headings = [];
 
 			const maxLevel = parseInt(this.wrapper?.dataset.depth || "3");
@@ -458,7 +441,6 @@ const useJapaneseBadge = siteConfig.toc.useJapaneseBadge;
 
 			let html = "";
 			let h1Count = 0;
-
 			allHeadings.forEach((heading) => {
 				const level = parseInt(heading.tagName[1]);
 

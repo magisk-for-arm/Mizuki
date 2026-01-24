@@ -12,7 +12,6 @@ export interface FriendItem {
 
 // 友情链接数据
 export const friendsData: FriendItem[] = [
-
 	{
 		id: 1,
 		title: "GitHub",
@@ -21,7 +20,6 @@ export const friendsData: FriendItem[] = [
 		siteurl: "https://github.com",
 		tags: ["Development", "Platform"],
 	},
-
 ];
 
 // 获取所有友情链接数据

@@ -19,13 +19,12 @@
 /* 导入Misans 字体 */
 
 @font-face {
-	font-family: "Misas";
-	src: url("/assets/font/MiSans-Normal.woff2") format("woff2");
-	font-style: normal;
-	font-weight: 400;
-	font-display: swap;
+  font-family: "Misas";
+  src: url("/assets/font/MiSans-Normal.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
 }
-
 
 /* 导入 萝莉体 第二版 字体 */
 @font-face {
