@@ -1,5 +1,5 @@
-// 本地 Galgame 数据配置
-export type GalgameItem = {
+// 本地 Game 数据配置
+export type GameItem = {
 	title: string;
 	status: "playing" | "completed" | "planned" | "dropped";
 	rating: number;
@@ -13,7 +13,7 @@ export type GalgameItem = {
 	releaseDate: string;
 };
 
-const localGalgameList: GalgameItem[] = [
+const localGameList: GameItem[] = [
 	{
 		title: "ATRI -My Dear Moments-",
 		status: "completed",
@@ -58,4 +58,4 @@ const localGalgameList: GalgameItem[] = [
 	},
 ];
 
-export default localGalgameList;
+export default localGameList;

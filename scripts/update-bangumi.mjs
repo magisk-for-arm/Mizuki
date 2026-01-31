@@ -11,9 +11,9 @@ const OUTPUT_FILE_ANIME = path.join(
 	path.dirname(fileURLToPath(import.meta.url)),
 	"../src/data/bangumi-data.json",
 );
-const OUTPUT_FILE_GALGAME = path.join(
+const OUTPUT_FILE_GAME = path.join(
 	path.dirname(fileURLToPath(import.meta.url)),
-	"../src/data/bangumi-galgame-data.json",
+	"../src/data/bangumi-game-data.json",
 );
 
 async function getUserIdFromConfig() {
@@ -51,16 +51,16 @@ async function getConfigsFromConfig() {
 		const animeMatch = configContent.match(
 			/anime:\s*\{[\s\S]*?mode:\s*["']([^"']+)["']/,
 		);
-		const galgameMatch = configContent.match(
-			/galgame:\s*\{[\s\S]*?mode:\s*["']([^"']+)["']/,
+		const gameMatch = configContent.match(
+			/game:\s*\{[\s\S]*?mode:\s*["']([^"']+)["']/,
 		);
 
 		return {
 			animeMode: (animeMatch && animeMatch[1]) || "bangumi",
-			galgameMode: (galgameMatch && galgameMatch[1]) || "local",
+			gameMode: (gameMatch && gameMatch[1]) || "local",
 		};
 	} catch (error) {
-		return { animeMode: "bangumi", galgameMode: "local" };
+		return { animeMode: "bangumi", gameMode: "local" };
 	}
 }
 
@@ -214,14 +214,14 @@ async function processData(items, status) {
 async function main() {
 	console.log("Initializing Bangumi data update script...");
 
-	const { animeMode, galgameMode } = await getConfigsFromConfig();
+	const { animeMode, gameMode } = await getConfigsFromConfig();
 
 	const shouldUpdateAnime = animeMode === "bangumi";
-	const shouldUpdateGalgame = galgameMode === "bangumi";
+	const shouldUpdateGame = gameMode === "bangumi";
 
-	if (!shouldUpdateAnime && !shouldUpdateGalgame) {
+	if (!shouldUpdateAnime && !shouldUpdateGame) {
 		console.log(
-			`Both Anime and Galgame modes are set to 'local' (or not 'bangumi'). Skipping Bangumi data update.`,
+			`Both Anime and Game modes are set to 'local' (or not 'bangumi'). Skipping Bangumi data update.`,
 		);
 
 		// Ensure files exist to prevent build errors
@@ -241,7 +241,7 @@ async function main() {
 		}
 
 		await ensureFileExists(OUTPUT_FILE_ANIME);
-		await ensureFileExists(OUTPUT_FILE_GALGAME);
+		await ensureFileExists(OUTPUT_FILE_GAME);
 
 		return;
 	}
@@ -250,11 +250,11 @@ async function main() {
 	console.log(`Read User ID: ${USER_ID}`);
 
 	const collections = [
-		{ type: 3, status: "watching", galgameStatus: "playing" }, // Watching / Playing
-		{ type: 1, status: "planned", galgameStatus: "planned" }, // Planned
-		{ type: 2, status: "completed", galgameStatus: "completed" }, // Completed
-		{ type: 4, status: "onhold", galgameStatus: "onhold" }, // On Hold
-		{ type: 5, status: "dropped", galgameStatus: "dropped" }, // Dropped
+		{ type: 3, status: "watching", gameStatus: "playing" }, // Watching / Playing
+		{ type: 1, status: "planned", gameStatus: "planned" }, // Planned
+		{ type: 2, status: "completed", gameStatus: "completed" }, // Completed
+		{ type: 4, status: "onhold", gameStatus: "onhold" }, // On Hold
+		{ type: 5, status: "dropped", gameStatus: "dropped" }, // Dropped
 	];
 
 	// --- Anime Update ---
@@ -286,26 +286,26 @@ async function main() {
 		console.log("\nSkipping Anime update (mode != bangumi)");
 	}
 
-	// --- Galgame Update ---
-	if (shouldUpdateGalgame) {
-		console.log("\n--- Starting Galgame Data Update ---");
-		let finalGalgameList = [];
+	// --- Game Update ---
+	if (shouldUpdateGame) {
+		console.log("\n--- Starting Game Data Update ---");
+		let finalGameList = [];
 		for (const c of collections) {
-			// Note: Use c.galgameStatus if needed, but 'watching'/'playing' maps to same type usually
+			// Note: Use c.gameStatus if needed, but 'watching'/'playing' maps to same type usually
 			// However, processData uses the status string passed to it.
-			// Let's use standard status strings but mapped correctly for Galgame display later if needed
+			// Let's use standard status strings but mapped correctly for Game display later if needed
 			// Actually, keep using generic status names, UI handles mapping.
-			// But wait, Galgame usually uses "playing" instead of "watching".
+			// But wait, Game usually uses "playing" instead of "watching".
 			const statusToUse = c.status === "watching" ? "playing" : c.status;
 
 			const rawData = await fetchCollection(USER_ID, c.type, 4); // 4 = Game
 			if (rawData.length > 0) {
 				const processed = await processData(rawData, statusToUse);
-				finalGalgameList = [...finalGalgameList, ...processed];
+				finalGameList = [...finalGameList, ...processed];
 			}
 		}
 
-		const dir = path.dirname(OUTPUT_FILE_GALGAME);
+		const dir = path.dirname(OUTPUT_FILE_GAME);
 		try {
 			await fs.access(dir);
 		} catch {
@@ -313,13 +313,13 @@ async function main() {
 		}
 
 		await fs.writeFile(
-			OUTPUT_FILE_GALGAME,
-			JSON.stringify(finalGalgameList, null, 2),
+			OUTPUT_FILE_GAME,
+			JSON.stringify(finalGameList, null, 2),
 		);
-		console.log(`Galgame data saved to: ${OUTPUT_FILE_GALGAME}`);
-		console.log(`Total collected: ${finalGalgameList.length} games`);
+		console.log(`Game data saved to: ${OUTPUT_FILE_GAME}`);
+		console.log(`Total collected: ${finalGameList.length} games`);
 	} else {
-		console.log("\nSkipping Galgame update (mode != bangumi)");
+		console.log("\nSkipping Game update (mode != bangumi)");
 	}
 
 	console.log(`\nAll updates complete!`);

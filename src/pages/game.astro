@@ -1,12 +1,13 @@
 ---
 import ImageWrapper from "../components/misc/ImageWrapper.astro";
-import { sidebarLayoutConfig, siteConfig } from "../config";
-import localGalgameList from "../data/galgame";
+import { siteConfig } from "../config";
+import localGameList from "../data/game";
 import I18nKey from "../i18n/i18nKey";
 import { i18n } from "../i18n/translation";
 import MainGridLayout from "../layouts/MainGridLayout.astro";
+import { widgetManager } from "../utils/widget-manager";
 
-interface GalgameItem {
+interface GameItem {
 	title: string;
 	cover: string;
 	link: string;
@@ -19,25 +20,27 @@ interface GalgameItem {
 	tags: string[];
 }
 
-if (!siteConfig.featurePages.galgame) {
+if (!siteConfig.featurePages.game) {
 	return Astro.redirect("/404/");
 }
 
-const isBothSidebarMode = sidebarLayoutConfig.position === "both";
-const GALGAME_MODE = siteConfig.galgame?.mode || "local";
+const hasRightSidebars =
+	widgetManager.getComponentsByPosition("top", "right", "desktop").length > 0 ||
+	widgetManager.getComponentsByPosition("sticky", "right", "desktop").length > 0;
+const GAME_MODE = siteConfig.game?.mode || "local";
 
-let galgameList: GalgameItem[] = [];
+let gameList: GameItem[] = [];
 
-if (GALGAME_MODE === "local") {
-	galgameList = localGalgameList;
+if (GAME_MODE === "local") {
+	gameList = localGameList;
 } else {
 	try {
         // @ts-ignore
-        const bangumiData = await import("../data/bangumi-galgame-data.json");
-        galgameList = bangumiData.default || [];
+        const bangumiData = await import("../data/bangumi-game-data.json");
+        gameList = bangumiData.default || [];
     } catch (e) {
-        console.error("Failed to load Bangumi Galgame data:", e);
-        galgameList = [];
+        console.error("Failed to load Bangumi Game data:", e);
+        gameList = [];
     }
 }
 
@@ -77,18 +80,18 @@ function getStatusInfo(status: string) {
 }
 
 const INITIAL_DISPLAY_COUNT = 24;
-const visibleGalgameList = galgameList.slice(0, INITIAL_DISPLAY_COUNT);
-const hiddenGalgameList = galgameList.slice(INITIAL_DISPLAY_COUNT);
+const visibleGameList = gameList.slice(0, INITIAL_DISPLAY_COUNT);
+const hiddenGameList = gameList.slice(INITIAL_DISPLAY_COUNT);
 ---
 
 <MainGridLayout
-	title="Galgame"
-	description="Galgame Collection"
+	title="Game"
+	description="Game Collection"
 >
 	<div
 		class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative min-h-32"
 	>
-		<div class="card-base galgame-card-base z-10 px-9 py-6 relative w-full">
+		<div class="card-base game-card-base z-10 px-9 py-6 relative w-full">
 			<div class="relative w-full mb-8">
 				<div class="mb-6">
 					<h1
@@ -96,30 +99,30 @@ const hiddenGalgameList = galgameList.slice(INITIAL_DISPLAY_COUNT);
                     before:w-1 before:h-8 before:rounded-md before:bg-[var(--primary)]
                     before:absolute before:top-1/2 before:-translate-y-1/2 before:-left-4"
 					>
-						Galgame
+						Game
 					</h1>
 					<p class="text-black/75 dark:text-white/75">
-						我玩过 / 正在玩的 Galgame
+						我玩过 / 正在玩的 Game
 					</p>
 				</div>
 
 				<div class="mb-6">
-					<div class="galgame-filter-container flex flex-wrap gap-2">
+					<div class="game-filter-container flex flex-wrap gap-2">
 						<button
-							class="galgame-filter-tag galgame-active"
+							class="game-filter-tag game-active"
 							data-status="all"
 							>{i18n(I18nKey.animeFilterAll)}</button
 						>
-						<button class="galgame-filter-tag" data-status="playing"
+						<button class="game-filter-tag" data-status="playing"
 							>{i18n(I18nKey.animeStatusWatching)}</button
 						>
-						<button class="galgame-filter-tag" data-status="planned"
+						<button class="game-filter-tag" data-status="planned"
 							>{i18n(I18nKey.animeStatusPlanned)}</button
 						>
-						<button class="galgame-filter-tag" data-status="completed"
+						<button class="game-filter-tag" data-status="completed"
 							>{i18n(I18nKey.animeStatusCompleted)}</button
 						>
-                        <button class="galgame-filter-tag" data-status="dropped"
+                        <button class="game-filter-tag" data-status="dropped"
 							>{i18n(I18nKey.animeStatusDropped)}</button
 						>
 					</div>
@@ -128,13 +131,13 @@ const hiddenGalgameList = galgameList.slice(INITIAL_DISPLAY_COUNT);
 
 			<div class="mb-8">
 				{
-					visibleGalgameList.length > 0 ? (
+					visibleGameList.length > 0 ? (
 						<>
 							<div
-								id="galgame-list-container"
-								class={`galgame-grid-container grid gap-4 md:gap-6 opacity-0 transition-opacity duration-300`}
+								id="game-list-container"
+								class={`game-grid-container grid gap-4 md:gap-6 opacity-0 transition-opacity duration-300`}
 							>
-								{visibleGalgameList.map((game) => {
+								{visibleGameList.map((game) => {
 									const statusInfo = getStatusInfo(
 										game.status,
 									);
@@ -144,9 +147,9 @@ const hiddenGalgameList = galgameList.slice(INITIAL_DISPLAY_COUNT);
 									return (
 										<div
 											class="group relative bg-[var(--card-bg)] border border-[var(--line-divider)] rounded-[var(--radius-large)] overflow-hidden hover:shadow-lg"
-											data-galgame-status={game.status}
+											data-game-status={game.status}
 										>
-											<div class="relative galgame-cover-container aspect-[2/3] overflow-hidden">
+											<div class="relative game-cover-container aspect-[2/3] overflow-hidden">
 												<a
 													href={game.link}
 													target="_blank"
@@ -262,8 +265,8 @@ const hiddenGalgameList = galgameList.slice(INITIAL_DISPLAY_COUNT);
 								})}
 							</div>
 
-							<template id="galgame-lazy-store">
-								{hiddenGalgameList.map((game) => {
+							<template id="game-lazy-store">
+								{hiddenGameList.map((game) => {
 									const statusInfo = getStatusInfo(
 										game.status,
 									);
@@ -272,9 +275,9 @@ const hiddenGalgameList = galgameList.slice(INITIAL_DISPLAY_COUNT);
 									return (
 										<div
 											class="group relative bg-[var(--card-bg)] border border-[var(--line-divider)] rounded-[var(--radius-large)] overflow-hidden hover:shadow-lg"
-											data-galgame-status={game.status}
+											data-game-status={game.status}
 										>
-											<div class="relative galgame-cover-container aspect-[2/3] overflow-hidden">
+											<div class="relative game-cover-container aspect-[2/3] overflow-hidden">
 												<a
 													href={game.link}
 													target="_blank"
@@ -390,12 +393,12 @@ const hiddenGalgameList = galgameList.slice(INITIAL_DISPLAY_COUNT);
 								})}
 							</template>
 
-							{hiddenGalgameList.length > 0 && (
+							{hiddenGameList.length > 0 && (
 								<div
 									id="infinite-scroll-sentinel"
 									class="w-full h-20 flex items-center justify-center mt-8"
 								>
-									<div class="galgame-loading-spinner w-8 h-8 border-4 border-[var(--primary)] border-t-transparent rounded-full animate-spin" />
+									<div class="game-loading-spinner w-8 h-8 border-4 border-[var(--primary)] border-t-transparent rounded-full animate-spin" />
 								</div>
 							)}
 						</>
@@ -406,7 +409,7 @@ const hiddenGalgameList = galgameList.slice(INITIAL_DISPLAY_COUNT);
 								{i18n(I18nKey.animeEmpty)}
 							</h3>
 							<p class="text-black/60 dark:text-white/60">
-								{GALGAME_MODE === "local"
+								{GAME_MODE === "local"
 									? i18n(I18nKey.animeEmptyLocal)
 									: i18n(I18nKey.animeEmptyBangumi)}
 							</p>
@@ -417,11 +420,11 @@ const hiddenGalgameList = galgameList.slice(INITIAL_DISPLAY_COUNT);
 		</div>
 	</div>
 
-	<script is:inline define:vars={{ isBothSidebarMode }}>
+	<script is:inline define:vars={{ hasRightSidebars }}>
 		(function () {
-			function initGalgameLayout() {
+			function initGameLayout() {
 				const listContainer = document.getElementById(
-					"galgame-list-container",
+					"game-list-container",
 				);
 				if (!listContainer) return false;
 				const currentLayout =
@@ -436,7 +439,7 @@ const hiddenGalgameList = galgameList.slice(INITIAL_DISPLAY_COUNT);
 			let retryCount = 0;
 			const maxRetries = 10;
 			function tryInit() {
-				if (initGalgameLayout()) return;
+				if (initGameLayout()) return;
 				if (retryCount < maxRetries) {
 					retryCount++;
 					const delay = Math.min(
@@ -447,7 +450,7 @@ const hiddenGalgameList = galgameList.slice(INITIAL_DISPLAY_COUNT);
 				} else {
 					setTimeout(() => {
 						const listContainer = document.getElementById(
-							"galgame-list-container",
+							"game-list-container",
 						);
 						if (listContainer) {
 							const currentLayout =
@@ -468,13 +471,13 @@ const hiddenGalgameList = galgameList.slice(INITIAL_DISPLAY_COUNT);
 
 			function updateListLayout(layout, shouldAnimate = true) {
 				const listContainer = document.getElementById(
-					"galgame-list-container",
+					"game-list-container",
 				);
 				if (!listContainer) return;
 				listContainer.dataset.currentLayout = layout;
 
 				const items = Array.from(
-					document.querySelectorAll("[data-galgame-status]"),
+					document.querySelectorAll("[data-game-status]"),
 				);
 				const visibleItems = items.filter(
 					(item) => item.offsetParent !== null,
@@ -493,11 +496,11 @@ const hiddenGalgameList = galgameList.slice(INITIAL_DISPLAY_COUNT);
 				}
 
 				const style = document.createElement("style");
-				style.innerHTML = `.galgame-grid-container .group { transition: none !important; }`;
+				style.innerHTML = `.game-grid-container .group { transition: none !important; }`;
 				document.head.appendChild(style);
 				listContainer.classList.remove(
-					"galgame-list-mode",
-					"galgame-grid-mode",
+					"game-list-mode",
+					"game-grid-mode",
 				);
 				listContainer.classList.remove(
 					"grid-cols-1",
@@ -506,7 +509,7 @@ const hiddenGalgameList = galgameList.slice(INITIAL_DISPLAY_COUNT);
 				);
 
 				if (layout === "grid") {
-					listContainer.classList.add("galgame-grid-mode");
+					listContainer.classList.add("game-grid-mode");
 					const rightSidebar = document.querySelector(
 						".right-sidebar-container",
 					);
@@ -520,7 +523,7 @@ const hiddenGalgameList = galgameList.slice(INITIAL_DISPLAY_COUNT);
 						mainGrid.classList.add("two-column-layout");
 					}
 				} else {
-					listContainer.classList.add("galgame-list-mode");
+					listContainer.classList.add("game-list-mode");
 					listContainer.classList.add(
 						"grid-cols-1",
 						"lg:grid-cols-2",
@@ -598,33 +601,33 @@ const hiddenGalgameList = galgameList.slice(INITIAL_DISPLAY_COUNT);
 	</script>
 
 	<script is:inline>
-		if (typeof window.galgameFilterEventListeners === "undefined") {
-			window.galgameFilterEventListeners = [];
+		if (typeof window.gameFilterEventListeners === "undefined") {
+			window.gameFilterEventListeners = [];
 		}
 
 		function initFilterButtons() {
-			const filterTags = document.querySelectorAll(".galgame-filter-tag");
+			const filterTags = document.querySelectorAll(".game-filter-tag");
 			const sentinel = document.getElementById(
 				"infinite-scroll-sentinel",
 			);
 			const listContainer = document.getElementById(
-				"galgame-list-container",
+				"game-list-container",
 			);
-			const lazyStore = document.getElementById("galgame-lazy-store");
-			window.galgameFilterEventListeners.forEach((listener) => {
+			const lazyStore = document.getElementById("game-lazy-store");
+			window.gameFilterEventListeners.forEach((listener) => {
 				const [element, type, handler] = listener;
 				element.removeEventListener(type, handler);
 			});
-			window.galgameFilterEventListeners = [];
+			window.gameFilterEventListeners = [];
 
 			filterTags.forEach((tag) => {
 				const clickHandler = function () {
-					if (this.classList.contains("galgame-active")) return;
+					if (this.classList.contains("game-active")) return;
 
 					filterTags.forEach((t) =>
-						t.classList.remove("galgame-active"),
+						t.classList.remove("game-active"),
 					);
-					this.classList.add("galgame-active");
+					this.classList.add("game-active");
 
 					if (
 						lazyStore &&
@@ -649,17 +652,17 @@ const hiddenGalgameList = galgameList.slice(INITIAL_DISPLAY_COUNT);
 					const status = this.getAttribute("data-status");
 					const items = Array.from(
 						listContainer.children,
-					).filter((item) => item.hasAttribute("data-galgame-status"));
+					).filter((item) => item.hasAttribute("data-game-status"));
 					const itemsToHide = [];
 					const itemsToShow = [];
 					const itemsToKeep = [];
 					items.forEach((item) => {
 						const itemStatus =
-							item.getAttribute("data-galgame-status");
+							item.getAttribute("data-game-status");
 						const shouldShow =
 							status === "all" || itemStatus === status;
 						const isCurrentlyVisible =
-							!item.classList.contains("galgame-hidden");
+							!item.classList.contains("game-hidden");
 
 						if (shouldShow) {
 							isCurrentlyVisible
@@ -679,12 +682,12 @@ const hiddenGalgameList = galgameList.slice(INITIAL_DISPLAY_COUNT);
 					});
 					const runAnimation = () => {
 						itemsToHide.forEach((item) => {
-							item.classList.add("galgame-hidden");
-							item.classList.remove("galgame-fade-out");
+							item.classList.add("game-hidden");
+							item.classList.remove("game-fade-out");
 						});
 						itemsToShow.forEach((item) => {
-							item.classList.remove("galgame-hidden");
-							item.classList.add("galgame-fade-in");
+							item.classList.remove("game-hidden");
+							item.classList.add("game-fade-in");
 							item.style.transition = "none";
 						});
 						itemsToKeep.forEach((item) => {
@@ -718,8 +721,8 @@ const hiddenGalgameList = galgameList.slice(INITIAL_DISPLAY_COUNT);
 								item.style.transitionDelay = `${delay}ms`;
 
 								requestAnimationFrame(() => {
-									item.classList.remove("galgame-fade-in");
-									item.classList.add("galgame-fade-in-active");
+									item.classList.remove("game-fade-in");
+									item.classList.add("game-fade-in-active");
 								});
 							});
 
@@ -728,7 +731,7 @@ const hiddenGalgameList = galgameList.slice(INITIAL_DISPLAY_COUNT);
 									[...itemsToKeep, ...itemsToShow].forEach(
 										(item) => {
 											item.classList.remove(
-												"galgame-fade-in-active",
+												"game-fade-in-active",
 											);
 											item.style.transition = "";
 											item.style.transform = "";
@@ -748,7 +751,7 @@ const hiddenGalgameList = galgameList.slice(INITIAL_DISPLAY_COUNT);
 
 					if (itemsToHide.length > 0) {
 						itemsToHide.forEach((item) =>
-							item.classList.add("galgame-fade-out"),
+							item.classList.add("game-fade-out"),
 						);
 						setTimeout(runAnimation, 200);
 					} else {
@@ -757,7 +760,7 @@ const hiddenGalgameList = galgameList.slice(INITIAL_DISPLAY_COUNT);
 				};
 
 				tag.addEventListener("click", clickHandler);
-				window.galgameFilterEventListeners.push([
+				window.gameFilterEventListeners.push([
 					tag,
 					"click",
 					clickHandler,
@@ -782,7 +785,7 @@ const hiddenGalgameList = galgameList.slice(INITIAL_DISPLAY_COUNT);
 							) {
 								const node = lazyStore.content.firstChild;
 								if (node.nodeType === 1) {
-									node.classList.add("galgame-fade-in-active");
+									node.classList.add("game-fade-in-active");
 								}
 								fragment.appendChild(node);
 								movedCount++;
@@ -828,81 +831,81 @@ const hiddenGalgameList = galgameList.slice(INITIAL_DISPLAY_COUNT);
 
     <style>
         /* 复用 anime.css 的样式，但为了避免修改 global CSS，这里简单内联关键的动画样式 */
-        /* 如果需要完全一致，可以在 global CSS 中添加 .galgame- 类 */
+        /* 如果需要完全一致，可以在 global CSS 中添加 .game- 类 */
         
-        .galgame-card-base {
+        .game-card-base {
             min-height: 200px;
         }
 
-        .galgame-filter-tag {
+        .game-filter-tag {
             @apply px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-300
             bg-[var(--btn-regular-bg)] text-[var(--btn-content)]
             hover:bg-[var(--btn-regular-bg-hover)] active:scale-95;
         }
 
-        .galgame-filter-tag.galgame-active {
+        .game-filter-tag.game-active {
             @apply bg-[var(--primary)] text-white;
         }
 
-        .galgame-grid-container {
+        .game-grid-container {
             grid-template-columns: repeat(1, minmax(0, 1fr));
         }
 
         @media (min-width: 768px) {
-            .galgame-grid-container {
+            .game-grid-container {
                 grid-template-columns: repeat(2, minmax(0, 1fr));
             }
         }
 
         @media (min-width: 1024px) {
-            .galgame-grid-container {
+            .game-grid-container {
                 grid-template-columns: repeat(3, minmax(0, 1fr));
             }
         }
 
         /* 列表模式 */
-        .galgame-list-mode {
+        .game-list-mode {
             @apply flex flex-col gap-4;
         }
         
-        .galgame-list-mode .group {
+        .game-list-mode .group {
             @apply flex flex-row h-48;
         }
         
-        .galgame-list-mode .galgame-cover-container {
+        .game-list-mode .game-cover-container {
             @apply w-32 aspect-[2/3] shrink-0;
         }
 
         /* 网格模式 (2列) - 覆盖上面的 grid-container */
-        .galgame-grid-mode {
+        .game-grid-mode {
             display: grid !important;
             grid-template-columns: repeat(1, 1fr) !important;
             gap: 1rem;
         }
         
         @media (min-width: 768px) {
-            .galgame-grid-mode {
+            .game-grid-mode {
                 grid-template-columns: repeat(2, 1fr) !important;
             }
         }
 
         /* 动画类 */
-        .galgame-hidden {
+        .game-hidden {
             display: none !important;
         }
         
-        .galgame-fade-out {
+        .game-fade-out {
             opacity: 0;
             transform: scale(0.95);
             transition: opacity 0.2s ease-out, transform 0.2s ease-out;
         }
         
-        .galgame-fade-in {
+        .game-fade-in {
             opacity: 0;
             transform: translateY(10px);
         }
         
-        .galgame-fade-in-active {
+        .game-fade-in-active {
             opacity: 1;
             transform: translateY(0);
             transition: opacity 0.3s ease-out, transform 0.3s ease-out;
