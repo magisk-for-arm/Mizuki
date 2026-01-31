@@ -18,7 +18,7 @@ const diaryData: DiaryItem[] = [
 		content:
 			"今天的自己做的蛋包饭很好吃",
 		date: "2026-01-25T12:36:00Z",
-		images: ["/images/diary/蛋包饭.jpg"],
+		images: ["/images/diary/蛋包饭.webp"],
 	},
 ];
 
