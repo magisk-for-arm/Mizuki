@@ -37,7 +37,7 @@ export const ja: Translation = {
 	[Key.friendsTags]: "タグ",
 	[Key.untitled]: "無題",
 	[Key.uncategorized]: "未分類",
-	[Key.noTags]: "タグなし",
+	[Key.noTags]: "タグはありません",
 
 	[Key.wordCount]: "文字",
 	[Key.wordsCount]: "文字",
@@ -59,7 +59,7 @@ export const ja: Translation = {
 	[Key.license]: "ライセンス",
 	[Key.anime]: "視聴したアニメ",
 	[Key.diary]: "日記",
-	[Key.game]: "ゲーム",
+	[Key.galgame]: "ギャルゲー",
 
 	// アニメページ
 	[Key.animeTitle]: "視聴したアニメ",
@@ -74,9 +74,15 @@ export const ja: Translation = {
 	[Key.animeStudio]: "スタジオ",
 	[Key.animeEmpty]: "アニメのデータはありません",
 	[Key.animeEmptyBangumi]:
-		"Bangumi の構成またはネットワークを接続を確認してください",
+		"Bangumiの構成またはネットワークを接続を確認してください",
+	[Key.animeEmptyBilibili]:
+		"Bilibiliの構成またはネットワーク接続を確認してください",
 	[Key.animeEmptyLocal]:
 		"src/data/anime.tsのファイルにアニメの情報を追加してください",
+	[Key.animeConfigBilibili]:
+		"src/config.tsファイルでBilibili vmidを設定してください",
+	[Key.animeConfigBangumi]:
+		"src/config.tsファイルでBangumi userIdを設定してください",
 
 	// 日記ページ
 	[Key.diarySubtitle]: "いつでも、どこでも生活を共有",
@@ -97,7 +103,7 @@ export const ja: Translation = {
 	// 音楽プレーヤー
 	[Key.musicPlayer]: "音楽プレーヤー",
 	[Key.musicPlayerShow]: "音楽プレーヤーを表示",
-	[Key.musicPlayerHide]: "音楽プレーヤーを隠す",
+	[Key.musicPlayerHide]: "音楽プレーヤーを非表示",
 	[Key.musicPlayerExpand]: "音楽プレーヤーを展開",
 	[Key.musicPlayerCollapse]: "音楽プレーヤーを折りたたむ",
 	[Key.musicPlayerPause]: "一時停止",
@@ -122,7 +128,7 @@ export const ja: Translation = {
 	// アルバムページ
 	[Key.albums]: "アルバム",
 	[Key.albumsSubtitle]: "人生の美しい瞬間の記録です",
-	[Key.albumsEmpty]: "コンテンツなし",
+	[Key.albumsEmpty]: "コンテンツはありません",
 	[Key.albumsEmptyDesc]:
 		"まだアルバムが作成されていません。美しい思い出を追加しましょう!",
 	[Key.albumsBackToList]: "アルバムに戻る",
@@ -343,7 +349,11 @@ export const ja: Translation = {
 	[Key.profileStatsVisits]: "訪問",
 	[Key.profileStatsUnavailable]: "統計は利用できません",
 
+	// ページビューの統計
+	[Key.pageViewsLoading]: "統計を読み込み中...",
+	[Key.pageViewsUnavailable]: "統計は利用できません",
+
 	// レイアウト切り替えボタン
-	[Key.switchToGridMode]: "グリッドビュー切り替え",
-	[Key.switchToListMode]: "リストビューに切り替え",
+	[Key.switchToGridMode]: "グリッド表示に切り替え",
+	[Key.switchToListMode]: "リスト表示に切り替え",
 };

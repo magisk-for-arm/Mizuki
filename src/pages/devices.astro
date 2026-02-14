@@ -54,7 +54,7 @@ const brands = Object.keys(devices);
 
       <!-- 设备列表 -->
       <div id="devices-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {devices[brands[0]].map((device, index) => (
+        {brands.length > 0 && devices[brands[0]].map((device, index) => (
           <a
             href={device.link}
             target="_blank"
@@ -103,8 +103,6 @@ const brands = Object.keys(devices);
                 <Icon name="material-symbols:arrow-forward-rounded" class="text-lg text-[var(--primary)]" />
               </div>
             </div>
-
-
           </a>
         ))}
       </div>
@@ -182,8 +180,6 @@ const brands = Object.keys(devices);
                 </svg>
               </div>
             </div>
-
-
           </a>
         `).join('');
       });

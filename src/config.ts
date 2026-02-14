@@ -46,7 +46,7 @@ export const siteConfig: SiteConfig = {
 		timeline: false, // 时间线页面开关
 		albums: false, // 相册页面开关
 		devices: false, // 设备页面开关
-		game: true, // game页面开关
+		galgame: true, // galgame页面开关
 	},
 
 	// 顶栏标题配置
@@ -69,17 +69,22 @@ export const siteConfig: SiteConfig = {
 	bilibili: {
 		vmid: "your-bilibili-vmid", // 在此处设置你的Bilibili用户ID (vmid)，例如 "1129280784"
 		fetchOnDev: false, // 是否在开发环境下获取 Bilibili 数据（默认 false）
-		SESSDATA: "", // Bilibili SESSDATA（可选，用于获取观看进度，从浏览器cookie中获取）
 		coverMirror: "", // 封面图片镜像源（可选，如果需要使用镜像源，例如 "https://images.weserv.nl/?url="）
 		useWebp: true, // 是否使用WebP格式（默认 true）
+
+		// bilibili 观看进度配置说明(可选，如需配置仔细阅读):
+		// 1. 本地开发：请在 .env 文件中填写 BILI_SESSDATA=your_SESSDATA
+		// 2. 远程构建：请在 GitHub 仓库 Settings -> Secrets 中添加 BILI_SESSDATA
+		// 注意：SESSDATA 为账号凭证，为防止泄露，切记不可使用硬编码。
+		// 安全提示：如 SESSDATA 已泄露，请打开 B站手机端 —— 我的 —— 设置 —— 安全隐私 —— 登陆设备管理 —— 一键退登，销毁已泄露的账号凭证
 	},
 
 	anime: {
 		mode: "bangumi", // 番剧页面模式："bangumi" 使用Bangumi API，"local" 使用本地配置，"bilibili" 使用Bilibili API
 	},
 
-	game: {
-		mode: "bangumi", // game页面模式："bangumi" 使用Bangumi API，"local" 使用本地配置
+	galgame: {
+		mode: "bangumi", // galgame页面模式："bangumi" 使用Bangumi API，"local" 使用本地配置
 	},
 
 	// 文章列表布局配置
@@ -258,12 +263,16 @@ export const fullscreenWallpaperConfig: FullscreenWallpaperConfig = {
 			"/assets/desktop-banner/w10.webp",
 		], // 桌面横幅图片
 		mobile: [
-			"/assets/mobile-banner/1.webp",
-			"/assets/mobile-banner/2.webp",
-			"/assets/mobile-banner/3.webp",
-			"/assets/mobile-banner/4.webp",
-			"/assets/mobile-banner/5.webp",
-			"/assets/mobile-banner/6.webp",
+			"/assets/mobile-banner/m1.webp",
+			"/assets/mobile-banner/m2.webp",
+			"/assets/mobile-banner/m3.webp",
+			"/assets/mobile-banner/m4.webp",
+			"/assets/mobile-banner/m5.webp",
+			"/assets/mobile-banner/m6.webp",
+			"/assets/mobile-banner/m7.webp",
+			"/assets/mobile-banner/m8.webp",
+			"/assets/mobile-banner/m9.webp",
+			"/assets/mobile-banner/m10.webp",
 		], // 移动横幅图片
 	}, // 使用本地横幅图片
 	position: "center", // 壁纸位置，等同于 object-position
@@ -290,13 +299,13 @@ export const navBarConfig: NavBarConfig = {
 					name: "GitHub",
 					url: "https://github.com/magisk-for-arm",
 					external: true,
-					icon: "fa6-brands:github",
+					icon: "fa7-brands:github",
 				},
 				{
 					name: "Bilibili",
 					url: "https://space.bilibili.com/1661848169",
 					external: true,
-					icon: "fa6-brands:bilibili",
+					icon: "fa7-brands:bilibili",
 				},
 			],
 		},
@@ -312,7 +321,7 @@ export const navBarConfig: NavBarConfig = {
 				},
 				{
 					name: "游戏",
-					url: "/game/",
+					url: "/galgame/",
 					icon: "material-symbols:videogame-asset",
 				},
 				{
@@ -386,12 +395,12 @@ export const profileConfig: ProfileConfig = {
 	links: [
 		{
 			name: "Bilibli",
-			icon: "fa6-brands:bilibili",
+			icon: "fa7-brands:bilibili",
 			url: "https://space.bilibili.com/1661848169",
 		},
 		{
 			name: "GitHub",
-			icon: "fa6-brands:github",
+			icon: "fa7-brands:github",
 			url: "https://github.com/magisk-for-arm",
 		},
 	],
@@ -563,7 +572,7 @@ export const sidebarLayoutConfig: SidebarLayoutConfig = {
 	components: {
 		left: ["profile", "announcement", "categories", "tags"],
 		right: ["site-stats", "calendar"],
-		drawer: ["profile", "announcement"],
+		drawer: ["profile", "announcement", "categories", "tags"],
 	},
 
 	// 默认动画配置
