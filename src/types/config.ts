@@ -67,7 +67,7 @@ export type SiteConfig = {
 		timeline: boolean; // 时间线页面开关
 		albums: boolean; // 相册页面开关
 		devices: boolean; // 设备页面开关
-		game: boolean; // game开关
+		galgame: boolean; // galgame开关
 	};
 
 	// 文章列表布局配置
@@ -116,7 +116,6 @@ export type SiteConfig = {
 	bilibili?: {
 		vmid?: string; // Bilibili用户ID (vmid)
 		fetchOnDev?: boolean; // 是否在开发环境下获取 Bilibili 数据
-		SESSDATA?: string; // Bilibili SESSDATA（可选，用于获取进度信息）
 		coverMirror?: string; // 封面图片镜像源（可选，默认为空字符串）
 		useWebp?: boolean; // 是否使用WebP格式（默认 true）
 	};
@@ -126,8 +125,8 @@ export type SiteConfig = {
 		mode?: "bangumi" | "local" | "bilibili"; // 番剧页面模式
 	};
 
-	game?: {
-		mode?: "bangumi" | "local"; //game页面模式
+	galgame?: {
+		mode?: "bangumi" | "local"; //galgame页面模式
 	};
 
 	// 标签样式配置
@@ -212,7 +211,7 @@ export enum LinkPreset {
 	Projects = 7,
 	Skills = 8,
 	Timeline = 9,
-	game = 10,
+	galgame = 10,
 }
 
 export type NavBarLink = {
@@ -388,11 +387,11 @@ export type SidebarLayoutConfig = {
 			tablet: number; // 平板端断点（px）
 			desktop: number; // 桌面端断点（px）
 		};
-		layout?: {
-			mobile: "hidden" | "sidebar"; // 移动端布局模式
-			tablet: "hidden" | "sidebar"; // 平板端布局模式
-			desktop: "sidebar"; // 桌面端布局模式
-		};
+	};
+	layout?: {
+		mobile: "hidden" | "sidebar"; // 移动端布局模式
+		tablet: "hidden" | "sidebar"; // 平板端布局模式
+		desktop: "sidebar"; // 桌面端布局模式
 	};
 };
 

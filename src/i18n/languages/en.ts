@@ -59,7 +59,7 @@ export const en: Translation = {
 	[Key.license]: "License",
 	[Key.anime]: "Anime",
 	[Key.diary]: "Diary",
-	[Key.game]: "Game",
+	[Key.galgame]: "Galgame",
 
 	// Anime Page
 	[Key.animeTitle]: "My Anime List",
@@ -75,8 +75,14 @@ export const en: Translation = {
 	[Key.animeEmpty]: "No anime data available",
 	[Key.animeEmptyBangumi]:
 		"Please check Bangumi configuration or network connection",
+	[Key.animeEmptyBilibili]:
+		"Please check Bilibili configuration or network connection",
 	[Key.animeEmptyLocal]:
 		"Please add anime information in src/data/anime.ts file",
+	[Key.animeConfigBilibili]:
+		"Please set your Bilibili vmid in the src/config.ts file",
+	[Key.animeConfigBangumi]:
+		"Please set your Bangumi userId in the src/config.ts file",
 
 	// Diary Page
 	[Key.diarySubtitle]: "Share life, anytime, anywhere",
@@ -339,6 +345,10 @@ export const en: Translation = {
 	[Key.profileStatsPageViews]: "Page views",
 	[Key.profileStatsVisits]: "Visits",
 	[Key.profileStatsUnavailable]: "Stats unavailable",
+
+	// Page Views Stats
+	[Key.pageViewsLoading]: "Loading stats...",
+	[Key.pageViewsUnavailable]: "Stats unavailable",
 
 	// Layout Switch Button
 	[Key.switchToGridMode]: "Switch to Grid Mode",
