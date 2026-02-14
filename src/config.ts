@@ -36,7 +36,7 @@ export const siteConfig: SiteConfig = {
 		fixed: false, // 对访问者隐藏主题色选择器
 	},
 
-	// 特色页面开关配置(关闭不在使用的页面有助于提升SEO,关闭后直接在顶部导航删除对应的页面就行)
+	// 特色页面开关配置（关闭未使用的页面有助于提升 SEO，关闭后请记得在 navbarConfig 中移除对应链接）
 	featurePages: {
 		anime: true, // 番剧页面开关
 		diary: true, // 日记页面开关
@@ -61,17 +61,28 @@ export const siteConfig: SiteConfig = {
 		logo: "assets/home/default-logo.png",
 	},
 
+	// 页面自动缩放配置
+	pageScaling: {
+		enable: true, // 是否开启自动缩放
+		targetWidth: 2000, // 目标宽度，低于此宽度时开始缩放
+	},
+
 	bangumi: {
-		userId: "your-bgm-id", // 在此处设置你的Bangumi用户ID，可以设置为 "sai" 测试
+		userId: "your-bangumi-id", // 在此处设置你的Bangumi用户ID，可以设置为 "sai" 测试
 		fetchOnDev: false, // 是否在开发环境下获取 Bangumi 数据（默认 false），获取前先执行 pnpm build 构建 json 文件
 	},
 
 	bilibili: {
-		vmid: "your-bilibili-vmid", // 在此处设置你的Bilibili用户ID (vmid)，例如 "1129280784"
+		vmid: "your-bilibili-vmid", // 在此处设置你的Bilibili用户ID (uid)，例如 "1129280784"
 		fetchOnDev: false, // 是否在开发环境下获取 Bilibili 数据（默认 false）
-		SESSDATA: "", // Bilibili SESSDATA（可选，用于获取观看进度，从浏览器cookie中获取）
 		coverMirror: "", // 封面图片镜像源（可选，如果需要使用镜像源，例如 "https://images.weserv.nl/?url="）
 		useWebp: true, // 是否使用WebP格式（默认 true）
+
+		// bilibili 观看进度配置说明(可选，如需配置仔细阅读):
+		// 1. 本地开发：请在 .env 文件中填写 BILI_SESSDATA=your_SESSDATA
+		// 2. 远程构建：请在 GitHub 仓库 Settings -> Secrets 中添加 BILI_SESSDATA
+		// 注意：SESSDATA 为账号凭证，为防止泄露，切记不可使用硬编码。
+		// 安全提示：如 SESSDATA 已泄露，请打开 B站手机端 —— 我的 —— 设置 —— 安全隐私 —— 登陆设备管理 —— 一键退登，销毁已泄露的账号凭证
 	},
 
 	anime: {
@@ -109,12 +120,6 @@ export const siteConfig: SiteConfig = {
 		showModeSwitchOnMobile: "desktop",
 	},
 
-	// 页面自动缩放配置 (Added from upstream)
-	pageScaling: {
-		enable: true, // 是否开启自动缩放
-		targetWidth: 2000, // 目标宽度，低于此宽度时开始缩放
-	},
-
 	banner: {
 		// 支持单张图片或图片数组，当数组长度 > 1 时自动启用轮播
 		src: {
@@ -144,7 +149,7 @@ export const siteConfig: SiteConfig = {
 		},
 
 		waves: {
-			enable: true, // 是否启用水波纹效果(这个功能比较吃性能)
+			enable: true, // 是否启用水波纹效果（注意：此功能性能开销较大）
 			performanceMode: false, // 性能模式：减少动画复杂度(性能提升40%)
 			mobileDisable: false, // 移动端禁用
 		},
@@ -171,6 +176,7 @@ export const siteConfig: SiteConfig = {
 			],
 			typewriter: {
 				enable: true, // 启用副标题打字机效果
+
 				speed: 100, // 打字速度（毫秒）
 				deleteSpeed: 50, // 删除速度（毫秒）
 				pauseTime: 2000, // 完全显示后的暂停时间（毫秒）
@@ -179,6 +185,7 @@ export const siteConfig: SiteConfig = {
 
 		credit: {
 			enable: false, // 显示横幅图片来源文本
+
 			text: "Describe", // 要显示的来源文本
 			url: "", // （可选）原始艺术品或艺术家页面的 URL 链接
 		},
@@ -260,7 +267,7 @@ export const navBarConfig: NavBarConfig = {
 	links: [
 		LinkPreset.Home,
 		LinkPreset.Archive,
-		// 支持自定义导航栏链接,并且支持多级菜单,3.1版本新加
+		// 支持自定义导航栏链接，支持多级菜单
 		{
 			name: "Links",
 			url: "/links/",
@@ -270,13 +277,13 @@ export const navBarConfig: NavBarConfig = {
 					name: "GitHub",
 					url: "https://github.com/matsuzaka-yuki/Mizuki",
 					external: true,
-					icon: "fa6-brands:github",
+					icon: "fa7-brands:github",
 				},
 				{
 					name: "Bilibili",
 					url: "https://space.bilibili.com/701864046",
 					external: true,
-					icon: "fa6-brands:bilibili",
+					icon: "fa7-brands:bilibili",
 				},
 				{
 					name: "Gitee",
@@ -307,7 +314,7 @@ export const navBarConfig: NavBarConfig = {
 					icon: "material-symbols:book",
 				},
 				{
-					name: "Albums",
+					name: "Gallery",
 					url: "/albums/",
 					icon: "material-symbols:photo-library",
 				},
@@ -371,8 +378,8 @@ export const profileConfig: ProfileConfig = {
 	},
 	links: [
 		{
-			name: "Bilibli",
-			icon: "fa6-brands:bilibili",
+			name: "Bilibili",
+			icon: "fa7-brands:bilibili",
 			url: "https://space.bilibili.com/701864046",
 		},
 		{
@@ -382,7 +389,7 @@ export const profileConfig: ProfileConfig = {
 		},
 		{
 			name: "GitHub",
-			icon: "fa6-brands:github",
+			icon: "fa7-brands:github",
 			url: "https://github.com/matsuzaka-yuki",
 		},
 		{
@@ -392,7 +399,7 @@ export const profileConfig: ProfileConfig = {
 		},
 		{
 			name: "Discord",
-			icon: "fa6-brands:discord",
+			icon: "fa7-brands:discord",
 			url: "https://discord.gg/MqW6TcQtVM",
 		},
 	],
@@ -564,7 +571,7 @@ export const sidebarLayoutConfig: SidebarLayoutConfig = {
 	components: {
 		left: ["profile", "announcement", "categories", "tags"],
 		right: ["site-stats", "calendar"],
-		drawer: ["profile", "announcement"],
+		drawer: ["profile", "announcement", "categories", "tags"],
 	},
 
 	// 默认动画配置
@@ -585,7 +592,7 @@ export const sidebarLayoutConfig: SidebarLayoutConfig = {
 			mobile: 768,
 			// 平板端断点：屏幕宽度小于1280px
 			tablet: 1280,
-			// 桌面端断点：屏幕宽度小于1280px
+			// 桌面端断点：屏幕宽度大于等于1280px
 			desktop: 1280,
 		},
 	},
@@ -622,7 +629,7 @@ export const sakuraConfig: SakuraConfig = {
 export const pioConfig: import("./types/config").PioConfig = {
 	enable: true, // 启用看板娘
 	models: ["/pio/models/pio/model.json"], // 默认模型路径
-	position: "left", // 默认位置在右侧
+	position: "left", // 模型位置
 	width: 280, // 默认宽度
 	height: 250, // 默认高度
 	mode: "draggable", // 默认为可拖拽模式
