@@ -1,17 +1,11 @@
 ---
 import { Icon } from "astro-icon/components";
-import { profileConfig, umamiConfig } from "../../config";
+import { profileConfig } from "../../config";
 import { url } from "../../utils/url-utils";
 import ImageWrapper from "../misc/ImageWrapper.astro";
 import TypewriterText from "../TypewriterText.astro";
 import I18nKey from "../../i18n/i18nKey";
 import { i18n } from "../../i18n/translation";
-
-// 解析 umami
-const umamiEnabled = umamiConfig.enabled || false;
-const umamiWebsiteId = umamiConfig.scripts.match(/data-website-id="([^"]+)"/)?.[1] || "";
-const umamiApiKey = umamiConfig.apiKey || "";
-const umamiBaseUrl = umamiConfig.baseUrl || "";
 ---
 
 <div class="card-base p-3">
@@ -58,63 +52,62 @@ const umamiBaseUrl = umamiConfig.baseUrl || "";
             }
         </div>
         
-        {umamiEnabled && (
+        <div class="umami-stats-container hidden">
             <hr class="my-2 border-t border-dashed border-gray-300 dark:border-gray-700" />
             <div class="text-sm text-gray-500 mt-2 text-center">
                 <Icon name="fa7-solid:eye" class="inline-block mr-1 text-gray-400 text-sm align-middle" />
                 <span class="site-stats-display">{i18n(I18nKey.profileStatsLoading)}</span>
             </div>
-        )}
+        </div>
     </div>
 </div>
 
-{umamiEnabled && (
-    <script is:inline type="module" define:vars={{ 
-        umamiBaseUrl, 
-        umamiApiKey, 
-        umamiWebsiteId, 
-        umamiConfig,
-        profileStatsPageViews: i18n(I18nKey.profileStatsPageViews),
-        profileStatsVisits: i18n(I18nKey.profileStatsVisits),
-        profileStatsUnavailable: i18n(I18nKey.profileStatsUnavailable)
-    }}>
-        // 客户端统计文案生成函数
-        function generateStatsText(pageViews, visits) {
-            return `${profileStatsPageViews} ${pageViews} · ${profileStatsVisits} ${visits}`;
-        }
+<script is:inline define:vars={{
+    profileStatsPageViews: i18n(I18nKey.profileStatsPageViews),
+    profileStatsVisits: i18n(I18nKey.profileStatsVisits),
+    profileStatsUnavailable: i18n(I18nKey.profileStatsUnavailable)
+}}>
+    function generateStatsText(pageViews, visits) {
+        return `${profileStatsPageViews} ${pageViews} · ${profileStatsVisits} ${visits}`;
+    }
+
+    async function fetchSiteStats(isRetry = false) {
+        const container = document.querySelector('.umami-stats-container');
         
-        // 获取访问量统计
-        async function fetchSiteStats() {
-            if (!umamiConfig.enabled) {
-                return;
-            }
-            
-            try {
-                // 调用全局工具获取 Umami 统计数据
-                const stats = await getUmamiWebsiteStats(umamiBaseUrl, umamiApiKey, umamiWebsiteId);
-                
-                // 从返回的数据中提取页面浏览量和访客数
-                const pageViews = stats.pageviews || 0;
-                const visits = stats.visits || 0;
-                
-                const displayElements = document.querySelectorAll('.site-stats-display');
-                displayElements.forEach(element => {
-                    element.textContent = generateStatsText(pageViews, visits);
-                });
-            } catch (error) {
-                console.error('Error fetching site stats:', error);
-                const displayElements = document.querySelectorAll('.site-stats-display');
-                displayElements.forEach(element => {
-                    element.textContent = profileStatsUnavailable;
-                });
-            }
+        // oddmisc 未加载则隐藏
+        if (!window.oddmisc) {
+            container?.classList.add('hidden');
+            return;
         }
 
-        if (document.readyState === 'loading') {
-            // 页面加载完成后获取统计数据
-            document.addEventListener('DOMContentLoaded', () => fetchSiteStats());
-        } else {
-            fetchSiteStats();
+        try {
+            const stats = await window.oddmisc.getSiteStats();
+            const pageViews = stats.pageviews || 0;
+            const visits = stats.visits || 0;
+
+            // 数据为 0 时隐藏
+            if (pageViews === 0 && visits === 0) {
+                container?.classList.add('hidden');
+                return;
+            }
+
+            container?.classList.remove('hidden');
+            document.querySelectorAll('.site-stats-display').forEach(el => {
+                el.textContent = generateStatsText(pageViews, visits);
+            });
+        } catch (error) {
+            console.error('Error fetching site stats:', error);
+            if (!isRetry) {
+                setTimeout(() => fetchSiteStats(true), 2000);
+                return;
+            }
+            container?.classList.add('hidden');
         }
-    </script>
-)}
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => fetchSiteStats());
+    } else {
+        fetchSiteStats();
+    }
+</script>
