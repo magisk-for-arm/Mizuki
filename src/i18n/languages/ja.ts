@@ -59,7 +59,7 @@ export const ja: Translation = {
 	[Key.license]: "ライセンス",
 	[Key.anime]: "視聴したアニメ",
 	[Key.diary]: "日記",
-	[Key.galgame]: "ギャルゲー",
+	[Key.game]: "ゲーム",
 
 	// アニメページ
 	[Key.animeTitle]: "視聴したアニメ",

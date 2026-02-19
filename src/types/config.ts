@@ -67,7 +67,7 @@ export type SiteConfig = {
 		timeline: boolean; // 时间线页面开关
 		albums: boolean; // 相册页面开关
 		devices: boolean; // 设备页面开关
-		galgame: boolean; // galgame开关
+		game: boolean; // 游戏页面开关
 	};
 
 	// 文章列表布局配置
@@ -125,73 +125,9 @@ export type SiteConfig = {
 		mode?: "bangumi" | "local" | "bilibili"; // 番剧页面模式
 	};
 
-	galgame?: {
-		mode?: "bangumi" | "local"; //galgame页面模式
-	}
-
-	// 标签样式配置
-	tagStyle?: {
-		useNewStyle?: boolean; // 是否使用新样式（悬停高亮样式）还是旧样式（外框常亮样式）
+	game?: {
+		mode?: "bangumi" | "local"; //游戏页面模式
 	};
-
-	// 壁纸模式配置
-	wallpaperMode: {
-		defaultMode: "banner" | "fullscreen" | "none"; // 默认壁纸模式：banner=顶部横幅，fullscreen=全屏壁纸，none=无壁纸
-		showModeSwitchOnMobile?: "off" | "mobile" | "desktop" | "both"; // 整体布局方案切换按钮显示设置：off=隐藏，mobile=仅移动端，desktop=仅桌面端，both=全部显示
-	};
-
-	banner: {
-		src:
-			| string
-			| string[]
-			| {
-					desktop?: string | string[];
-					mobile?: string | string[];
-			  }; // 支持单个图片、图片数组或分别设置桌面端和移动端图片
-		position?: "top" | "center" | "bottom";
-		carousel?: {
-			enable: boolean; // 是否启用轮播
-			interval: number; // 轮播间隔时间（秒）
-		};
-		waves?: {
-			enable: boolean; // 是否启用水波纹效果
-			performanceMode?: boolean; // 性能模式：减少动画复杂度
-			mobileDisable?: boolean; // 移动端禁用
-		};
-		imageApi?: {
-			enable: boolean; // 是否启用图片API
-			url: string; // API地址，返回每行一个图片链接的文本
-		};
-		homeText?: {
-			enable: boolean; // 是否在首页显示自定义文字
-			title?: string; // 主标题
-			subtitle?: string | string[]; // 副标题，支持单个字符串或字符串数组
-			typewriter?: {
-				enable: boolean; // 是否启用打字机效果
-				speed: number; // 打字速度（毫秒）
-				deleteSpeed: number; // 删除速度（毫秒）
-				pauseTime: number; // 完整显示后的暂停时间（毫秒）
-			};
-		};
-		credit: {
-			enable: boolean;
-			text: string;
-			url?: string;
-		};
-		navbar?: {
-			transparentMode?: "semi" | "full" | "semifull"; // 导航栏透明模式
-		};
-	};
-	toc: {
-		enable: boolean;
-		mode: "float" | "sidebar"; // 目录显示模式："float" 悬浮按钮模式，"sidebar" 侧边栏模式
-		depth: 1 | 2 | 3;
-		useJapaneseBadge?: boolean; // 使用日语假名标记（あいうえお...）代替数字
-	};
-	showCoverInContent: boolean; // 控制文章封面在文章内容页显示的开关
-	generateOgImages: boolean;
-	favicon: Favicon[];
-	showLastModified: boolean; // 控制“上次编辑”卡片显示的开关
 };
 
 export type Favicon = {
@@ -211,7 +147,7 @@ export enum LinkPreset {
 	Projects = 7,
 	Skills = 8,
 	Timeline = 9,
-	galgame = 10,
+	game = 10,
 }
 
 export type NavBarLink = {

@@ -46,7 +46,7 @@ export const siteConfig: SiteConfig = {
 		timeline: true, // 时间线页面开关
 		albums: true, // 相册页面开关
 		devices: true, // 设备页面开关
-		galgame: true, // galgame页面开关
+		game: true, // 游戏页面开关
 	},
 
 	// 顶栏标题配置
@@ -89,8 +89,8 @@ export const siteConfig: SiteConfig = {
 		mode: "local", // 番剧页面模式："bangumi" 使用Bangumi API，"local" 使用本地配置，"bilibili" 使用Bilibili API
 	},
 
-	galgame: {
-		mode: "local", // galgame页面模式："bangumi" 使用Bangumi API，"local" 使用本地配置
+	game: {
+		mode: "local", // 游戏页面模式："bangumi" 使用Bangumi API，"local" 使用本地配置
 	},
 
 	// 文章列表布局配置
@@ -304,8 +304,8 @@ export const navBarConfig: NavBarConfig = {
 					icon: "material-symbols:movie",
 				},
 				{
-					name: "Galgame",
-					url: "/galgame/",
+					name: "Game",
+					url: "/game/",
 					icon: "material-symbols:videogame-asset",
 				},
 				{
