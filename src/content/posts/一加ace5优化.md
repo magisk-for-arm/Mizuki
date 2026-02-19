@@ -84,7 +84,7 @@ Asoul线程模块（游戏专属，选plus版本，可搭配西门飞雪）
 - [x] Play integrity Fix 作者:chiteroman
 - [x] Tricky Store  作者:5ec1cff
 - [x] Zygisk Next  作者:5ec1cff
-- [x] Shamiko 作者:Lsposed Developers
+- [ ] Shamiko 作者:Lsposed Developers(ZN已经内置shamiko部分功能shamiko可以不用装了)
 - [x] Lsposed IT 作者:Lsposed Developers
 - [x] 音量键极速救砖 作者:小白杨
 - [x] 爱玩机工具箱 作者:小白杨

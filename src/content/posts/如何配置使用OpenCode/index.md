@@ -50,3 +50,5 @@ Install the opencode-antigravity-auth plugin and add the Antigravity model defin
 然后按照它的说明,登入你的google账号,你就有白嫖的google genmin了
 
 然后可以愉快的使用谷歌genmin了
+
+目前谷歌封号严重,谨慎使用,非antigravity客户端有封号风险
