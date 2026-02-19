@@ -59,7 +59,7 @@ export const en: Translation = {
 	[Key.license]: "License",
 	[Key.anime]: "Anime",
 	[Key.diary]: "Diary",
-	[Key.galgame]: "Galgame",
+	[Key.game]: "Game",
 
 	// Anime Page
 	[Key.animeTitle]: "My Anime List",

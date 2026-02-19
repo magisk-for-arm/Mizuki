@@ -20,14 +20,14 @@ interface GameItem {
 	tags: string[];
 }
 
-if (!siteConfig.featurePages.galgame) {
+if (!siteConfig.featurePages.game) {
 	return Astro.redirect("/404/");
 }
 
 const hasRightSidebars =
 	widgetManager.getComponentsByPosition("top", "right", "desktop").length > 0 ||
 	widgetManager.getComponentsByPosition("sticky", "right", "desktop").length > 0;
-const GAME_MODE = siteConfig.galgame?.mode || "local";
+const GAME_MODE = siteConfig.game?.mode || "local";
 
 let gameList: GameItem[] = [];
 

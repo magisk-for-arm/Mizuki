@@ -53,8 +53,8 @@ export const LinkPresets: { [key in LinkPreset]: NavBarLink } = {
 		url: "/timeline/",
 		icon: "material-symbols:timeline",
 	},
-	[LinkPreset.galgame]: {
-		name: i18n(I18nKey.galgame),
+	[LinkPreset.Game]: {
+		name: i18n(I18nKey.game),
 		url: "/galgame/",
 		icon: "material-symbols:videogame-asset",
 	},
