@@ -73,12 +73,6 @@ async function main() {
 
 CONTENT_REPO_URL=${repoUrl.trim()}
 CONTENT_DIR=./content
-
-# Umami configuration (optional)
-# UMAMI_API_KEY=your_api_key_here
-
-# bcrypt configuration
-BCRYPT_SALT_ROUNDS=12
 `;
 
 	fs.writeFileSync(envPath, envContent);

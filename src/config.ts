@@ -649,3 +649,5 @@ export const widgetConfigs = {
 	pio: pioConfig,
 	share: shareConfig,
 } as const;
+
+// umamiConfig相关配置已移动至astro.config.mjs中,统计脚本请自行在Layout.astro文件的<head>中插入
