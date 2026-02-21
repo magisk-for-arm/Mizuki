@@ -670,10 +670,15 @@ const transparentClass = shouldEnableTransparency
                         return images || null;
                     };
                     
+                    const container = document.getElementById('banner-single-container');
+                    
+                    // 检查容器是否已有图片，避免在页面切换或缩放时重复创建
+                    if (container.querySelector('img')) {
+                        return;
+                    }
+                    
                     const desktopSrc = getRandomImage(desktopImages, 'banner_desktop_index');
                     const mobileSrc = getRandomImage(mobileImages, 'banner_mobile_index');
-                    
-                    const container = document.getElementById('banner-single-container');
                     
                     if (mobileSrc) {
                         const mobileImg = document.createElement('img');
