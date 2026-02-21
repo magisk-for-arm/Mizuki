@@ -1,7 +1,7 @@
 ---
 title: "如何配置使用OpenCode"
 description: "如何配置使用OpenCode,以及如何白嫖Google genmin"
-category: "AI,教程"
+category: "AI"
 published: 2026-01-18
 licenseName: "CC BY-SA 4.0"
 tags: [Ai, Software]
