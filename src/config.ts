@@ -46,7 +46,7 @@ export const siteConfig: SiteConfig = {
 		timeline: false, // 时间线页面开关
 		albums: false, // 相册页面开关
 		devices: false, // 设备页面开关
-		game: true, // galgame页面开关
+		game: true, // game页面开关
 	},
 
 	// 顶栏标题配置
@@ -56,9 +56,9 @@ export const siteConfig: SiteConfig = {
 		// 顶栏标题文本
 		text: "Blog",
 		// 顶栏标题图标路径，默认使用 public/assets/home/home.png
-		icon: "assets/home/fix.webp",
+		icon: "assets/home/fix.png",
 		// 网站Logo图片路径
-		logo: "assets/home/fix.webp",
+		logo: "assets/home/fix.png",
 	},
 
 	// 页面自动缩放配置
@@ -201,7 +201,7 @@ export const siteConfig: SiteConfig = {
 		},
 
 		navbar: {
-			transparentMode: "semi", // 导航栏透明模式："semi" 半透明加圆角，"full" 完全透明，"semifull" 动态透明
+			transparentMode: "semifull", // 导航栏透明模式："semi" 半透明加圆角，"full" 完全透明，"semifull" 动态透明
 		},
 	},
 	toc: {
@@ -341,7 +341,7 @@ export const navBarConfig: NavBarConfig = {
 };
 
 export const profileConfig: ProfileConfig = {
-	avatar: "assets/images/fix.webp", // 相对于 /src 目录。如果以 '/' 开头，则相对于 /public 目录
+	avatar: "assets/images/fix.png", // 相对于 /src 目录。如果以 '/' 开头，则相对于 /public 目录
 	name: "arm",
 	bio: "愛する人が皆愛を得ますように",
 	typewriter: {
@@ -556,9 +556,9 @@ export const sidebarLayoutConfig: SidebarLayoutConfig = {
 };
 
 export const sakuraConfig: SakuraConfig = {
-	enable: false, // 默认关闭樱花特效
-	sakuraNum: 17, // 樱花数量
-	limitTimes: -1, // 樱花越界限制次数，-1为无限循环
+	enable: true, // 默认关闭樱花特效
+	sakuraNum: 10, // 樱花数量
+	limitTimes: 2, // 樱花越界限制次数，-1为无限循环
 	size: {
 		min: 0.5, // 樱花最小尺寸倍数
 		max: 1.1, // 樱花最大尺寸倍数
