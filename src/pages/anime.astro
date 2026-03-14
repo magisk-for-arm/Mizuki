@@ -217,19 +217,19 @@ const hiddenAnimeList = animeList.slice(INITIAL_DISPLAY_COUNT);
 	description={i18n(I18nKey.animeSubtitle)}
 >
 	<div
-		class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative min-h-32"
+		class="flex w-full rounded-(--radius-large) overflow-hidden relative min-h-32"
 	>
 		<div class="card-base anime-card-base z-10 px-9 py-6 relative w-full">
 			<div class="relative w-full mb-8">
 				<div class="mb-6">
 					<h1
-						class="text-4xl font-bold text-black/90 dark:text-white/90 mb-2 relative
-                    before:w-1 before:h-8 before:rounded-md before:bg-[var(--primary)]
+						class="text-4xl font-bold text-90 mb-2 relative
+                    before:w-1 before:h-8 before:rounded-md before:bg-(--primary)
                     before:absolute before:top-1/2 before:-translate-y-1/2 before:-left-4"
 					>
 						{i18n(I18nKey.animeTitle)}
 					</h1>
-					<p class="text-black/75 dark:text-white/75">
+					<p class="text-75">
 						{i18n(I18nKey.animeSubtitle)}
 					</p>
 				</div>
@@ -277,10 +277,10 @@ const hiddenAnimeList = animeList.slice(INITIAL_DISPLAY_COUNT);
 					showEmptyState ? (
 						<div class="text-center py-12">
 							<div class="text-5xl mb-4">😢</div>
-							<h3 class="text-xl font-medium text-black/80 dark:text-white/80 mb-2">
+							<h3 class="text-xl font-medium text-90 mb-2">
 								{emptyMessage}
 							</h3>
-							<p class="text-black/60 dark:text-white/60">
+							<p class="text-60">
 								{emptyDescription}
 							</p>
 						</div>
@@ -303,10 +303,10 @@ const hiddenAnimeList = animeList.slice(INITIAL_DISPLAY_COUNT);
 
 									return (
 										<div
-											class="group relative bg-[var(--card-bg)] border border-[var(--line-divider)] rounded-[var(--radius-large)] overflow-hidden hover:shadow-lg"
+											class="group relative bg-(--card-bg) border border-(--line-divider) rounded-(--radius-large) overflow-hidden hover:shadow-lg"
 											data-anime-status={anime.status}
 										>
-											<div class="relative anime-cover-container aspect-[2/3] overflow-hidden">
+											<div class="relative anime-cover-container aspect-2/3 overflow-hidden">
 												<a
 													href={anime.link}
 													target="_blank"
@@ -318,7 +318,7 @@ const hiddenAnimeList = animeList.slice(INITIAL_DISPLAY_COUNT);
 														alt={anime.title}
 														class="w-full h-full object-cover transition-transform duration-200 group-hover:scale-110"
 													/>
-													<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+													<div class="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
 														<div class="absolute inset-0 flex items-center justify-center">
 															<div class="w-12 h-12 rounded-full bg-white/90 flex items-center justify-center">
 																<svg
@@ -357,10 +357,10 @@ const hiddenAnimeList = animeList.slice(INITIAL_DISPLAY_COUNT);
 
 												{anime.status ===
 													"watching" && (
-													<div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-2">
+													<div class="absolute bottom-0 left-0 right-0 bg-linear-to-t from-black/80 to-transparent p-2">
 														<div class="w-full bg-white/20 rounded-full h-1.5 mb-1">
 															<div
-																class="bg-gradient-to-r from-emerald-400 to-teal-400 h-1.5 rounded-full transition-all duration-300"
+																class="bg-linear-to-r from-emerald-400 to-teal-400 h-1.5 rounded-full transition-all duration-300"
 																style={`width: ${progressPercent}%`}
 															/>
 														</div>
@@ -380,11 +380,11 @@ const hiddenAnimeList = animeList.slice(INITIAL_DISPLAY_COUNT);
 											</div>
 
 											<div class="p-3">
-												<h3 class="text-sm font-bold text-black/90 dark:text-white/90 mb-1 leading-tight">
+												<h3 class="text-sm font-bold text-90 mb-1 leading-tight">
 													{anime.title}
 												</h3>
 												<p
-													class="text-black/60 dark:text-white/60 text-xs mb-2 line-clamp-2"
+													class="text-60 text-xs mb-2 line-clamp-2"
 													title={anime.description}
 												>
 													{anime.description}
@@ -392,23 +392,23 @@ const hiddenAnimeList = animeList.slice(INITIAL_DISPLAY_COUNT);
 
 												<div class="space-y-1 text-xs">
 													<div class="flex justify-between items-center">
-														<span class="text-black/50 dark:text-white/50 shrink-0">
+														<span class="text-50 shrink-0">
 															{i18n(
 																I18nKey.animeYear,
 															)}
 														</span>
-														<span class="text-black/70 dark:text-white/70 truncate ml-2 text-right">
+														<span class="text-70 truncate ml-2 text-right">
 															{anime.year}
 														</span>
 													</div>
 													<div class="flex justify-between items-start">
-														<span class="text-black/50 dark:text-white/50 shrink-0 mt-0.5">
+														<span class="text-50 shrink-0 mt-0.5">
 															{i18n(
 																I18nKey.animeStudio,
 															)}
 														</span>
 														<span
-															class="text-black/70 dark:text-white/70 text-right ml-2 line-clamp-2 break-words"
+															class="text-70 text-right ml-2 line-clamp-2 wrap-break-word"
 															title={anime.studio}
 														>
 															{anime.studio}
@@ -417,7 +417,7 @@ const hiddenAnimeList = animeList.slice(INITIAL_DISPLAY_COUNT);
 													<div class="flex flex-wrap gap-1 mt-2">
 														{anime.genre.map(
 															(g) => (
-																<span class="px-1.5 py-0.5 bg-[var(--btn-regular-bg)] text-black/70 dark:text-white/70 rounded text-xs">
+																<span class="px-1.5 py-0.5 bg-(--btn-regular-bg) text-70 rounded text-xs">
 																	{g}
 																</span>
 															),
@@ -444,10 +444,10 @@ const hiddenAnimeList = animeList.slice(INITIAL_DISPLAY_COUNT);
 
 									return (
 										<div
-											class="group relative bg-[var(--card-bg)] border border-[var(--line-divider)] rounded-[var(--radius-large)] overflow-hidden hover:shadow-lg"
+											class="group relative bg-(--card-bg) border border-(--line-divider) rounded-(--radius-large) overflow-hidden hover:shadow-lg"
 											data-anime-status={anime.status}
 										>
-											<div class="relative anime-cover-container aspect-[2/3] overflow-hidden">
+											<div class="relative anime-cover-container aspect-2/3 overflow-hidden">
 												<a
 													href={anime.link}
 													target="_blank"
@@ -459,7 +459,7 @@ const hiddenAnimeList = animeList.slice(INITIAL_DISPLAY_COUNT);
 														alt={anime.title}
 														class="w-full h-full object-cover transition-transform duration-200 group-hover:scale-110"
 													/>
-													<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+													<div class="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
 														<div class="absolute inset-0 flex items-center justify-center">
 															<div class="w-12 h-12 rounded-full bg-white/90 flex items-center justify-center">
 																<svg
@@ -498,10 +498,10 @@ const hiddenAnimeList = animeList.slice(INITIAL_DISPLAY_COUNT);
 
 												{anime.status ===
 													"watching" && (
-													<div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-2">
+													<div class="absolute bottom-0 left-0 right-0 bg-linear-to-t from-black/80 to-transparent p-2">
 														<div class="w-full bg-white/20 rounded-full h-1.5 mb-1">
 															<div
-																class="bg-gradient-to-r from-emerald-400 to-teal-400 h-1.5 rounded-full transition-all duration-300"
+																class="bg-linear-to-r from-emerald-400 to-teal-400 h-1.5 rounded-full transition-all duration-300"
 																style={`width: ${progressPercent}%`}
 															/>
 														</div>
@@ -521,11 +521,11 @@ const hiddenAnimeList = animeList.slice(INITIAL_DISPLAY_COUNT);
 											</div>
 
 											<div class="p-3">
-												<h3 class="text-sm font-bold text-black/90 dark:text-white/90 mb-1 leading-tight">
+												<h3 class="text-sm font-bold text-90 mb-1 leading-tight">
 													{anime.title}
 												</h3>
 												<p
-													class="text-black/60 dark:text-white/60 text-xs mb-2 line-clamp-2"
+													class="text-60 text-xs mb-2 line-clamp-2"
 													title={anime.description}
 												>
 													{anime.description}
@@ -533,23 +533,23 @@ const hiddenAnimeList = animeList.slice(INITIAL_DISPLAY_COUNT);
 
 												<div class="space-y-1 text-xs">
 													<div class="flex justify-between items-center">
-														<span class="text-black/50 dark:text-white/50 shrink-0">
+														<span class="text-50 shrink-0">
 															{i18n(
 																I18nKey.animeYear,
 															)}
 														</span>
-														<span class="text-black/70 dark:text-white/70 truncate ml-2 text-right">
+														<span class="text-70 truncate ml-2 text-right">
 															{anime.year}
 														</span>
 													</div>
 													<div class="flex justify-between items-start">
-														<span class="text-black/50 dark:text-white/50 shrink-0 mt-0.5">
+														<span class="text-50 shrink-0 mt-0.5">
 															{i18n(
 																I18nKey.animeStudio,
 															)}
 														</span>
 														<span
-															class="text-black/70 dark:text-white/70 text-right ml-2 line-clamp-2 break-words"
+															class="text-70 text-right ml-2 line-clamp-2 wrap-break-word"
 															title={anime.studio}
 														>
 															{anime.studio}
@@ -558,7 +558,7 @@ const hiddenAnimeList = animeList.slice(INITIAL_DISPLAY_COUNT);
 													<div class="flex flex-wrap gap-1 mt-2">
 														{anime.genre.map(
 															(g) => (
-																<span class="px-1.5 py-0.5 bg-[var(--btn-regular-bg)] text-black/70 dark:text-white/70 rounded text-xs">
+																<span class="px-1.5 py-0.5 bg-(--btn-regular-bg) text-70 rounded text-xs">
 																	{g}
 																</span>
 															),
@@ -576,7 +576,7 @@ const hiddenAnimeList = animeList.slice(INITIAL_DISPLAY_COUNT);
 									id="infinite-scroll-sentinel"
 									class="w-full h-20 flex items-center justify-center mt-8"
 								>
-									<div class="anime-loading-spinner w-8 h-8 border-4 border-[var(--primary)] border-t-transparent rounded-full animate-spin" />
+									<div class="anime-loading-spinner w-8 h-8 border-4 border-(--primary) border-t-transparent rounded-full animate-spin" />
 								</div>
 							)}
 						</>

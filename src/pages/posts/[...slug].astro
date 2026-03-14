@@ -197,7 +197,7 @@ const jsonLd = {
     import('../../scripts/right-sidebar-layout.js');
   </script>
     <div
-        class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative mb-4"
+        class="flex w-full rounded-(--radius-large) overflow-hidden relative mb-4"
     >
         <div
             id="post-container"
@@ -208,11 +208,11 @@ const jsonLd = {
         >
             <!-- word count and reading time -->
             <div
-                class="flex flex-row text-black/30 dark:text-white/30 gap-5 mb-3 transition onload-animation"
+                class="flex flex-row text-50 gap-5 mb-3 transition onload-animation"
             >
                 <div class="flex flex-row items-center">
                     <div
-                        class="transition h-6 w-6 rounded-md bg-black/5 dark:bg-white/10 text-black/50 dark:text-white/50 flex items-center justify-center mr-2"
+                        class="transition h-6 w-6 rounded-md bg-(--line-divider) flex items-center justify-center mr-2"
                     >
                         <Icon name="material-symbols:notes-rounded" />
                     </div>
@@ -223,7 +223,7 @@ const jsonLd = {
                 </div>
                 <div class="flex flex-row items-center">
                     <div
-                        class="transition h-6 w-6 rounded-md bg-black/5 dark:bg-white/10 text-black/50 dark:text-white/50 flex items-center justify-center mr-2"
+                        class="transition h-6 w-6 rounded-md bg-(--line-divider) flex items-center justify-center mr-2"
                     >
                         <Icon
                             name="material-symbols:schedule-outline-rounded"
@@ -251,9 +251,9 @@ const jsonLd = {
                     data-pagefind-meta="title"
                     class="transition w-full block font-bold mb-3
                     text-3xl md:text-[2.25rem]/[2.75rem]
-                    text-black/90 dark:text-white/90
-                    md:before:w-1 before:h-5 before:rounded-md before:bg-[var(--primary)]
-                    before:absolute before:top-[0.75rem] before:left-[-1.125rem]"
+                    text-90
+                    md:before:w-1 before:h-5 before:rounded-md before:bg-(--primary)
+                    before:absolute before:top-3 before:-left-4.5"
                 >
                     {entry.data.title}
                 </div>
@@ -271,7 +271,7 @@ const jsonLd = {
                 />
                 {
                     (!entry.data.image|| (entry.data.image && !siteConfig.showCoverInContent)) && (
-                        <div class="mt-4 border-[var(--line-divider)] border-dashed border-b-[1px] mb-5" />
+                        <div class="mt-4 border-(--line-divider) border-dashed border-b mb-5" />
                     )
                 }
             </div>
@@ -307,20 +307,20 @@ const jsonLd = {
             }
 
             {shareConfig.enable && (
-                <div id="share-component" class:list={["p-6 bg-[var(--license-block-bg)] rounded-xl mb-6 onload-animation", { "encrypted-hidden": isEncrypted }]}>
+                <div id="share-component" class:list={["p-6 bg-(--license-block-bg) rounded-xl mb-6 onload-animation", { "encrypted-hidden": isEncrypted }]}>
                     <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
                         <div class="flex items-center gap-3 flex-1">
-                            <div class="flex items-center justify-center h-12 w-12 rounded-lg bg-[var(--enter-btn-bg)]">
+                            <div class="flex items-center justify-center h-12 w-12 rounded-lg bg-(--enter-btn-bg)">
                                 <Icon
                                     name="material-symbols:share"
-                                    class="text-3xl text-[var(--primary)]"
+                                    class="text-3xl text-(--primary)"
                                 />
                             </div>
                             <div class="flex flex-col gap-1">
-                                <div class="text-[1.0rem] leading-tight text-black/75 dark:text-white/75">
+                                <div class="text-[1.0rem] leading-tight text-75">
                                     {i18n(I18nKey.shareOnSocial)}
                                 </div>
-                                <p class="text-[0.8rem] leading-tight text-black/75 dark:text-white/75">
+                                <p class="text-[0.8rem] leading-tight text-75">
                                     {i18n(I18nKey.shareOnSocialDescription)}
                                 </p>
                             </div>
@@ -431,15 +431,15 @@ const jsonLd = {
                     setInterval(runtime, 1000);
                 </script>
                 <div class="flex items-center gap-3">
-                    <div class="flex items-center justify-center h-12 w-12 rounded-lg bg-[var(--enter-btn-bg)]">
+                    <div class="flex items-center justify-center h-12 w-12 rounded-lg bg-(--enter-btn-bg)">
                         <Icon
                             name="material-symbols:history-rounded"
-                            class="text-3xl text-[var(--primary)]"
+                            class="text-3xl text-(--primary)"
                         />
                     </div>
                     <div class="flex flex-col gap-1">
-                        <div id="modifiedtime" class="text-[1.0rem] leading-tight text-black/75 dark:text-white/75"></div>
-                        <p class="text-[0.8rem] leading-tight text-black/75 dark:text-white/75">
+                        <div id="modifiedtime" class="text-[1.0rem] leading-tight text-75"></div>
+                        <p class="text-[0.8rem] leading-tight text-75">
                             {i18n(I18nKey.lastModifiedOutdated)}
                         </p>
                     </div>
@@ -462,12 +462,12 @@ const jsonLd = {
         >
             {
                 entry.data.nextSlug && (
-                    <div class="btn-card rounded-2xl w-full h-[3.75rem] max-w-full px-4 flex items-center !justify-start gap-4">
+                    <div class="btn-card rounded-2xl w-full h-15 max-w-full px-4 flex items-center justify-start! gap-4">
                         <Icon
                             name="material-symbols:chevron-left-rounded"
-                            class="text-[2rem] text-[var(--primary)]"
+                            class="text-[2rem] text-(--primary)"
                         />
-                        <div class="overflow-hidden transition overflow-ellipsis whitespace-nowrap max-w-[calc(100%_-_3rem)] text-black/75 dark:text-white/75">
+                        <div class="overflow-hidden transition text-ellipsis whitespace-nowrap max-w-[calc(100%-3rem)] text-75">
                             {entry.data.nextTitle}
                         </div>
                     </div>
@@ -486,13 +486,13 @@ const jsonLd = {
         >
             {
                 entry.data.prevSlug && (
-                    <div class="btn-card rounded-2xl w-full h-[3.75rem] max-w-full px-4 flex items-center !justify-end gap-4">
-                        <div class="overflow-hidden transition overflow-ellipsis whitespace-nowrap max-w-[calc(100%_-_3rem)] text-black/75 dark:text-white/75">
+                    <div class="btn-card rounded-2xl w-full h-15 max-w-full px-4 flex items-center justify-end! gap-4">
+                        <div class="overflow-hidden transition text-ellipsis whitespace-nowrap max-w-[calc(100%-3rem)] text-75">
                             {entry.data.prevTitle}
                         </div>
                         <Icon
                             name="material-symbols:chevron-right-rounded"
-                            class="text-[2rem] text-[var(--primary)]"
+                            class="text-[2rem] text-(--primary)"
                         />
                     </div>
                 )

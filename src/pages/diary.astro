@@ -46,7 +46,7 @@ function formatTime(dateString: string): string {
   <script>
     import('../scripts/right-sidebar-layout.js');
   </script>
-	<div class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative min-h-32">
+	<div class="flex w-full rounded-(--radius-large) overflow-hidden relative min-h-32">
 		<div class="card-base z-10 px-4 py-4 md:px-6 md:py-5 relative w-full">
 		<div class="relative max-w-4xl w-full px-2 md:px-0">
 				<!-- 页面头部 -->
@@ -58,7 +58,7 @@ function formatTime(dateString: string): string {
 						</div>
 						<div class="header-stats">
 							<div class="stat-item text-center">
-								<span class="stat-number text-lg md:text-xl lg:text-2xl font-bold text-[var(--primary)]">{diaryStats.total}</span>
+								<span class="stat-number text-lg md:text-xl lg:text-2xl font-bold text-(--primary)">{diaryStats.total}</span>
 								<span class="stat-label text-xs md:text-sm lg:text-base text-75">{i18n(I18nKey.diaryCount)}</span>
 							</div>
 						</div>
@@ -91,7 +91,7 @@ function formatTime(dateString: string): string {
 			)}
 								</div>
 								
-								<hr class="moment-divider border-t border-[var(--line-divider)] my-3 md:my-4" />
+								<hr class="moment-divider border-t border-(--line-divider) my-3 md:my-4" />
 								
 								<div class="moment-footer flex justify-between items-center">
 									<div class="moment-time flex items-center gap-1.5 text-75 text-xs md:text-sm lg:text-base">
@@ -118,7 +118,7 @@ function formatTime(dateString: string): string {
 
 <style>
 	.card-base-daily {
-		@apply rounded-[var(--radius-large)] overflow-hidden bg-[var(--card-bg)];
+		@apply rounded-(--radius-large) overflow-hidden bg-[var(--card-bg)];
 		border: 1px solid var(--line-divider);
 		transition: all 0.3s ease;
 	}
@@ -177,8 +177,8 @@ function formatTime(dateString: string): string {
 	}
 	
 	/* 响应式设计 */
-	/* 手机端 (小于640px) */
-	@media (max-width: 640px) {
+	/* 手机端 (小于768px) */
+	@media (max-width: 768px) {
 		.moments-header {
 			padding: 0.75rem;
 		}
@@ -200,8 +200,8 @@ function formatTime(dateString: string): string {
 		}
 	}
 	
-	/* 平板竖屏 (641px - 900px) - 优化显示 */
-	@media (min-width: 641px) and (max-width: 900px) {
+	/* 平板竖屏 (769px - 1280px) - 优化显示 */
+	@media (min-width: 769px) and (max-width: 1280px) {
 		.moments-header {
 			padding: 1.25rem;
 		}
@@ -232,8 +232,8 @@ function formatTime(dateString: string): string {
 		}
 	}
 	
-	/* 平板横屏和桌面端 (大于900px) */
-	@media (min-width: 901px) {
+	/* 平板横屏和桌面端 (大于1280px) */
+	@media (min-width: 1281px) {
 		.moments-header {
 			padding: 1.5rem;
 		}

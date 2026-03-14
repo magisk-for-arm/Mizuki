@@ -75,7 +75,7 @@ function renderComponent(component: any, index: number, _components: any[]) {
 
 		<!-- 平板和桌面端顶部组件 -->
 		{tabletTopComponents.length > 0 && (
-			<div class="hidden md:flex flex-col w-full gap-4">
+			<div class="sidebar-content hidden md:flex flex-col w-full gap-4">
 				{tabletTopComponents.map((component, index) => {
 					const renderData = renderComponent(component, index, tabletTopComponents);
 					if (!renderData) return null;
@@ -104,7 +104,7 @@ function renderComponent(component: any, index: number, _components: any[]) {
 
 		<!-- 平板和桌面端粘性组件 -->
 		{tabletStickyComponents.length > 0 && (
-			<div class="hidden md:flex flex-col w-full gap-4">
+			<div class="sidebar-content hidden md:flex flex-col w-full gap-4">
 				{tabletStickyComponents.map((component, index) => {
 					const renderData = renderComponent(component, index, tabletStickyComponents);
 					if (!renderData) return null;

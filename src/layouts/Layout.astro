@@ -165,7 +165,7 @@ if (siteConfig.font) {
 <!doctype html>
 <html
 	lang={siteLang}
-	class="bg-[var(--page-bg)] text-[14px] md:text-[16px]"
+	class="bg-(--page-bg) text-[14px] md:text-[16px]"
 	data-overlayscrollbars-initialize
 >
 	<head>
@@ -378,7 +378,7 @@ if (siteConfig.font) {
 	<body
 		class="min-h-screen"
 		class:list={[
-			{ "lg:is-home": isHomePage, "enable-banner": enableBanner },
+			{ "is-home": isHomePage, "enable-banner": enableBanner },
 		]}
 		style={bodyFontFamily ? `font-family: ${bodyFontFamily};` : ""}
 		data-overlayscrollbars-initialize
@@ -415,28 +415,29 @@ if (siteConfig.font) {
 		"banner-height": `${BANNER_HEIGHT}vh`,
 	}}
 >
-	@tailwind components;
+	@reference "../styles/main.css";
+
 	@layer components {
 		.enable-banner.is-home #banner-wrapper {
-			@apply h-[var(--banner-height-home)] translate-y-[var(--banner-height-extend)];
+			@apply lg:h-(--banner-height-home) lg:translate-y-[var(--banner-height-extend)];
 		}
 		.enable-banner #banner-wrapper {
-			@apply h-[var(--banner-height-home)];
+			@apply lg:h-[var(--banner-height-home)];
 		}
 		.enable-banner.is-home #banner {
-			@apply h-[var(--banner-height-home)] translate-y-0;
+			@apply lg:h-(--banner-height-home) lg:translate-y-0;
 		}
 		.enable-banner #banner {
-			@apply h-[var(--banner-height-home)] translate-y-[var(--bannerOffset)];
+			@apply lg:h-(--banner-height-home) lg:translate-y-[var(--bannerOffset)];
 		}
 		.enable-banner.is-home #main-grid {
-			@apply translate-y-[var(--banner-height-extend)];
+			@apply lg:translate-y-[var(--banner-height-extend)];
 		}
 		.enable-banner #top-row {
-			@apply h-[calc(var(--banner-height-home)_-_4.5rem)] transition-all duration-300;
+			@apply lg:h-[calc(var(--banner-height-home)-4.5rem)] transition-all duration-300;
 		}
 		.enable-banner.is-home #sidebar-sticky {
-			@apply top-[calc(1rem_-_var(--banner-height-extend))];
+			@apply lg:top-[calc(1rem_-_var(--banner-height-extend))];
 		}
 		.navbar-hidden {
 			@apply opacity-0 -translate-y-16;
@@ -455,7 +456,7 @@ if (siteConfig.font) {
 			}
 		}
 	}
-</style>
+ </style>
 
 <script>
 	// import { animationManager } from '../utils/animation-utils';
@@ -970,7 +971,7 @@ function disableAnimation() {
 			// 简化navbar处理逻辑
 			if (bannerEnabled) {
 				const navbar = document.getElementById("navbar-wrapper");
-				if (navbar && document.body.classList.contains("lg:is-home")) {
+				if (navbar && document.body.classList.contains("is-home")) {
 					const threshold =
 						window.innerHeight * (BANNER_HEIGHT / 100) - 88;
 					if (document.documentElement.scrollTop >= threshold) {
@@ -1039,9 +1040,9 @@ function disableAnimation() {
 				const isHomePage = pathsEqual(visit.to.url, url("/"));
 				if (bodyElement) {
 					if (isHomePage) {
-						bodyElement.classList.add("lg:is-home");
+						bodyElement.classList.add("is-home");
 					} else {
-						bodyElement.classList.remove("lg:is-home");
+						bodyElement.classList.remove("is-home");
 					}
 				}
 
@@ -1289,8 +1290,8 @@ function disableAnimation() {
 
 			if (bannerEnabled && navbar) {
 				const isHome =
-					document.body.classList.contains("lg:is-home") &&
-					window.innerWidth >= 1024;
+					document.body.classList.contains("is-home") &&
+					window.innerWidth >= 1280;
 				const currentBannerHeight = isHome
 					? BANNER_HEIGHT_HOME
 					: BANNER_HEIGHT;

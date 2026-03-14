@@ -1,6 +1,6 @@
 import sitemap from "@astrojs/sitemap";
 import svelte, { vitePreprocess } from "@astrojs/svelte";
-import tailwind from "@astrojs/tailwind";
+import tailwindcss from "@tailwindcss/vite";
 import { pluginCollapsibleSections } from "@expressive-code/plugin-collapsible-sections";
 import { pluginLineNumbers } from "@expressive-code/plugin-line-numbers";
 import swup from "@swup/astro";
@@ -13,7 +13,6 @@ import rehypeComponents from "rehype-components";
 import rehypeKatex from "rehype-katex";
 import rehypeSlug from "rehype-slug";
 import remarkDirective from "remark-directive";
-import remarkGithubAdmonitionsToDirectives from "remark-github-admonitions-to-directives";
 import remarkMath from "remark-math";
 import remarkSectionize from "remark-sectionize";
 import { siteConfig } from "./src/config.ts";
@@ -27,6 +26,8 @@ import { parseDirectiveNode } from "./src/plugins/remark-directive-rehype.js";
 import { remarkMermaid } from "./src/plugins/remark-mermaid.js";
 import { remarkContent } from "./src/plugins/remark-content.mjs";
 import { rehypeImageWidth } from "./src/plugins/rehype-image-width.mjs";
+import rehypeExternalLinks from "rehype-external-links";
+import { remarkFixGithubAdmonitions } from "./src/plugins/remark-fix-github-admonitions.js";
 
 // https://astro.build/config
 export default defineConfig({
@@ -39,9 +40,6 @@ export default defineConfig({
 	integrations: [
 		umami({
 			shareUrl: false,
-		}),
-		tailwind({
-			nesting: true,
 		}),
 		swup({
 			theme: false,
@@ -123,7 +121,7 @@ export default defineConfig({
 		remarkPlugins: [
 			remarkMath,
 			remarkContent,
-			remarkGithubAdmonitionsToDirectives,
+			remarkFixGithubAdmonitions,
 			remarkDirective,
 			remarkSectionize,
 			parseDirectiveNode,
@@ -131,6 +129,13 @@ export default defineConfig({
 		],
 		rehypePlugins: [
 			rehypeKatex,
+			[
+				rehypeExternalLinks,
+				{
+					target: "_blank",
+					rel: ["nofollow", "noopener", "noreferrer"],
+				},
+			],
 			rehypeSlug,
 			rehypeWrapTable,
 			rehypeMermaid,
@@ -170,6 +175,7 @@ export default defineConfig({
 		],
 	},
 	vite: {
+		plugins: [tailwindcss()],
 		build: {
 			// 静态资源处理优化，防止小图片转 base64 导致 HTML 体积过大（可选，根据需要调整）
 			assetsInlineLimit: 4096,

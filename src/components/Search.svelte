@@ -221,7 +221,7 @@ onDestroy(() => {
     <div
         id="search-bar"
         class="flex transition-all items-center h-11 rounded-lg absolute right-0 top-0 shrink-0
-            {isDesktopSearchExpanded ? 'bg-black/[0.04] hover:bg-black/[0.06] focus-within:bg-black/[0.06] dark:bg-white/5 dark:hover:bg-white/10 dark:focus-within:bg-white/10' : 'btn-plain active:scale-90'}
+            {isDesktopSearchExpanded ? 'search-bar-bg' : 'btn-plain active:scale-90'}
             {isDesktopSearchExpanded ? 'w-48' : 'w-11'}"
         role="button"
         tabindex="0"
@@ -233,7 +233,7 @@ onDestroy(() => {
             input?.focus();
         }}
     >
-        <Icon icon="material-symbols:search" class="absolute text-[1.25rem] pointer-events-none {isDesktopSearchExpanded ? 'left-3' : 'left-1/2 -translate-x-1/2'} transition top-1/2 -translate-y-1/2 {isDesktopSearchExpanded ? 'text-black/30 dark:text-white/30' : ''}"></Icon>
+        <Icon icon="material-symbols:search" class="absolute text-[1.25rem] pointer-events-none {isDesktopSearchExpanded ? 'left-3' : 'left-1/2 -translate-x-1/2'} transition top-1/2 -translate-y-1/2 {isDesktopSearchExpanded ? 'search-icon-color' : ''}"></Icon>
         <input id="search-input-desktop" placeholder={i18n(I18nKey.search)} bind:value={keywordDesktop}
             onfocus={() => {
                 clearTimeout(blurTimer);
@@ -242,28 +242,25 @@ onDestroy(() => {
             }}
             onblur={handleBlur}
             class="transition-all pl-10 text-sm bg-transparent outline-0
-                h-full {isDesktopSearchExpanded ? 'w-36' : 'w-0'} text-black/50 dark:text-white/50"
+                h-full {isDesktopSearchExpanded ? 'w-36' : 'w-0'} search-input-color"
         >
     </div>
 </div>
 
 <!-- toggle btn for phone/tablet view -->
 <button onclick={togglePanel} aria-label="Search Panel" id="search-switch"
-        class="btn-plain scale-animation lg:!hidden rounded-lg w-11 h-11 active:scale-90">
+        class="btn-plain scale-animation lg:hidden! rounded-lg w-11 h-11 active:scale-90">
     <Icon icon="material-symbols:search" class="text-[1.25rem]"></Icon>
 </button>
 
 <!-- search panel -->
-<div id="search-panel" class="float-panel float-panel-closed absolute md:w-[30rem] top-20 left-4 md:left-[unset] right-4 z-50 search-panel shadow-2xl rounded-2xl p-2">
+<div id="search-panel" class="float-panel float-panel-closed absolute md:w-120 top-20 left-4 md:left-[unset] right-4 z-50 search-panel shadow-2xl rounded-2xl p-2">
     <!-- search bar inside panel for phone/tablet -->
-    <div id="search-bar-inside" class="flex relative lg:hidden transition-all items-center h-11 rounded-xl
-      bg-black/[0.04] hover:bg-black/[0.06] focus-within:bg-black/[0.06]
-      dark:bg-white/5 dark:hover:bg-white/10 dark:focus-within:bg-white/10
-  ">
-        <Icon icon="material-symbols:search" class="absolute text-[1.25rem] pointer-events-none ml-3 transition my-auto text-black/30 dark:text-white/30"></Icon>
+    <div id="search-bar-inside" class="flex relative lg:hidden transition-all items-center h-11 rounded-xl search-bar-bg">
+        <Icon icon="material-symbols:search" class="absolute text-[1.25rem] pointer-events-none ml-3 transition my-auto search-icon-color"></Icon>
         <input placeholder={i18n(I18nKey.search)} bind:value={keywordMobile}
                class="pl-10 absolute inset-0 text-sm bg-transparent outline-0
-               focus:w-60 text-black/50 dark:text-white/50"
+               focus:w-60 search-input-color"
         >
     </div>
     <!-- search results -->
@@ -271,9 +268,9 @@ onDestroy(() => {
         <a href={item.url}
            onclick={(e) => handleResultClick(e, item.url)}
            class="transition first-of-type:mt-2 lg:first-of-type:mt-0 group block
-       rounded-xl text-lg px-3 py-2 hover:bg-[var(--btn-plain-bg-hover)] active:bg-[var(--btn-plain-bg-active)]">
-            <div class="transition text-90 inline-flex font-bold group-hover:text-[var(--primary)]">
-                {item.meta.title}<Icon icon="fa7-solid:chevron-right" class="transition text-[0.75rem] translate-x-1 my-auto text-[var(--primary)]"></Icon>
+       rounded-xl text-lg px-3 py-2 hover:bg-(--btn-plain-bg-hover) active:bg-(--btn-plain-bg-active)">
+            <div class="transition text-90 inline-flex font-bold group-hover:text-(--primary)">
+                {item.meta.title}<Icon icon="fa7-solid:chevron-right" class="transition text-[0.75rem] translate-x-1 my-auto text-(--primary)"></Icon>
             </div>
             <div class="transition text-sm text-50">
                 {@html item.excerpt}
@@ -283,11 +280,22 @@ onDestroy(() => {
 </div>
 
 <style>
+    @reference "../styles/main.css";
+
     input:focus {
         outline: 0;
     }
     :global(.search-panel) {
         max-height: calc(100vh - 100px);
         overflow-y: auto;
+    }
+    .search-bar-bg {
+        @apply bg-black/4 hover:bg-black/6 focus-within:bg-black/6 dark:bg-white/5 dark:hover:bg-white/10 dark:focus-within:bg-white/10;
+    }
+    .search-icon-color {
+        @apply text-black/30 dark:text-white/30;
+    }
+    .search-input-color {
+        @apply text-black/50 dark:text-white/50;
     }
 </style>
