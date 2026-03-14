@@ -37,7 +37,7 @@ const {
 } = Astro.props;
 ---
 
-<div class:list={["flex flex-wrap text-neutral-500 dark:text-neutral-400 items-center gap-4 gap-x-4 gap-y-2", className]}>
+<div class:list={["flex flex-wrap text-50 items-center gap-4 gap-x-4 gap-y-2", className]}>
     <!-- publish date -->
     <div class="flex items-center">
         <div class="meta-icon">
@@ -64,7 +64,7 @@ const {
         <div class="flex flex-row flex-nowrap items-center">
             <a href={getCategoryUrl(category || '')} aria-label={`View all posts in the ${category} category`}
                class="link-lg transition text-50 text-sm font-medium
-                            hover:text-[var(--primary)] dark:hover:text-[var(--primary)] whitespace-nowrap">
+                            hover:text-(--primary) dark:hover:text-(--primary) whitespace-nowrap">
                 {category || i18n(I18nKey.uncategorized)}
             </a>
         </div>
@@ -91,10 +91,10 @@ const {
             <div class="flex flex-row flex-nowrap items-center">
                 {(tags && tags.length > 0) && tags.map((tag, i) => (
                     <>
-                        <div class:list={[{"hidden": i == 0}, "mx-1.5 text-[var(--meta-divider)] text-sm"]}>/</div>
+                        <div class:list={[{"hidden": i == 0}, "mx-1.5 text-(--meta-divider) text-sm"]}>/</div>
                         <a href={getTagUrl(tag)} aria-label={`View all posts with the ${tag.trim()} tag`}
                            class="link-lg transition text-50 text-sm font-medium
-                                        hover:text-[var(--primary)] dark:hover:text-[var(--primary)] whitespace-nowrap">
+                                        hover:text-(--primary) dark:hover:text-(--primary) whitespace-nowrap">
                             {tag.trim()}
                         </a>
                     </>

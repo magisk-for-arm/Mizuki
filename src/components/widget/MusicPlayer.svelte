@@ -461,9 +461,9 @@ onDestroy(() => {
 
 {#if musicPlayerConfig.enable}
 {#if showError}
-<div class="fixed bottom-20 right-4 z-[60] max-w-sm">
+<div class="fixed bottom-20 right-4 z-60 max-w-sm">
     <div class="bg-red-500 text-white px-4 py-3 rounded-lg shadow-lg flex items-center gap-3 animate-slide-up">
-        <Icon icon="material-symbols:error" class="text-xl flex-shrink-0" />
+        <Icon icon="material-symbols:error" class="text-xl shrink-0" />
         <span class="text-sm flex-1">{errorMessage}</span>
         <button on:click={hideError} class="text-white/80 hover:text-white transition-colors">
             <Icon icon="material-symbols:close" class="text-lg" />
@@ -477,7 +477,7 @@ onDestroy(() => {
      class:hidden-mode={isHidden}>
 
     <!-- 隐藏状态的小圆球 -->
-    <div class="orb-player w-12 h-12 bg-[var(--primary)] rounded-full shadow-lg cursor-pointer transition-all duration-500 ease-in-out flex items-center justify-center hover:scale-110 active:scale-95"
+    <div class="orb-player w-12 h-12 bg-(--primary) rounded-full shadow-lg cursor-pointer transition-all duration-500 ease-in-out flex items-center justify-center hover:scale-110 active:scale-95"
          class:opacity-0={!isHidden}
          class:scale-0={!isHidden}
          class:pointer-events-none={!isHidden}
@@ -504,7 +504,7 @@ onDestroy(() => {
         {/if}
     </div>
     <!-- 收缩状态的迷你播放器（封面圆形） -->
-    <div class="mini-player card-base bg-[var(--float-panel-bg)] shadow-xl rounded-2xl p-3 transition-all duration-500 ease-in-out"
+    <div class="mini-player card-base bg-(--float-panel-bg) shadow-xl rounded-2xl p-3 transition-all duration-500 ease-in-out"
          class:opacity-0={isExpanded || isHidden}
          class:scale-95={isExpanded || isHidden}
          class:pointer-events-none={isExpanded || isHidden}>
@@ -564,12 +564,12 @@ onDestroy(() => {
         </div>
     </div>
     <!-- 展开状态的完整播放器（封面圆形） -->
-    <div class="expanded-player card-base bg-[var(--float-panel-bg)] shadow-xl rounded-2xl p-4 transition-all duration-500 ease-in-out"
+    <div class="expanded-player card-base bg-(--float-panel-bg) shadow-xl rounded-2xl p-4 transition-all duration-500 ease-in-out"
          class:opacity-0={!isExpanded}
          class:scale-95={!isExpanded}
          class:pointer-events-none={!isExpanded}>
         <div class="flex items-center gap-4 mb-4">
-            <div class="cover-container relative w-16 h-16 rounded-full overflow-hidden flex-shrink-0">
+            <div class="cover-container relative w-16 h-16 rounded-full overflow-hidden shrink-0">
                 <img src={getAssetPath(currentSong.cover)} alt={i18n(Key.musicPlayerCover)}
                      class="w-full h-full object-cover transition-transform duration-300"
                      class:spinning={isPlaying && !isLoading}
@@ -597,7 +597,7 @@ onDestroy(() => {
             </div>
         </div>
         <div class="progress-section mb-4">
-            <div class="progress-bar flex-1 h-2 bg-[var(--btn-regular-bg)] rounded-full cursor-pointer"
+            <div class="progress-bar flex-1 h-2 bg-(--btn-regular-bg) rounded-full cursor-pointer"
                  bind:this={progressBar}
                  on:click={setProgress}
                  on:keydown={(e) => {
@@ -617,7 +617,7 @@ onDestroy(() => {
                  aria-valuemin="0"
                  aria-valuemax="100"
                  aria-valuenow={duration > 0 ? (currentTime / duration * 100) : 0}>
-                <div class="h-full bg-[var(--primary)] rounded-full transition-all duration-100"
+                <div class="h-full bg-(--primary) rounded-full transition-all duration-100"
                      style="width: {duration > 0 ? (currentTime / duration) * 100 : 0}%"></div>
             </div>
         </div>
@@ -672,7 +672,7 @@ onDestroy(() => {
                     <Icon icon="material-symbols:volume-up" class="text-lg" />
                 {/if}
             </button>
-            <div class="flex-1 h-2 bg-[var(--btn-regular-bg)] rounded-full cursor-pointer touch-none"
+            <div class="flex-1 h-2 bg-(--btn-regular-bg) rounded-full cursor-pointer touch-none"
                  bind:this={volumeBar}
                  on:pointerdown={startVolumeDrag}
                  on:keydown={(e) => {
@@ -687,7 +687,7 @@ onDestroy(() => {
                  aria-valuemin="0"
                  aria-valuemax="100"
                  aria-valuenow={volume * 100}>
-                <div class="h-full bg-[var(--primary)] rounded-full transition-all"
+                <div class="h-full bg-(--primary) rounded-full transition-all"
                      class:duration-100={!isVolumeDragging}
                      class:duration-0={isVolumeDragging}
                      style="width: {volume * 100}%"></div>
@@ -702,7 +702,7 @@ onDestroy(() => {
     {#if showPlaylist}
         <div class="playlist-panel float-panel fixed bottom-20 right-4 w-80 max-h-96 overflow-hidden z-50"
              transition:slide={{ duration: 300, axis: 'y' }}>
-            <div class="playlist-header flex items-center justify-between p-4 border-b border-[var(--line-divider)]">
+            <div class="playlist-header flex items-center justify-between p-4 border-b border-(--line-divider)">
                 <h3 class="text-lg font-semibold text-90">{i18n(Key.musicPlayerPlaylist)}</h3>
                 <button class="btn-plain w-8 h-8 rounded-lg" on:click={togglePlaylist}>
                     <Icon icon="material-symbols:close" class="text-lg" />
@@ -710,7 +710,7 @@ onDestroy(() => {
             </div>
             <div class="playlist-content overflow-y-auto max-h-80 hide-scrollbar">
                 {#each playlist as song, index}
-                    <div class="playlist-item flex items-center gap-3 p-3 hover:bg-[var(--btn-plain-bg-hover)] cursor-pointer transition-colors"
+                    <div class="playlist-item flex items-center gap-3 p-3 hover:bg-(--btn-plain-bg-hover) cursor-pointer transition-colors"
                          class:bg-[var(--btn-plain-bg)]={index === currentIndex}
                          class:text-[var(--primary)]={index === currentIndex}
                          on:click={() => playSong(index)}
@@ -725,21 +725,21 @@ onDestroy(() => {
                          aria-label="播放 {song.title} - {song.artist}">
                         <div class="w-6 h-6 flex items-center justify-center">
                             {#if index === currentIndex && isPlaying}
-                                <Icon icon="material-symbols:graphic-eq" class="text-[var(--primary)] animate-pulse" />
+                                <Icon icon="material-symbols:graphic-eq" class="text-(--primary) animate-pulse" />
                             {:else if index === currentIndex}
-                                <Icon icon="material-symbols:pause" class="text-[var(--primary)]" />
+                                <Icon icon="material-symbols:pause" class="text-(--primary)" />
                             {:else}
-                                <span class="text-sm text-[var(--content-meta)]">{index + 1}</span>
+                                <span class="text-sm text-(--content-meta)">{index + 1}</span>
                             {/if}
                         </div>
-                        <div class="w-10 h-10 rounded-lg overflow-hidden bg-[var(--btn-regular-bg)] flex-shrink-0">
+                        <div class="w-10 h-10 rounded-lg overflow-hidden bg-(--btn-regular-bg) shrink-0">
                             <img src={getAssetPath(song.cover)} alt={song.title} loading="lazy" class="w-full h-full object-cover" />
                         </div>
                         <div class="flex-1 min-w-0">
                             <div class="font-medium truncate" class:text-[var(--primary)]={index === currentIndex} class:text-90={index !== currentIndex}>
                                 {song.title}
                             </div>
-                            <div class="text-sm text-[var(--content-meta)] truncate" class:text-[var(--primary)]={index === currentIndex}>
+                            <div class="text-sm text-(--content-meta) truncate" class:text-[var(--primary)]={index === currentIndex}>
                                 {song.artist}
                             </div>
                         </div>

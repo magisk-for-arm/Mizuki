@@ -191,8 +191,8 @@ const gridCols = `
 const sidebarClass = `
 	onload-animation
 	${mobileShowSidebar && hasMobileDrawerComponents ? "block" : "hidden"}
-	${tabletShowLeftSidebar ? "md:block md:mb-4 md:max-w-[17.5rem]" : "md:hidden"}
-	${desktopShowLeftSidebar ? "lg:block lg:mb-4 lg:row-start-1 lg:row-end-2 lg:max-w-[17.5rem] lg:col-start-1 lg:col-end-2" : "lg:hidden"}
+	${tabletShowLeftSidebar ? "md:block md:mb-4 md:max-w-70" : "md:hidden"}
+	${desktopShowLeftSidebar ? "lg:block lg:mb-4 lg:row-start-1 lg:row-end-2 lg:max-w-70 lg:col-start-1 lg:col-end-2" : "lg:hidden"}
 `
 	.trim()
 	.replace(/\s+/g, " ");
@@ -205,8 +205,8 @@ const sidebarClass = `
 const rightSidebarClass = `
 	onload-animation
 	hidden
-	${tabletShowRightSidebar ? "md:block md:mb-4 md:max-w-[17.5rem]" : "md:hidden"}
-	${desktopShowRightSidebar ? `lg:block lg:mb-4 lg:row-start-1 lg:row-end-2 lg:max-w-[17.5rem] ${desktopShowLeftSidebar ? "lg:col-start-3 lg:col-end-4" : "lg:col-start-2 lg:col-end-3"} lg:col-span-1` : "lg:hidden"}
+	${tabletShowRightSidebar ? "md:block md:mb-4 md:max-w-70" : "md:hidden"}
+	${desktopShowRightSidebar ? `lg:block lg:mb-4 lg:row-start-1 lg:row-end-2 lg:max-w-70 ${desktopShowLeftSidebar ? "lg:col-start-3 lg:col-end-4" : "lg:col-start-2 lg:col-end-3"} lg:col-span-1` : "lg:hidden"}
 	${initialRightSidebarHidden ? "hidden-in-grid-mode" : ""}
 `
 	.trim()
@@ -591,14 +591,14 @@ const transparentClass = shouldEnableTransparency
 
 <!-- Navbar -->
 <slot slot="head" name="head"></slot>
-<div id="top-row" class="z-50 pointer-events-none relative transition-all duration-700 max-w-[var(--page-width)] px-0 md:px-4 mx-auto" class:list={[""]}>
+<div id="top-row" class="z-50 pointer-events-none relative transition-all duration-700 max-w-(--page-width) px-0 md:px-4 mx-auto" class:list={[""]}>
     <div id="navbar-wrapper" class="pointer-events-auto sticky top-0 transition-all">
         <Navbar></Navbar>
     </div>
 </div>
 
 <!-- Banner - 始终渲染，通过 JS 控制显示隐藏 -->
-<div id="banner-wrapper" class={`absolute z-10 w-full transition duration-700 overflow-hidden ${mobileNonHomeBannerClass}`} style={`top: -${BANNER_HEIGHT_EXTEND}vh`}>
+<div id="banner-wrapper" class={`absolute z-10 w-full transition duration-700 overflow-hidden h-[var(--banner-height-home)] ${mobileNonHomeBannerClass}`} style={`top: -${BANNER_HEIGHT_EXTEND}vh`}>
 
     {siteConfig.banner.carousel?.enable && ((bannerImages.desktop && Array.isArray(bannerImages.desktop) && bannerImages.desktop.length > 1) || (bannerImages.mobile && Array.isArray(bannerImages.mobile) && bannerImages.mobile.length > 1)) ? (
         <!-- Carousel mode for multiple images -->
@@ -706,33 +706,35 @@ const transparentClass = shouldEnableTransparency
     )}
     
     <!-- Home page text overlay -->
-    {siteConfig.banner.homeText?.enable && (
-        <div class={`banner-text-overlay absolute inset-0 z-20 flex items-center justify-center ${!showHomeText ? 'hidden' : ''}`}>
-            <div class="w-4/5 lg:w-3/4 text-center mb-0">
-                <div class="flex flex-col">
-                    {siteConfig.banner.homeText?.title && (
-                        <h1 class="banner-title text-6xl lg:text-8xl text-white drop-shadow-lg mb-2 lg:mb-4">
-                            {siteConfig.banner.homeText.title}
-                        </h1>
-                    )}
-                    {siteConfig.banner.homeText?.subtitle && (
-                        <h2 class="banner-subtitle text-xl lg:text-3xl text-white/90 drop-shadow-md">
-                            <span class="inline-block min-h-[1.2em]">
-                                {siteConfig.banner.homeText.typewriter?.enable ? (
-                                    <TypewriterText 
-                                        text={siteConfig.banner.homeText.subtitle}
-                                        speed={siteConfig.banner.homeText.typewriter.speed}
-                                        deleteSpeed={siteConfig.banner.homeText.typewriter.deleteSpeed}
-                                        pauseTime={siteConfig.banner.homeText.typewriter.pauseTime}
-                                    />
-                                ) : (
-                                    Array.isArray(siteConfig.banner.homeText.subtitle) 
-                                        ? siteConfig.banner.homeText.subtitle[0] 
-                                        : siteConfig.banner.homeText.subtitle
-                                )}
-                            </span>
-                        </h2>
-                    )}
+    {siteConfig.banner.homeText?.enable && showHomeText && (
+        <div class="banner-text-overlay absolute inset-0 z-20 flex items-center justify-center">
+            <div class="max-w-(--page-width) w-full px-0 md:px-4 mx-auto flex items-center justify-center h-full">
+                <div class="w-4/5 lg:w-3/4 text-center mb-0">
+                    <div class="flex flex-col">
+                        {siteConfig.banner.homeText?.title && (
+                            <h1 class="banner-title text-6xl lg:text-8xl text-white drop-shadow-lg mb-2 lg:mb-4">
+                                {siteConfig.banner.homeText.title}
+                            </h1>
+                        )}
+                        {siteConfig.banner.homeText?.subtitle && (
+                            <h2 class="banner-subtitle text-xl lg:text-3xl text-white/90 drop-shadow-md">
+                                <span class="inline-block min-h-[1.2em]">
+                                    {siteConfig.banner.homeText.typewriter?.enable ? (
+                                        <TypewriterText 
+                                            text={siteConfig.banner.homeText.subtitle}
+                                            speed={siteConfig.banner.homeText.typewriter.speed}
+                                            deleteSpeed={siteConfig.banner.homeText.typewriter.deleteSpeed}
+                                            pauseTime={siteConfig.banner.homeText.typewriter.pauseTime}
+                                        />
+                                    ) : (
+                                        Array.isArray(siteConfig.banner.homeText.subtitle) 
+                                            ? siteConfig.banner.homeText.subtitle[0] 
+                                            : siteConfig.banner.homeText.subtitle
+                                    )}
+                                </span>
+                            </h2>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>
@@ -740,7 +742,7 @@ const transparentClass = shouldEnableTransparency
     
     <!-- Water waves effect -->
     {siteConfig.banner.waves?.enable && (
-        <div class="waves absolute -bottom-[1px] h-[10vh] max-h-[9.375rem] min-h-[3.125rem] w-full md:h-[15vh]" id="header-waves" style="transform: translateZ(0); will-change: fill;">
+        <div class="waves absolute -bottom-px h-[10vh] max-h-37.5 min-h-12.5 w-full md:h-[15vh]" id="header-waves" style="transform: translateZ(0); will-change: fill;">
             <svg
                 class="waves"
                 xmlns="http://www.w3.org/2000/svg"
@@ -762,28 +764,28 @@ const transparentClass = shouldEnableTransparency
                         xlink:href="#gentle-wave"
                         x="48"
                         y="0"
-                        class="opacity-25 fill-[var(--page-bg)]"
+                        class="opacity-25 fill-(--page-bg)"
                         style="animation-delay: -2s; animation-duration: 7s; will-change: transform;"
                     ></use>
                     <use
                         xlink:href="#gentle-wave"
                         x="48"
                         y="3"
-                        class="opacity-50 fill-[var(--page-bg)]"
+                        class="opacity-50 fill-(--page-bg)"
                         style="animation-delay: -3s; animation-duration: 10s; will-change: transform;"
                     ></use>
                     <use
                         xlink:href="#gentle-wave"
                         x="48"
                         y="5"
-                        class="opacity-75 fill-[var(--page-bg)]"
+                        class="opacity-75 fill-(--page-bg)"
                         style="animation-delay: -4s; animation-duration: 13s; will-change: transform;"
                     ></use>
                     <use
                         xlink:href="#gentle-wave"
                         x="48"
                         y="7"
-                        class="fill-[var(--page-bg)]"
+                        class="fill-(--page-bg)"
                         style="animation-delay: -5s; animation-duration: 20s; will-change: transform;"
                     ></use>
                 </g>
@@ -797,14 +799,14 @@ const transparentClass = shouldEnableTransparency
 <!-- Main content -->
 <div class={`absolute w-full z-30 pointer-events-none ${mobileNonHomeBannerClass ? 'mobile-main-no-banner' : ''} ${siteConfig.wallpaperMode.defaultMode === 'none' ? 'no-banner-layout' : ''} ${transparentClass}`} style={`top: ${finalMainPanelTop}`}>
     <!-- The pointer-events-none here prevent blocking the click event of the TOC -->
-    <div class="relative max-w-[var(--page-width)] mx-auto pointer-events-auto">
+    <div class="relative max-w-(--page-width) mx-auto pointer-events-auto">
         <div id="main-grid" class={`transition duration-700 w-full left-0 right-0 grid ${gridCols} grid-rows-none md:grid-rows-[auto] mx-auto gap-4 px-2 md:px-4 ${!mobileShowSidebar || !hasMobileDrawerComponents ? 'mobile-no-sidebar' : ''} ${hasRightSidebarComponents ? 'mobile-both-sidebar' : ''}`}
              data-layout-mode={defaultPostListLayout}
         >
             <!-- Banner image credit -->
             {hasBannerCredit && <a href={siteConfig.banner.credit.url} id="banner-credit" target="_blank" rel="noopener" aria-label="Visit image source"
                                    class:list={["group onload-animation transition-all absolute flex justify-center items-center rounded-full " +
-                                   "px-3 right-4 -top-[3.25rem] bg-black/60 hover:bg-black/70 h-9", {"hover:pr-9 active:bg-black/80": hasBannerLink}]}
+                                   "px-3 right-4 -top-13 bg-black/60 hover:bg-black/70 h-9", {"hover:pr-9 active:bg-black/80": hasBannerLink}]}
             >
                 <Icon class="text-white/75 text-[1.25rem] mr-1" name="material-symbols:copyright-outline-rounded" ></Icon>
                 <div class="text-white/75 text-xs">{siteConfig.banner.credit.text}</div>
@@ -852,12 +854,12 @@ const transparentClass = shouldEnableTransparency
 <!-- 侧边栏TOC模式 -->
 {siteConfig.toc.enable && isSidebarTOC && (
     <div class="absolute w-full z-0 hidden 2xl:block">
-        <div class="relative max-w-[var(--page-width)] mx-auto">
-            <div id="toc-wrapper" class:list={["hidden lg:block transition absolute top-0 w-[var(--toc-width)] items-center",
-                "-right-[var(--toc-width)]",
+        <div class="relative max-w-(--page-width) mx-auto">
+            <div id="toc-wrapper" class:list={["hidden lg:block transition absolute top-0 w-(--toc-width) items-center",
+                "-right-(--toc-width)",
                 {"toc-hide": siteConfig.wallpaperMode.defaultMode === "banner"}]}
             >
-                <div id="toc-inner-wrapper" class="fixed top-14 w-[var(--toc-width)] max-h-[calc(100vh_-_10rem)] overflow-hidden">
+                <div id="toc-inner-wrapper" class="fixed top-14 w-(--toc-width) max-h-[calc(100vh-10rem)] overflow-hidden">
                     <div id="toc-container" class="w-full transition-swup-fade">
                         <TOC headings={headings}></TOC>
                     </div>
@@ -1403,16 +1405,64 @@ body.wallpaper-transparent #toc-inner-wrapper:has(table-of-contents[data-loaded=
     /* 在桌面端只显示左侧边栏和主内容 */
 }
 
-/* 平板设备Grid模式：使用单列布局，和手机端保持一致 */
+/* 平板设备Grid模式：使用单列布局，侧边栏移动到底部并横向排列 */
 @media (min-width: 768px) and (max-width: 1279px) {
     #main-grid[data-layout-mode="grid"] {
         grid-template-columns: 1fr !important;
-        grid-template-rows: auto 1fr auto !important;
+        grid-template-rows: auto auto auto !important; /* 调整为3行：内容、侧边栏、页脚 */
     }
     
     #main-grid[data-layout-mode="grid"] #swup-container {
         grid-column: 1 / 2;
         grid-row: 1 / 2;
+    }
+
+    /* 使用 :global 选择器穿透到子组件 */
+    :global(#main-grid[data-layout-mode="grid"] #sidebar) {
+        grid-column: 1 / 2 !important;
+        grid-row: 2 / 3 !important;
+        width: 100% !important;
+        max-width: none !important;
+        margin-top: 1.5rem !important;
+        margin-bottom: 1.5rem !important;
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: wrap !important;
+        gap: 1rem !important;
+    }
+
+    /* 让侧边栏内部的容器 "消失"，使所有组件直接参与 #sidebar 的 Flex 布局 */
+    :global(#main-grid[data-layout-mode="grid"] #sidebar > div),
+    :global(#main-grid[data-layout-mode="grid"] #sidebar #sidebar-sticky),
+    :global(#main-grid[data-layout-mode="grid"] #sidebar .sidebar-content) {
+        display: contents !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        width: auto !important;
+    }
+
+    /* 侧边栏组件宽度调整 - 四列显示 */
+    :global(#main-grid[data-layout-mode="grid"] #sidebar .sidebar-content > *) {
+        width: calc(25% - 0.75rem) !important;
+        flex: 0 0 calc(25% - 0.75rem) !important;
+        margin-top: 0 !important; /* 确保没有垂直间距干扰 */
+        margin-bottom: 0 !important;
+    }
+    
+    /* 公告栏特殊样式调整 */
+    :global(#main-grid[data-layout-mode="grid"] #sidebar widget-layout[data-id="announcement"] .flex.items-center.justify-between > div:first-child) {
+        width: 100% !important;
+        flex: 1 !important;
+    }
+    /* 公告栏拉伸链接按钮 */
+    :global(#main-grid[data-layout-mode="grid"] #sidebar widget-layout[data-id="announcement"] a) {
+        display: block !important;
+        width: 100% !important;
+        text-align: center !important;
+    }
+    /* 公告栏隐藏关闭按钮 */
+    :global(#main-grid[data-layout-mode="grid"] #sidebar widget-layout[data-id="announcement"] button[onclick="closeAnnouncement()"]) {
+        display: none !important;
     }
 }
 
