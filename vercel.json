@@ -1,7 +1,7 @@
 {
-	"buildCommand": "pnpm build",
+	"buildCommand": "pnpm astro build",
 	"outputDirectory": "dist",
-	"installCommand": "pnpm install",
+	"installCommand": "pnpm install --frozen-lockfile",
 	"framework": "astro",
 	"headers": [
 		{
