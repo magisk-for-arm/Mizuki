@@ -59,7 +59,6 @@ export const ja: Translation = {
 	[Key.license]: "ライセンス",
 	[Key.anime]: "視聴したアニメ",
 	[Key.diary]: "日記",
-	[Key.game]: "ゲーム",
 
 	// アニメページ
 	[Key.animeTitle]: "視聴したアニメ",
@@ -74,20 +73,21 @@ export const ja: Translation = {
 	[Key.animeStudio]: "スタジオ",
 	[Key.animeEmpty]: "アニメのデータはありません",
 	[Key.animeEmptyBangumi]:
-		"Bangumiの構成またはネットワークを接続を確認してください",
+		"Bangumiの構成またはネットワークの接続を確認してください",
 	[Key.animeEmptyBilibili]:
-		"Bilibiliの構成またはネットワーク接続を確認してください",
+		"Bilibiliの構成またはネットワークの接続を確認してください",
 	[Key.animeEmptyLocal]:
-		"src/data/anime.tsのファイルにアニメの情報を追加してください",
+		"src/data/anime.tsファイルにアニメの情報を追加してください",
 	[Key.animeConfigBilibili]:
-		"src/config.tsファイルでBilibili vmidを設定してください",
+		"src/config.tsファイルにBilibiliのvmidを設定してください",
 	[Key.animeConfigBangumi]:
-		"src/config.tsファイルでBangumi userIdを設定してください",
+		"src/config.tsファイルにBangumiのユーザーIDを設定してください",
 
 	// 日記ページ
 	[Key.diarySubtitle]: "いつでも、どこでも生活を共有",
+	[Key.diaryNoResults]: "一致するモーメントはありません",
 	[Key.diaryCount]: "件の日記のエントリー",
-	[Key.diaryReply]: "返信",
+
 	[Key.diaryTips]: "最新の30件の日記のエントリーのみを表示",
 	[Key.diaryMinutesAgo]: "分前",
 	[Key.diaryHoursAgo]: "時間前",
@@ -100,7 +100,7 @@ export const ja: Translation = {
 		"申し訳ありません、アクセスしたページは存在しないか移動されています。",
 	[Key.backToHome]: "ホームに戻る",
 
-	// 音乐プレーヤー
+	// 音楽プレーヤー
 	[Key.musicPlayer]: "音楽プレーヤー",
 	[Key.musicPlayerShow]: "音楽プレーヤーを表示",
 	[Key.musicPlayerHide]: "音楽プレーヤーを非表示",
@@ -113,7 +113,7 @@ export const ja: Translation = {
 	[Key.musicPlayerShuffle]: "シャッフル",
 	[Key.musicPlayerRepeat]: "リピート",
 	[Key.musicPlayerRepeatOne]: "1曲のみリピート",
-	[Key.musicPlayerVolume]: "音量コントロール",
+	[Key.musicPlayerVolume]: "音量のコントロール",
 	[Key.musicPlayerProgress]: "再生状況",
 	[Key.musicPlayerCover]: "カバー",
 	[Key.musicPlayerPlaylist]: "プレイリスト",
@@ -127,20 +127,22 @@ export const ja: Translation = {
 
 	// アルバムページ
 	[Key.albums]: "アルバム",
-	[Key.albumsSubtitle]: "人生の美しい瞬間の记录です",
+	[Key.albumsSubtitle]: "人生の美しい瞬間の記録です",
 	[Key.albumsEmpty]: "コンテンツはありません",
 	[Key.albumsEmptyDesc]:
 		"まだアルバムが作成されていません。美しい思い出を追加しましょう!",
 	[Key.albumsBackToList]: "アルバムに戻る",
 
-	// デバイス页面
+	// デバイスページ
 	[Key.devices]: "デバイス",
 	[Key.devicesSubtitle]: "日常的に使用しているデバイスを紹介",
 	[Key.devicesViewDetails]: "詳細を表示",
 	[Key.albumsPhotoCount]: "件の写真",
 	[Key.albumsPhotosCount]: "件の写真",
+	[Key.albumsFilterAll]: "すべて",
+	[Key.albumsNoResults]: "一致するアルバムはありません",
 
-	// 项目页面
+	// プロジェクトページ
 	[Key.projects]: "プロジェクト",
 	[Key.projectsSubtitle]: "開発プロジェクトのポートフォリオ",
 	[Key.projectsAll]: "すべて",
@@ -167,7 +169,7 @@ export const ja: Translation = {
 	[Key.projectsVisit]: "プロジェクトを開く",
 	[Key.projectsGitHub]: "GitHub",
 
-	// RSS页面
+	// RSSページ
 	[Key.rss]: "RSSフィード",
 	[Key.rssDescription]: "最新情報を受け取るために購読する",
 	[Key.rssSubtitle]:
@@ -188,9 +190,9 @@ export const ja: Translation = {
 		"このサイトの購読はFeedly、Inoreaderまたはその他のRSSリーダーの使用をおすすめします。",
 	[Key.rssCopied]: "RSSのリンクをクリップボードにコピーしました!",
 	[Key.rssCopyFailed]:
-		"コピーに失敗しました。リンクを手动で追加してください。",
+		"コピーに失敗しました。リンクを手動で追加してください。",
 
-	// Atom页面
+	// Atomページ
 	[Key.atom]: "Atomフィード",
 	[Key.atomDescription]: "最新情報を受け取るために購読する",
 	[Key.atomSubtitle]:
@@ -201,22 +203,22 @@ export const ja: Translation = {
 	[Key.atomLatestPosts]: "最新の投稿",
 	[Key.atomWhatIsAtom]: "Atomとは何ですか?",
 	[Key.atomWhatIsAtomDescription]:
-		"Atom(Atom Syndication Format)はフィード及其项目を記述するためのXMLベースの標準フォーマットです:",
+		"Atom(Atom Syndication Format)はフィードとその項目を記述するためのXMLベースの標準フォーマットです:",
 	[Key.atomBenefit1]:
 		"手動でウェブサイトにアクセスすることなく、最新のコンテンツをタイムリーに入手できます",
 	[Key.atomBenefit2]: "複数のウェブサイトへの購読を一括で管理できます",
 	[Key.atomBenefit3]: "重要な更新情報や記事を見逃すこともありません",
-	[Key.atomBenefit4]: "広告なしのクリーンな読书体験を楽しめます",
+	[Key.atomBenefit4]: "広告なしのクリーンな読書体験を楽しめます",
 	[Key.atomHowToUse]:
 		"このサイトの購読はFeedly、Inoreaderまたはその他のAtomリーダーの使用をおすすめします。",
 	[Key.atomCopied]: "Atomのリンクをクリップボードにコピーしました!",
 	[Key.atomCopyFailed]:
-		"コピーに失敗しました。リンクを手动で追加してください。",
+		"コピーに失敗しました。リンクを手動で追加してください。",
 
-	// 壁纸模式
+	// 壁紙モード
 	[Key.wallpaperBanner]: "バナーモード",
 	[Key.wallpaperFullscreen]: "フルスクリーンモード",
-	[Key.wallpaperNone]: "壁纸を非表示",
+	[Key.wallpaperNone]: "壁紙を非表示",
 
 	// スキルページ
 	[Key.skills]: "スキル",
@@ -243,7 +245,7 @@ export const ja: Translation = {
 	[Key.skillsProjects]: "関連プロジェクト",
 	[Key.skillsDistribution]: "スキル分布",
 	[Key.skillsByLevel]: "レベル別",
-	[Key.skillsByCategory]: "カテゴリー别",
+	[Key.skillsByCategory]: "カテゴリー別",
 	[Key.noData]: "データなし",
 
 	// タイムラインページ
@@ -254,60 +256,62 @@ export const ja: Translation = {
 	[Key.timelineProject]: "プロジェクト経験",
 	[Key.timelineAchievement]: "実績",
 	[Key.timelinePresent]: "現在",
-	[Key.timelineLocation]: "场所",
-	[Key.timelineDescription]: "详细な説明",
+	[Key.timelineLocation]: "場所",
+	[Key.timelineDescription]: "詳細な説明",
 	[Key.timelineMonths]: "ヶ月",
 	[Key.timelineYears]: "年",
-	[Key.timelineTotal]: "合计",
+	[Key.timelineTotal]: "合計",
 	[Key.timelineProjects]: "プロジェクト",
 	[Key.timelineExperience]: "実務経験",
 	[Key.timelineCurrent]: "現在のステータス",
 	[Key.timelineHistory]: "履歴",
 	[Key.timelineAchievements]: "実績",
-	[Key.timelineStartDate]: "开始日",
-	[Key.timelineDuration]: "期间",
+	[Key.timelineStartDate]: "開始日",
+	[Key.timelineDuration]: "期間",
 
-	// パスワード保护
-	[Key.passwordProtected]: "パスワードで保护されています",
+	// パスワード保護
+	[Key.passwordProtected]: "パスワードで保護されています",
 	[Key.passwordProtectedTitle]:
-		"このコンテンツはパスワードで保护されています",
+		"このコンテンツはパスワードで保護されています",
 	[Key.passwordProtectedDescription]:
-		"保护されたコンテンツを表示するにはパスワードを入力してください。",
+		"保護されたコンテンツを表示するにはパスワードを入力してください。",
+	[Key.postEncrypted]: "暗号化済み",
 	[Key.passwordPlaceholder]: "パスワードを入力",
 	[Key.passwordUnlock]: "ロックを解除",
 	[Key.passwordUnlocking]: "ロックを解除中...",
-	[Key.passwordIncorrect]: "パスワードが间违っています。再度お试しください。",
+	[Key.passwordIncorrect]: "パスワードが間違っています。再度お試しください。",
 	[Key.passwordDecryptError]:
-		"复号に失败しました。パスワードが正しいかどうか确认してください。",
+		"復号に失敗しました。パスワードが正しいかどうか確認してください。",
 	[Key.passwordRequired]: "パスワードを入力してください。",
-	[Key.passwordVerifying]: "认证中...",
+	[Key.passwordVerifying]: "認証中...",
 	[Key.passwordDecryptFailed]:
-		"复号に失败しました。パスワードを确认してください。",
-	[Key.passwordDecryptRetry]: "复号に失败しました。再度お试しください。",
+		"復号に失敗しました。パスワードを確認してください。",
+	[Key.passwordDecryptRetry]: "復号に失敗しました。再度お試しください。",
 	[Key.passwordUnlockButton]: "ロックを解除",
-	[Key.copyFailed]: "コピーに失败しました:",
-	[Key.syntaxHighlightFailed]: "构文の强调表示が失败しました:",
-	[Key.autoSyntaxHighlightFailed]: "自动构文强调表示が失败しました:",
-	[Key.decryptionError]: "复号中にエラーが発生しました:",
+	[Key.copyFailed]: "コピーに失敗しました:",
+	[Key.syntaxHighlightFailed]: "構文の強調表示が失敗しました:",
+	[Key.autoSyntaxHighlightFailed]: "自動構文強調表示が失敗しました:",
+	[Key.decryptionError]: "復号中にエラーが発生しました:",
+	[Key.passwordHint]: "ヒント",
 
-	// 最终更新时间卡片
-	[Key.lastModifiedPrefix]: "最终编集からの时间: ",
-	[Key.lastModifiedOutdated]: "一部の情报は古い可能性があります",
+	// 最終更新時間カード
+	[Key.lastModifiedPrefix]: "最終編集からの時間: ",
+	[Key.lastModifiedOutdated]: "一部の情報は古い可能性があります",
 	[Key.year]: "年",
 	[Key.month]: "月",
 	[Key.day]: "日",
-	[Key.hour]: "时间",
+	[Key.hour]: "時間",
 	[Key.minute]: "分",
 	[Key.second]: "秒",
 
-	// 统计情报
-	[Key.siteStats]: "统计情报",
+	// 統計情報
+	[Key.siteStats]: "統計情報",
 	[Key.siteStatsPostCount]: "投稿",
 	[Key.siteStatsCategoryCount]: "カテゴリー",
 	[Key.siteStatsTagCount]: "タグ",
-	[Key.siteStatsTotalWords]: "文字数の合计",
-	[Key.siteStatsRunningDays]: "稼动日数",
-	[Key.siteStatsLastUpdate]: "最终更新",
+	[Key.siteStatsTotalWords]: "文字数の合計",
+	[Key.siteStatsRunningDays]: "稼働日数",
+	[Key.siteStatsLastUpdate]: "最終更新",
 	[Key.siteStatsDaysAgo]: "{days}日前",
 	[Key.siteStatsDays]: "{days}日",
 
@@ -343,17 +347,23 @@ export const ja: Translation = {
 	[Key.shareOnSocialDescription]:
 		"この記事が役に立ったときは、ぜひ他の人に共有してください!",
 
-	// プロフィールの统计
-	[Key.profileStatsLoading]: "统计を読み込み中...",
+	// プロフィールの統計
+	[Key.profileStatsLoading]: "統計を読み込み中...",
 	[Key.profileStatsPageViews]: "ページの閲覧",
-	[Key.profileStatsVisits]: "访问",
-	[Key.profileStatsUnavailable]: "统计は利用できません",
+	[Key.profileStatsVisits]: "訪問",
+	[Key.profileStatsUnavailable]: "統計は利用できません",
 
-	// ページビューの统计
-	[Key.pageViewsLoading]: "统计を読み込み中...",
-	[Key.pageViewsUnavailable]: "统计は利用できません",
+	// ページ閲覧の統計
+	[Key.pageViewsLoading]: "統計を読み込み中...",
+	[Key.pageViewsUnavailable]: "統計は利用できません",
 
 	// レイアウト切り替えボタン
 	[Key.switchToGridMode]: "グリッド表示に切り替え",
 	[Key.switchToListMode]: "リスト表示に切り替え",
+
+	// 関連した投稿とランダムな投稿
+	[Key.relatedPosts]: "関連した投稿",
+	[Key.randomPosts]: "ランダムな投稿",
+	[Key.smartRecommend]: "スマート",
+	[Key.randomRecommend]: "ランダム",
 };

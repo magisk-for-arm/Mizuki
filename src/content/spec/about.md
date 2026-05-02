@@ -1,10 +1,8 @@
 # About Me
 
-## 介绍
+This website is built with the **Astro** framework using the [Mizuki](https://github.com/LyraVoid/Mizuki) theme.
 
-- 欢迎来到armの博客！目前属于想到什么就发什么的阶段（-_-）.
-  
-- 职业: 学生.  
+::github{repo="LyraVoid/Mizuki"}
 
 - E-mail: <i@520403.xyz>
 
