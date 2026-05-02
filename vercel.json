@@ -1,6 +1,7 @@
 {
+	"buildCommand": "npx astro build",
 	"outputDirectory": "dist",
-	"installCommand": "pnpm install --frozen-lockfile",
+	"installCommand": "pnpm install",
 	"framework": "astro",
 	"headers": [
 		{
