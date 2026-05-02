@@ -14,7 +14,7 @@
 		"update-bangumi": "node scripts/update-bangumi.mjs",
 		"update-bilibili": "node scripts/update-bilibili.mjs",
 		"build": "node scripts/update-anime.mjs || true && astro build && pagefind --site dist || true && node scripts/compress-fonts.js || true",
-		"vercel-build": "astro build",
+		"vercel-build": "npx astro build",
 		"submit": "node scripts/indexnow-submit.js",
 		"preview": "astro preview",
 		"astro": "astro",
