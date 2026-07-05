@@ -1,29 +1,23 @@
 <script lang="ts">
-	import Icon from "@iconify/svelte";
-	import { slide } from "svelte/transition";
+import Icon from "@iconify/svelte";
+import { slide } from "svelte/transition";
 
-	import Key from "../../../../i18n/i18nKey";
-	import { i18n } from "../../../../i18n/translation";
-	import PlaylistItem from "../atoms/PlaylistItem.svelte";
-	import type { Song } from "../types";
+import Key from "../../../../i18n/i18nKey";
+import { i18n } from "../../../../i18n/translation";
+import PlaylistItem from "../atoms/PlaylistItem.svelte";
+import type { Song } from "../types";
 
-	interface Props {
-		playlist: Song[];
-		currentIndex: number;
-		isPlaying: boolean;
-		show: boolean;
-		onClose: () => void;
-		onPlaySong: (index: number) => void;
-	}
+interface Props {
+	playlist: Song[];
+	currentIndex: number;
+	isPlaying: boolean;
+	show: boolean;
+	onClose: () => void;
+	onPlaySong: (index: number) => void;
+}
 
-	const {
-		playlist,
-		currentIndex,
-		isPlaying,
-		show,
-		onClose,
-		onPlaySong,
-	}: Props = $props();
+const { playlist, currentIndex, isPlaying, show, onClose, onPlaySong }: Props =
+	$props();
 </script>
 
 {#if show}
@@ -32,7 +26,7 @@
 		transition:slide={{ duration: 300, axis: "y" }}
 	>
 		<div
-			class="playlist-header flex items-center justify-between p-4 border-b border-[var(--line-divider)]"
+			class="playlist-header flex items-center justify-between p-4 border-b border-(--line-divider)"
 		>
 			<h3 class="text-lg font-semibold text-90">
 				{i18n(Key.musicPlayerPlaylist)}
@@ -73,7 +67,7 @@
 		);
 	}
 
-	@media (max-width: 768px) {
+	@media (width < 768px) {
 		.playlist-panel {
 			width: 280px !important;
 			max-width: 280px !important;
@@ -81,7 +75,7 @@
 		}
 	}
 
-	@media (max-width: 480px) {
+	@media (width < 480px) {
 		.playlist-panel {
 			width: 260px !important;
 			max-width: 260px !important;

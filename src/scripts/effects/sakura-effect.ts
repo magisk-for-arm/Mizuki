@@ -4,7 +4,7 @@
  */
 
 import type { SakuraConfig } from "../../types/config";
-import { initSakura } from "../../utils/sakura-manager";
+import { initSakura, stopSakura } from "../../utils/sakura-manager";
 
 /**
  * Sakura 特效处理器类
@@ -84,5 +84,22 @@ export function setupSakuraOnDOMReady(widgetConfigs: any): void {
 		document.addEventListener("DOMContentLoaded", init);
 	} else {
 		init();
+	}
+
+	if (!(window as any).__sakuraToggleListenerAdded) {
+		(window as any).__sakuraToggleListenerAdded = true;
+		window.addEventListener("sakura-toggle", (e: Event) => {
+			const detail = (e as CustomEvent).detail;
+			if (detail.enabled) {
+				const config = handler.getConfig() || widgetConfigs?.sakura;
+				if (config && config.enable) {
+					initSakura({ ...config, enable: true });
+					(window as any).sakuraInitialized = true;
+				}
+			} else {
+				stopSakura();
+				(window as any).sakuraInitialized = false;
+			}
+		});
 	}
 }

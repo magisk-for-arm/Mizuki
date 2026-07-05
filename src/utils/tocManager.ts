@@ -26,6 +26,7 @@ export class TOCManager {
 	private contentElement: HTMLElement | null;
 	private scrollOffset: number;
 	private useJapaneseBadge: boolean;
+	private boundClickHandler: ((event: Event) => void) | null = null;
 
 	constructor(config: TOCConfig) {
 		this.contentId = config.contentId ?? null;
@@ -152,20 +153,13 @@ export class TOCManager {
 		filteredHeadings.forEach((heading) => {
 			const depth = Number.parseInt(heading.tagName.charAt(1), 10);
 			const depthLevel =
-				depth === this.minDepth
-					? 0
-					: depth === this.minDepth + 1
-						? 1
-						: 2;
+				depth === this.minDepth ? 0 : depth === this.minDepth + 1 ? 1 : 2;
 
 			if (!heading.id) {
 				return;
 			}
 
-			const badgeContent = this.generateBadgeContent(
-				depth,
-				heading1Count,
-			);
+			const badgeContent = this.generateBadgeContent(depth, heading1Count);
 			if (depth === this.minDepth) {
 				heading1Count++;
 			}
@@ -179,9 +173,7 @@ export class TOCManager {
 				if (dataSubtitles) {
 					try {
 						const subtitles = JSON.parse(dataSubtitles);
-						headingText = Array.isArray(subtitles)
-							? subtitles[0]
-							: subtitles;
+						headingText = Array.isArray(subtitles) ? subtitles[0] : subtitles;
 					} catch {
 						// ignore
 					}
@@ -236,8 +228,7 @@ export class TOCManager {
 		headings.forEach((heading) => {
 			if (heading.id) {
 				const rect = heading.getBoundingClientRect();
-				const isVisible =
-					rect.top < window.innerHeight && rect.bottom > 0;
+				const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
 
 				if (isVisible) {
 					visibleHeadingIds.push(heading.id);
@@ -411,12 +402,24 @@ export class TOCManager {
 	}
 
 	public bindClickEvents(): void {
+		this.unbindClickEvents();
+		this.boundClickHandler = this.handleClick.bind(this);
 		this.tocItems.forEach((item) => {
-			item.addEventListener("click", this.handleClick.bind(this));
+			item.addEventListener("click", this.boundClickHandler!);
 		});
 	}
 
+	private unbindClickEvents(): void {
+		if (this.boundClickHandler) {
+			this.tocItems.forEach((item) => {
+				item.removeEventListener("click", this.boundClickHandler!);
+			});
+			this.boundClickHandler = null;
+		}
+	}
+
 	public cleanup(): void {
+		this.unbindClickEvents();
 		if (this.observer) {
 			this.observer.disconnect();
 			this.observer = null;

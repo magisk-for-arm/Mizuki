@@ -79,9 +79,9 @@ export const ja: Translation = {
 	[Key.animeEmptyLocal]:
 		"src/data/anime.tsファイルにアニメの情報を追加してください",
 	[Key.animeConfigBilibili]:
-		"src/config.tsファイルにBilibiliのvmidを設定してください",
+		"src/config/siteConfig.tsファイルにBilibiliのvmidを設定してください",
 	[Key.animeConfigBangumi]:
-		"src/config.tsファイルにBangumiのユーザーIDを設定してください",
+		"src/config/siteConfig.tsファイルにBangumiのユーザーIDを設定してください",
 
 	// 日記ページ
 	[Key.diarySubtitle]: "いつでも、どこでも生活を共有",
@@ -189,8 +189,7 @@ export const ja: Translation = {
 	[Key.rssHowToUse]:
 		"このサイトの購読はFeedly、Inoreaderまたはその他のRSSリーダーの使用をおすすめします。",
 	[Key.rssCopied]: "RSSのリンクをクリップボードにコピーしました!",
-	[Key.rssCopyFailed]:
-		"コピーに失敗しました。リンクを手動で追加してください。",
+	[Key.rssCopyFailed]: "コピーに失敗しました。リンクを手動で追加してください。",
 
 	// Atomページ
 	[Key.atom]: "Atomフィード",
@@ -218,7 +217,33 @@ export const ja: Translation = {
 	// 壁紙モード
 	[Key.wallpaperBanner]: "バナーモード",
 	[Key.wallpaperFullscreen]: "フルスクリーンモード",
+	[Key.wallpaperOverlay]: "オーバーレイモード",
 	[Key.wallpaperNone]: "壁紙を非表示",
+
+	// 設定パネル
+	[Key.settingsPanel]: "設定",
+	[Key.wallpaperSettings]: "壁紙",
+	[Key.overlaySettings]: "壁紙効果",
+	[Key.overlayOpacity]: "壁紙の透明度",
+	[Key.overlayBlur]: "背景のぼかし",
+	[Key.overlayCardOpacity]: "カードの透明度",
+	[Key.fullscreenOpacity]: "壁紙の透明度",
+	[Key.fullscreenBlur]: "背景のぼかし",
+	[Key.wavesAnimation]: "ウェーブアニメーション",
+	[Key.bannerTitle]: "バナータイトル",
+	[Key.bannerCarousel]: "バナーカルーセル",
+	[Key.sakuraEffect]: "桜エフェクト",
+	[Key.effectsSettings]: "エフェクト",
+	[Key.postListLayout]: "投稿レイアウト",
+	[Key.postListLayoutList]: "リスト",
+	[Key.postListLayoutGrid]: "グリッド",
+	[Key.resetAll]: "すべてリセット",
+	[Key.settingsThemeColor]: "テーマカラー",
+	[Key.settingsWallpaper]: "壁紙",
+	[Key.settingsWallpaperEffects]: "壁紙効果",
+	[Key.settingsBanner]: "バナーオプション",
+	[Key.settingsEffects]: "エフェクト",
+	[Key.settingsLayout]: "レイアウト",
 
 	// スキルページ
 	[Key.skills]: "スキル",
@@ -248,6 +273,26 @@ export const ja: Translation = {
 	[Key.skillsByCategory]: "カテゴリー別",
 	[Key.noData]: "データなし",
 
+	// AI ツール（Aboutページ）
+	[Key.aiTools]: "使っている AI ツール",
+	[Key.aiToolsSubtitle]:
+		"日常のワークフローで使用している AI アシスタントとサービス",
+	[Key.aiToolsCategoryChat]: "チャットアシスタント",
+	[Key.aiToolsCategoryCoding]: "コーディング",
+	[Key.aiToolsCategoryImage]: "画像生成",
+	[Key.aiToolsCategoryAudio]: "音声",
+	[Key.aiToolsCategoryVideo]: "動画",
+	[Key.aiToolsCategoryWriting]: "ライティング / ノート",
+	[Key.aiToolsCategorySearch]: "検索 / リサーチ",
+	[Key.aiToolsCategoryOther]: "その他",
+	[Key.aiToolsFrequencyDaily]: "毎日",
+	[Key.aiToolsFrequencyWeekly]: "毎週",
+	[Key.aiToolsFrequencyOccasional]: "時々",
+	[Key.aiToolsFrequencyExperimental]: "お試し",
+	[Key.aiToolsUsage]: "使用量",
+	[Key.aiToolsVisit]: "公式サイト",
+	[Key.aiToolsNoResults]: "該当する AI ツールがありません",
+
 	// タイムラインページ
 	[Key.timeline]: "タイムライン",
 	[Key.timelineSubtitle]: "成長への旅と重要なマイルストーン",
@@ -271,11 +316,11 @@ export const ja: Translation = {
 
 	// パスワード保護
 	[Key.passwordProtected]: "パスワードで保護されています",
-	[Key.passwordProtectedTitle]:
-		"このコンテンツはパスワードで保護されています",
+	[Key.passwordProtectedTitle]: "このコンテンツはパスワードで保護されています",
 	[Key.passwordProtectedDescription]:
 		"保護されたコンテンツを表示するにはパスワードを入力してください。",
 	[Key.postEncrypted]: "暗号化済み",
+	[Key.postEncryptedMessage]: "この記事は暗号化されています",
 	[Key.passwordPlaceholder]: "パスワードを入力",
 	[Key.passwordUnlock]: "ロックを解除",
 	[Key.passwordUnlocking]: "ロックを解除中...",
@@ -342,7 +387,7 @@ export const ja: Translation = {
 	[Key.copied]: "コピーしました",
 	[Key.copyLink]: "リンクをコピー",
 	[Key.savePoster]: "ポスターを保存",
-	[Key.scanToRead]: "スキャンで読み込む",
+	[Key.scanToRead]: "出典元",
 	[Key.shareOnSocial]: "共有",
 	[Key.shareOnSocialDescription]:
 		"この記事が役に立ったときは、ぜひ他の人に共有してください!",

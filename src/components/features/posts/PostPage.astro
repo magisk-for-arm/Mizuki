@@ -7,8 +7,7 @@ import type { PostPageProps } from "./types";
 const { page }: PostPageProps = Astro.props as PostPageProps;
 
 const hasRightSidebars =
-	widgetManager.getComponentsByPosition("top", "right", "desktop").length >
-		0 ||
+	widgetManager.getComponentsByPosition("top", "right", "desktop").length > 0 ||
 	widgetManager.getComponentsByPosition("sticky", "right", "desktop").length >
 		0;
 
@@ -43,7 +42,8 @@ const initialLayoutClass = defaultLayout === "grid" ? "grid-mode" : "list-mode";
 				return;
 			}
 
-			const savedLayout = localStorage.getItem("postListLayout");
+			const postListLayoutEnabled = document.documentElement.getAttribute("data-post-list-layout-enabled") !== "false";
+			const savedLayout = postListLayoutEnabled ? localStorage.getItem("postListLayout") : null;
 			const defaultLayout =
 				postListContainer.getAttribute("data-default-layout") || "list";
 			const currentLayout = savedLayout || defaultLayout;
@@ -128,7 +128,8 @@ const initialLayoutClass = defaultLayout === "grid" ? "grid-mode" : "list-mode";
 		clearTimeout(resizeTimeout);
 		resizeTimeout = window.setTimeout(() => {
 			if (window.innerWidth >= 769) {
-				const savedLayout = localStorage.getItem("postListLayout");
+				const postListLayoutEnabled = document.documentElement.getAttribute("data-post-list-layout-enabled") !== "false";
+				const savedLayout = postListLayoutEnabled ? localStorage.getItem("postListLayout") : null;
 				const defaultLayout =
 					document
 						.getElementById("post-list-container")

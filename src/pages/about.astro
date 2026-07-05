@@ -1,8 +1,8 @@
 ---
+import { getEntry, render } from "astro:content";
 import Comment from "@components/comment/index.astro";
 import { PageHeader } from "@components/features/page-header";
 import Markdown from "@components/misc/Markdown.astro";
-import { getEntry, render } from "astro:content";
 
 import I18nKey from "../i18n/i18nKey";
 import { i18n } from "../i18n/translation";
@@ -24,7 +24,7 @@ const title = i18n(I18nKey.about);
 		import("../scripts/right-sidebar-layout.js");
 	</script>
 	<div
-		class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative min-h-32"
+		class="flex w-full rounded-(--radius-large) overflow-hidden relative min-h-32"
 	>
 		<div class="card-base z-10 px-9 py-6 relative w-full">
 			<PageHeader title={title} />

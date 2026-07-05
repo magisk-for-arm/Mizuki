@@ -1,73 +1,70 @@
 <script lang="ts">
-	import { onDestroy, onMount } from "svelte";
+import { onDestroy, onMount } from "svelte";
 
-	import type { MusicPlayerState } from "@/stores/musicPlayerStore";
-	import { musicPlayerStore } from "@/stores/musicPlayerStore";
+import type { MusicPlayerState } from "@/stores/musicPlayerStore";
+import { musicPlayerStore } from "@/stores/musicPlayerStore";
 
-	import SidebarControls from "../music-sidebar/components/SidebarControls.svelte";
-	import SidebarCover from "../music-sidebar/components/SidebarCover.svelte";
-	import SidebarPlaylist from "../music-sidebar/components/SidebarPlaylist.svelte";
-	import SidebarProgress from "../music-sidebar/components/SidebarProgress.svelte";
-	import SidebarTrackInfo from "../music-sidebar/components/SidebarTrackInfo.svelte";
+import SidebarControls from "../music-sidebar/components/SidebarControls.svelte";
+import SidebarCover from "../music-sidebar/components/SidebarCover.svelte";
+import SidebarPlaylist from "../music-sidebar/components/SidebarPlaylist.svelte";
+import SidebarProgress from "../music-sidebar/components/SidebarProgress.svelte";
+import SidebarTrackInfo from "../music-sidebar/components/SidebarTrackInfo.svelte";
 
-	let state: MusicPlayerState = $state(musicPlayerStore.getState());
-	let showPlaylist = $state(false);
+let playerState: MusicPlayerState = $state(musicPlayerStore.getState());
+let showPlaylist = $state(false);
 
-	function handleStateUpdate(event: Event) {
-		const custom = event as CustomEvent<MusicPlayerState>;
-		if (custom.detail) {
-			state = custom.detail;
-		}
+function handleStateUpdate(event: Event) {
+	const custom = event as CustomEvent<MusicPlayerState>;
+	if (custom.detail) {
+		playerState = custom.detail;
 	}
+}
 
-	onMount(() => {
-		window.addEventListener("music-sidebar:state", handleStateUpdate);
-	});
+onMount(() => {
+	window.addEventListener("music-sidebar:state", handleStateUpdate);
+});
 
-	onDestroy(() => {
-		if (typeof window !== "undefined") {
-			window.removeEventListener(
-				"music-sidebar:state",
-				handleStateUpdate,
-			);
-		}
-	});
-
-	function togglePlay() {
-		musicPlayerStore.toggle();
+onDestroy(() => {
+	if (typeof window !== "undefined") {
+		window.removeEventListener("music-sidebar:state", handleStateUpdate);
 	}
+});
 
-	function prev() {
-		musicPlayerStore.prev();
-	}
+function togglePlay() {
+	musicPlayerStore.toggle();
+}
 
-	function next() {
-		musicPlayerStore.next();
-	}
+function prev() {
+	musicPlayerStore.prev();
+}
 
-	function toggleMode() {
-		musicPlayerStore.toggleMode();
-	}
+function next() {
+	musicPlayerStore.next();
+}
 
-	function togglePlaylistView() {
-		showPlaylist = !showPlaylist;
-	}
+function toggleMode() {
+	musicPlayerStore.toggleMode();
+}
 
-	function playIndex(index: number) {
-		musicPlayerStore.playIndex(index);
-	}
+function togglePlaylistView() {
+	showPlaylist = !showPlaylist;
+}
 
-	function seek(time: number) {
-		musicPlayerStore.seek(time);
-	}
+function playIndex(index: number) {
+	musicPlayerStore.playIndex(index);
+}
 
-	function toggleMute() {
-		musicPlayerStore.toggleMute();
-	}
+function seek(time: number) {
+	musicPlayerStore.seek(time);
+}
 
-	function setVolume(volume: number) {
-		musicPlayerStore.setVolume(volume);
-	}
+function toggleMute() {
+	musicPlayerStore.toggleMute();
+}
+
+function setVolume(volume: number) {
+	musicPlayerStore.setVolume(volume);
+}
 </script>
 
 <div
@@ -75,31 +72,31 @@
 >
 	<div class="fab-music-header">
 		<SidebarCover
-			currentSong={state.currentSong}
-			isPlaying={state.isPlaying}
-			isLoading={state.isLoading}
+			currentSong={playerState.currentSong}
+			isPlaying={playerState.isPlaying}
+			isLoading={playerState.isLoading}
 		/>
 		<SidebarTrackInfo
-			currentSong={state.currentSong}
-			currentTime={state.currentTime}
-			duration={state.duration}
-			volume={state.volume}
-			isMuted={state.isMuted}
+			currentSong={playerState.currentSong}
+			currentTime={playerState.currentTime}
+			duration={playerState.duration}
+			volume={playerState.volume}
+			isMuted={playerState.isMuted}
 			onToggleMute={toggleMute}
 			onSetVolume={setVolume}
 		/>
 	</div>
 
 	<SidebarProgress
-		currentTime={state.currentTime}
-		duration={state.duration}
+		currentTime={playerState.currentTime}
+		duration={playerState.duration}
 		onSeek={seek}
 	/>
 
 	<SidebarControls
-		isPlaying={state.isPlaying}
-		isShuffled={state.isShuffled}
-		repeatMode={state.isRepeating}
+		isPlaying={playerState.isPlaying}
+		isShuffled={playerState.isShuffled}
+		repeatMode={playerState.isRepeating}
 		onToggleMode={toggleMode}
 		onPrev={prev}
 		onNext={next}
@@ -108,9 +105,9 @@
 	/>
 
 	<SidebarPlaylist
-		playlist={state.playlist}
-		currentIndex={state.currentIndex}
-		isPlaying={state.isPlaying}
+		playlist={playerState.playlist}
+		currentIndex={playerState.currentIndex}
+		isPlaying={playerState.isPlaying}
 		show={showPlaylist}
 		onClose={togglePlaylistView}
 		onPlaySong={playIndex}
@@ -137,7 +134,7 @@
 		margin-bottom: 0.75rem;
 	}
 
-	@media (max-width: 640px) {
+	@media (width < 640px) {
 		.fab-music-panel {
 			padding: 0.9rem 0.85rem 0.9rem 0.9rem;
 			border-radius: 1rem;

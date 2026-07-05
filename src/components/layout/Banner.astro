@@ -5,11 +5,12 @@
  * 轮播模式使用 Ken Burns + Crossfade 动画（参考 Firefly 实现）
  */
 
-import TypewriterText from "@components/atoms/typewriter-text/TypewriterText.astro";
 import Image from "@components/atoms/Image/Image.astro";
+import TypewriterText from "@components/atoms/typewriter-text/TypewriterText.astro";
 import { Icon } from "astro-icon/components";
 import { siteConfig } from "../../config";
 import { BANNER_HEIGHT_EXTEND } from "../../constants/constants";
+import { getImageFormats, getImageQuality } from "../../utils/image-utils";
 
 interface Props {
 	// Banner 配置
@@ -59,13 +60,20 @@ const carouselIntervalMs = Math.max(
 );
 
 // 淡入淡出时间：间隔的 40%，范围 500ms ~ 1500ms
-const fadeMs = Math.min(Math.max(Math.round(carouselIntervalMs * 0.4), 500), 1500);
+const fadeMs = Math.min(
+	Math.max(Math.round(carouselIntervalMs * 0.4), 500),
+	1500,
+);
 
 // Ken Burns 动画时长 = 间隔 + 淡入，确保旧图在 crossfade 期间仍在运动，消除停顿感
 const kbDurationMs = carouselIntervalMs + fadeMs;
 
 const hasBannerCredit = siteConfig.banner.credit.enable;
 const hasBannerLink = !!siteConfig.banner.credit.url;
+
+const bannerQuality = getImageQuality();
+const bannerMobileQuality = Math.round(bannerQuality * 0.9);
+const bannerFormats = getImageFormats();
 ---
 
 <div
@@ -95,6 +103,8 @@ const hasBannerLink = !!siteConfig.banner.credit.url;
 						sizes="100vw"
 						loading="eager"
 						fetchpriority="high"
+						quality={bannerMobileQuality}
+						formats={bannerFormats}
 					/>
 				</div>
 			)}
@@ -109,6 +119,8 @@ const hasBannerLink = !!siteConfig.banner.credit.url;
 						sizes="100vw"
 						loading="eager"
 						fetchpriority="high"
+						quality={bannerMobileQuality}
+						formats={bannerFormats}
 					/>
 				</template>
 			))}
@@ -126,6 +138,8 @@ const hasBannerLink = !!siteConfig.banner.credit.url;
 						sizes="100vw"
 						loading="eager"
 						fetchpriority="high"
+						quality={bannerQuality}
+						formats={bannerFormats}
 					/>
 				</div>
 			)}
@@ -140,6 +154,8 @@ const hasBannerLink = !!siteConfig.banner.credit.url;
 						sizes="100vw"
 						loading="eager"
 						fetchpriority="high"
+						quality={bannerQuality}
+						formats={bannerFormats}
 					/>
 				</template>
 			))}
@@ -227,8 +243,7 @@ const hasBannerLink = !!siteConfig.banner.credit.url;
 	)}
 
 	<!-- 轮播脚本：随机起始 + 帧收集 + Ken Burns + Crossfade + 触摸/鼠标事件 -->
-	{isCarouselEnabled && (
-		<script is:inline data-swup-ignore-script>
+	<script is:inline data-swup-ignore-script>
 			(function initBannerCarousel() {
 				var container = document.getElementById('banner-carousel');
 				if (!container) return;
@@ -591,7 +606,6 @@ const hasBannerLink = !!siteConfig.banner.credit.url;
 				};
 			})();
 		</script>
-	)}
 
 	<!-- 首页文字覆盖层 -->
 	{siteConfig.banner.homeText?.enable && (
@@ -626,10 +640,31 @@ const hasBannerLink = !!siteConfig.banner.credit.url;
 		</div>
 	)}
 
+	<!-- 非首页页面标题覆盖层（持久化容器，JS 动态填充文本） -->
+	<div id="banner-page-overlay" class="banner-page-overlay hidden lg:flex absolute inset-0 z-20 pointer-events-none">
+		<div class="flex flex-col items-center justify-center w-full text-center px-4">
+			<h2 id="page-overlay-title" class="page-overlay-title text-3xl lg:text-5xl text-white font-bold drop-shadow-lg px-4"></h2>
+			<div id="page-overlay-meta" class="page-overlay-meta hidden flex-wrap items-center justify-center gap-x-5 gap-y-2 text-white/80 text-sm md:text-base mt-4">
+				<span class="inline-flex items-center gap-1.5">
+					<Icon name="material-symbols:calendar-month-outline-rounded" class="text-[1.05em]" />
+					<span id="page-overlay-date"></span>
+				</span>
+				<span class="inline-flex items-center gap-1.5">
+					<Icon name="material-symbols:folder-outline" class="text-[1.05em]" />
+					<span id="page-overlay-category"></span>
+				</span>
+				<span class="inline-flex items-center gap-1.5">
+					<Icon name="material-symbols:ink-pen-outline-rounded" class="text-[1.05em]" />
+					<span id="page-overlay-words"></span>
+				</span>
+			</div>
+		</div>
+	</div>
+
 	<!-- 水波纹效果 -->
 	{showWave && (
 		<div
-			class="waves absolute -bottom-[1px] h-[10vh] max-h-[9.375rem] min-h-[3.125rem] w-full md:h-[15vh]"
+			class="waves absolute -bottom-px h-[10vh] max-h-37.5 min-h-12.5 w-full md:h-[15vh]"
 			id="header-waves"
 			style="transform: translateZ(0); will-change: fill;"
 		>
@@ -654,28 +689,28 @@ const hasBannerLink = !!siteConfig.banner.credit.url;
 						xlink:href="#gentle-wave"
 						x="48"
 						y="0"
-						class="opacity-25 fill-[var(--page-bg)]"
+						class="opacity-25 fill-(--page-bg)"
 						style="animation-delay: -2s; animation-duration: 7s; will-change: transform;"
 					></use>
 					<use
 						xlink:href="#gentle-wave"
 						x="48"
 						y="3"
-						class="opacity-50 fill-[var(--page-bg)]"
+						class="opacity-50 fill-(--page-bg)"
 						style="animation-delay: -3s; animation-duration: 10s; will-change: transform;"
 					></use>
 					<use
 						xlink:href="#gentle-wave"
 						x="48"
 						y="5"
-						class="opacity-75 fill-[var(--page-bg)]"
+						class="opacity-75 fill-(--page-bg)"
 						style="animation-delay: -4s; animation-duration: 13s; will-change: transform;"
 					></use>
 					<use
 						xlink:href="#gentle-wave"
 						x="48"
 						y="7"
-						class="fill-[var(--page-bg)]"
+						class="fill-(--page-bg)"
 						style="animation-delay: -5s; animation-duration: 20s; will-change: transform;"
 					></use>
 				</g>
@@ -692,7 +727,7 @@ const hasBannerLink = !!siteConfig.banner.credit.url;
 			rel="noopener"
 			aria-label="Visit image source"
 			class:list={[
-				"group onload-animation transition-all absolute flex justify-center items-center rounded-full px-3 right-4 -top-[3.25rem] bg-black/60 hover:bg-black/70 h-9",
+				"group onload-animation transition-all absolute flex justify-center items-center rounded-full px-3 right-4 -top-13 bg-black/60 hover:bg-black/70 h-9",
 				{ "hover:pr-9 active:bg-black/80": hasBannerLink },
 			]}
 		>

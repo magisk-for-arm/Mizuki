@@ -35,8 +35,8 @@ export class AnimationManager {
 	 * 设置 Swup 集成
 	 */
 	private setupSwupIntegration(): void {
-		if (typeof window !== "undefined" && (window as any).swup) {
-			const swup = (window as any).swup;
+		if (typeof window !== "undefined" && window.swup) {
+			const swup = window.swup;
 
 			// 页面离开动画
 			swup.hooks.on("animation:out:start", () => {
@@ -106,8 +106,7 @@ export class AnimationManager {
 		animatedElements.forEach((element, index) => {
 			const htmlElement = element as HTMLElement;
 			const delay =
-				Number.parseInt(htmlElement.style.animationDelay, 10) ||
-				index * 50;
+				Number.parseInt(htmlElement.style.animationDelay, 10) || index * 50;
 
 			// 重置动画
 			htmlElement.style.opacity = "0";

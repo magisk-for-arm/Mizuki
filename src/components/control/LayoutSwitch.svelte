@@ -1,165 +1,148 @@
 <script lang="ts">
-	import I18nKey from "@i18n/i18nKey";
-	import { i18n } from "@i18n/translation";
-	import { onMount } from "svelte";
+import I18nKey from "@i18n/i18nKey";
+import { i18n } from "@i18n/translation";
+import { onMount } from "svelte";
 
-	import { sidebarLayoutConfig, siteConfig } from "../../config";
+import { sidebarLayoutConfig, siteConfig } from "../../config";
 
-	type LayoutMode = "list" | "grid";
+type LayoutMode = "list" | "grid";
 
-	export let currentLayout: LayoutMode = "list";
+let { currentLayout = $bindable("list") } = $props<{
+	currentLayout?: LayoutMode;
+}>();
 
-	let mounted = false;
-	let isSmallScreen = false;
-	let isSwitching = false;
-	let userPreference: LayoutMode = "list";
-	let mediaQueryList: MediaQueryList | null = null;
+let mounted = $state(false);
+let isSmallScreen = $state(false);
+let isSwitching = $state(false);
+let userPreference = $state<LayoutMode>("list");
+let mediaQueryList: MediaQueryList | null = null;
 
-	const BREAKPOINT =
-		sidebarLayoutConfig.responsive?.breakpoints?.desktop ?? 1280;
+const BREAKPOINT = sidebarLayoutConfig.responsive?.breakpoints?.desktop ?? 1280;
 
-	$: currentLayout = isSmallScreen ? "list" : userPreference;
+const computedLayout = $derived(isSmallScreen ? "list" : userPreference);
 
-	$: if (mounted) {
-		dispatchLayoutChange(currentLayout);
+$effect(() => {
+	currentLayout = computedLayout;
+	dispatchLayoutChange(computedLayout);
+});
+
+function dispatchLayoutChange(layout: LayoutMode) {
+	if (typeof window !== "undefined") {
+		window.dispatchEvent(
+			new CustomEvent("layoutChange", {
+				detail: { layout },
+			}),
+		);
+	}
+}
+
+// 辅助函数：同时更新两种存储
+// sessionStorage 用于判断当前会话状态（关闭标签页失效）
+// localStorage 用于兼容其他组件（如 PostPage.astro）
+// TODO: 使用 sessionStorage 存储状态，关闭标签页即销毁。不应把缓存数据存在访客本地电脑上
+function updateStorage(layout: LayoutMode) {
+	sessionStorage.setItem("postListLayout", layout);
+	localStorage.setItem("postListLayout", layout);
+}
+
+function getSavedSessionLayout(): LayoutMode | null {
+	return sessionStorage.getItem("postListLayout") as LayoutMode;
+}
+
+function switchLayout() {
+	if (!mounted || isSmallScreen || isSwitching) {
+		return;
 	}
 
-	function dispatchLayoutChange(layout: LayoutMode) {
-		if (typeof window !== "undefined") {
-			window.dispatchEvent(
-				new CustomEvent("layoutChange", {
-					detail: { layout },
-				}),
-			);
+	isSwitching = true;
+	const newLayout = userPreference === "list" ? "grid" : "list";
+	userPreference = newLayout;
+
+	// 更新存储
+	updateStorage(newLayout);
+}
+
+function onAnimationEnd() {
+	isSwitching = false;
+}
+
+function handleMediaQueryChange(e: MediaQueryListEvent | MediaQueryList) {
+	isSmallScreen = !e.matches;
+}
+
+onMount(() => {
+	mounted = true;
+
+	const layoutEnabled = siteConfig.postListLayout?.enable ?? true;
+	const sessionLayout = layoutEnabled ? getSavedSessionLayout() : null;
+	const defaultLayout = siteConfig.postListLayout.defaultMode as LayoutMode;
+
+	if (sessionLayout === "list" || sessionLayout === "grid") {
+		userPreference = sessionLayout;
+
+		if (localStorage.getItem("postListLayout") !== sessionLayout) {
+			localStorage.setItem("postListLayout", sessionLayout);
 		}
+	} else {
+		userPreference = defaultLayout;
+		updateStorage(defaultLayout);
 	}
 
-	// 辅助函数：同时更新两种存储
-	// sessionStorage 用于判断当前会话状态（关闭标签页失效）
-	// localStorage 用于兼容其他组件（如 PostPage.astro）
-	// TODO: 使用 sessionStorage 存储状态，关闭标签页即销毁。不应把缓存数据存在访客本地电脑上
-	function updateStorage(layout: LayoutMode) {
-		sessionStorage.setItem("postListLayout", layout);
-		localStorage.setItem("postListLayout", layout);
-	}
+	mediaQueryList = window.matchMedia(`(min-width: ${BREAKPOINT}px)`);
+	handleMediaQueryChange(mediaQueryList);
 
-	function getSavedSessionLayout(): LayoutMode | null {
-		return sessionStorage.getItem("postListLayout") as LayoutMode;
-	}
+	mediaQueryList.addEventListener("change", handleMediaQueryChange);
 
-	function switchLayout() {
-		if (!mounted || isSmallScreen || isSwitching) {
-			return;
+	const handleCustomEvent = (event: CustomEvent<{ layout: LayoutMode }>) => {
+		if (event.detail?.layout) {
+			userPreference = event.detail.layout;
 		}
+	};
 
-		isSwitching = true;
-		const newLayout = userPreference === "list" ? "grid" : "list";
-		userPreference = newLayout;
-
-		// 更新存储
-		updateStorage(newLayout);
-	}
-
-	function onAnimationEnd() {
-		isSwitching = false;
-	}
-
-	function handleMediaQueryChange(e: MediaQueryListEvent | MediaQueryList) {
-		isSmallScreen = !e.matches;
-	}
-
-	onMount(() => {
-		mounted = true;
-
-		const sessionLayout = getSavedSessionLayout();
-		const defaultLayout = siteConfig.postListLayout
-			.defaultMode as LayoutMode;
-
-		if (sessionLayout === "list" || sessionLayout === "grid") {
-			userPreference = sessionLayout;
-
-			if (localStorage.getItem("postListLayout") !== sessionLayout) {
-				localStorage.setItem("postListLayout", sessionLayout);
+	const handleSwupEvent = () => {
+		setTimeout(() => {
+			const saved = getSavedSessionLayout();
+			if (saved === "list" || saved === "grid") {
+				userPreference = saved;
+			} else {
+				userPreference = siteConfig.postListLayout.defaultMode as LayoutMode;
 			}
+		}, 200);
+	};
+
+	window.addEventListener("layoutChange", handleCustomEvent as EventListener);
+
+	const setupSwup = () => {
+		const swup = window.swup;
+		if (swup?.hooks) {
+			swup.hooks.on("content:replace", handleSwupEvent);
+			swup.hooks.on("page:view", handleSwupEvent);
 		} else {
-			userPreference = defaultLayout;
-			updateStorage(defaultLayout);
+			window.addEventListener("popstate", handleSwupEvent);
 		}
+	};
 
-		mediaQueryList = window.matchMedia(`(min-width: ${BREAKPOINT}px)`);
-		handleMediaQueryChange(mediaQueryList);
+	if (window.swup) {
+		setupSwup();
+	} else {
+		setTimeout(setupSwup, 200);
+	}
 
-		if (mediaQueryList.addEventListener) {
-			mediaQueryList.addEventListener("change", handleMediaQueryChange);
-		} else {
-			mediaQueryList.addListener(handleMediaQueryChange);
-		}
-
-		const handleCustomEvent = (
-			event: CustomEvent<{ layout: LayoutMode }>,
-		) => {
-			if (event.detail?.layout) {
-				userPreference = event.detail.layout;
-			}
-		};
-
-		const handleSwupEvent = () => {
-			setTimeout(() => {
-				const saved = getSavedSessionLayout();
-				if (saved === "list" || saved === "grid") {
-					userPreference = saved;
-				} else {
-					userPreference = siteConfig.postListLayout
-						.defaultMode as LayoutMode;
-				}
-			}, 200);
-		};
-
-		window.addEventListener(
+	return () => {
+		mediaQueryList?.removeEventListener("change", handleMediaQueryChange);
+		window.removeEventListener(
 			"layoutChange",
 			handleCustomEvent as EventListener,
 		);
+		window.removeEventListener("popstate", handleSwupEvent);
 
-		const setupSwup = () => {
-			const swup = (window as any).swup;
-			if (swup?.hooks) {
-				swup.hooks.on("content:replace", handleSwupEvent);
-				swup.hooks.on("page:view", handleSwupEvent);
-			} else {
-				window.addEventListener("popstate", handleSwupEvent);
-			}
-		};
-
-		if ((window as any).swup) {
-			setupSwup();
-		} else {
-			setTimeout(setupSwup, 200);
+		const swup = window.swup;
+		if (swup?.hooks) {
+			swup.hooks.off("content:replace", handleSwupEvent);
+			swup.hooks.off("page:view", handleSwupEvent);
 		}
-
-		return () => {
-			if (mediaQueryList) {
-				if (mediaQueryList.removeEventListener) {
-					mediaQueryList.removeEventListener(
-						"change",
-						handleMediaQueryChange,
-					);
-				} else {
-					mediaQueryList.removeListener(handleMediaQueryChange);
-				}
-			}
-			window.removeEventListener(
-				"layoutChange",
-				handleCustomEvent as EventListener,
-			);
-			window.removeEventListener("popstate", handleSwupEvent);
-
-			const swup = (window as any).swup;
-			if (swup?.hooks) {
-				swup.hooks.off("content:replace", handleSwupEvent);
-				swup.hooks.off("page:view", handleSwupEvent);
-			}
-		};
-	});
+	};
+});
 </script>
 
 {#if mounted && siteConfig.postListLayout.allowSwitch && !isSmallScreen}
@@ -172,7 +155,7 @@
 		class="btn-plain scale-animation rounded-lg h-11 w-11 active:scale-90 flex items-center justify-center theme-switch-btn {isSwitching
 			? 'switching'
 			: ''}"
-		on:click={switchLayout}
+		onclick={switchLayout}
 		disabled={isSwitching}
 		title={userPreference === "list"
 			? i18n(I18nKey.switchToGridMode)
@@ -180,7 +163,7 @@
 	>
 		<div
 			class="icon-container w-5 h-5 flex items-center justify-center relative"
-			on:animationend={onAnimationEnd}
+			onanimationend={onAnimationEnd}
 		>
 			{#if userPreference === "list"}
 				<svg

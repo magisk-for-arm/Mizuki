@@ -1,18 +1,19 @@
-# 🌸 Mizuki 
+# 🌸 Mizuki
+
 <img align='right' src='logo.png' width='200px' alt="Mizuki logo">
 
 A modern, feature-rich static blog template built with [Astro](https://astro.build), featuring advanced functionality and beautiful design.
 
 [![Node.js >= 22](https://img.shields.io/badge/node.js-%3E%3D22-brightgreen)](https://nodejs.org/)
 [![pnpm >= 9](https://img.shields.io/badge/pnpm-%3E%3D9-blue)](https://pnpm.io/)
-[![Astro](https://img.shields.io/badge/Astro-6.1.2-orange)](https://astro.build/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.9.3-blue)](https://www.typescriptlang.org/)
+[![Astro](https://img.shields.io/badge/Astro-7.0.4-orange)](https://astro.build/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-6.0.3-blue)](https://www.typescriptlang.org/)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg?logo=apache)](https://opensource.org/licenses/Apache-2.0)
 
 [**🖥️ Live Demo**](https://mizuki.mysqil.com/) | [**📝 Documentation**](https://docs.mizuki.mysqil.com/)
 
 🌏 **README Languages:**
-[**English**](./README.md) / [**中文**](./README.zh.md) / [**日本語**](./README.ja.md) / [**中文繁体**](./README.tw.md) /
+[**English**](./README.md) / [**中文**](./README.zh.md) / [**日本語**](./README.ja.md) / [**繁體中文**](./README.tw.md) /
 
 Get started quickly with our comprehensive documentation. Whether you're customizing your theme, configuring features, or deploying to production, the documentation covers everything you need to launch your blog successfully.
 
@@ -41,26 +42,29 @@ Get started quickly with our comprehensive documentation. Whether you're customi
 [**English**](./README.md) /
 [**中文**](./README.zh.md) /
 [**日本語**](./README.ja.md) /
-[**中文繁体**](./README.tw.md) /
-
+[**繁體中文**](./README.tw.md) /
 
 ### 🔧 Component Configuration System Restructuring
+
 - **Unified Configuration Architecture:** Brand new modular component configuration system, supporting dynamic component management and order configuration
 - **Configuration-Driven Component Loading:** Restructured SideBar component, implementing fully configuration-based component loading mechanism
 - **Unified Control Switches:** Removed independent enable switches for music player and announcement components, unified control through sidebarLayoutConfig
 - **Responsive Layout Adaptation:** Components support responsive layouts, automatically adjusting display based on device type
 
 ### 📐 Layout System Optimization
+
 - **Dynamic Sidebar Position Adjustment:** Support for left/right sidebar switching, with automatic layout adaptation
 - **Intelligent Article Directory Positioning:** When sidebar is on the right, article navigation automatically moves to the left, providing a better reading experience
 - **Grid Layout Improvements:** Optimized CSS Grid layout, resolving container width anomaly issues
 
 ### 🎛️ Configuration File Format Standardization
+
 - **Standardized Configuration Format:** Created unified component configuration file format specifications
 - **Type Safety:** Comprehensive TypeScript type definitions ensuring configuration type safety
 - **Extensibility:** Support for custom component types and configuration options
 
 ### 🧹 Code Optimization
+
 - **Test File Cleanup:** Removed unused test configurations and dependencies, reducing project size
 - **Code Structure Optimization:** Improved component architecture, enhancing code maintainability
 - **Performance Improvement:** Optimized component loading logic, improving page rendering performance
@@ -70,6 +74,7 @@ Get started quickly with our comprehensive documentation. Whether you're customi
 ## ✨ Features
 
 ### 🎨 Design & Interface
+
 - [x] Built with [Astro](https://astro.build) and [Tailwind CSS](https://tailwindcss.com)
 - [x] Smooth animations and page transitions using [Swup](https://swup.js.org/)
 - [x] Light/dark theme switching with system preference detection
@@ -79,6 +84,7 @@ Get started quickly with our comprehensive documentation. Whether you're customi
 - [x] Beautiful typography with JetBrains Mono font
 
 ### 🔍 Content & Search
+
 - [x] Advanced search functionality based on [Pagefind](https://pagefind.app/)
 - [x] [Enhanced Markdown features](#-markdown-extensions) with syntax highlighting
 - [x] Interactive table of contents with auto-scrolling
@@ -86,9 +92,8 @@ Get started quickly with our comprehensive documentation. Whether you're customi
 - [x] Reading time estimation
 - [x] Article categorization and tagging system
 
-
-
 ### 📱 Special Pages
+
 - [x] **Anime Tracking Page** - Track anime watching progress and ratings
 - [x] **Friends Page** - Beautiful cards showcasing friend websites
 - [x] **Diary Page** - Share life moments, similar to social media
@@ -96,6 +101,7 @@ Get started quickly with our comprehensive documentation. Whether you're customi
 - [x] **About Page** - Customizable personal introduction
 
 ### 🛠 Technical Features
+
 - [x] **Enhanced code blocks** based on [Expressive Code](https://expressive-code.com/)
 - [x] **Math formula support** with KaTeX rendering
 - [x] **Image optimization** with PhotoSwipe gallery integration
@@ -108,16 +114,18 @@ Get started quickly with our comprehensive documentation. Whether you're customi
 ### 📦 Installation
 
 1. **Clone the repository:**
+
    ```bash
    git clone https://github.com/LyraVoid/Mizuki.git
    cd Mizuki
    ```
 
 2. **Install dependencies:**
+
    ```bash
    # Install pnpm if not already installed
    npm install -g pnpm
-   
+
    # Install project dependencies
    pnpm install
    ```
@@ -167,7 +175,7 @@ category: Frontend
 draft: false
 pinned: false
 comment: true
-lang: en      # Only set when article language differs from site language in config.ts
+lang: en # Only set when article language differs from site language in config.ts
 ---
 ```
 
@@ -189,12 +197,14 @@ lang: en      # Only set when article language differs from site language in con
 The `pinned` field allows you to pin important articles to the top of your blog list. Pinned articles will always appear before regular articles regardless of their publication date.
 
 **Usage:**
+
 ```yaml
 pinned: true  # Pin this article to the top
 pinned: false # Regular article (default)
 ```
 
 **Sorting Rules:**
+
 1. Pinned articles appear first, sorted by publication date (newest first)
 2. Regular articles follow, sorted by publication date (newest first)
 
@@ -203,6 +213,7 @@ pinned: false # Regular article (default)
 The `comment` field allows you to individually control the enabling and disabling of the comment area for each article.
 
 **Usage:**
+
 ```yaml
 comment: true  # Enable comments (default)
 comment: false # Disable comments
@@ -216,17 +227,20 @@ This feature requires the comment system to be enabled in `src/config.ts` first.
 Mizuki supports enhanced features beyond standard GitHub Flavored Markdown:
 
 ### 📝 Enhanced Writing
+
 - **Callouts:** Create beautiful annotation boxes using `> [!NOTE]`, `> [!TIP]`, `> [!WARNING]`, etc.
 - **Math Formulas:** Write LaTeX math formulas using `$inline$` and `$$block$$` syntax
 - **Code Highlighting:** Advanced syntax highlighting with line numbers and copy buttons
 - **GitHub Cards:** Embed repository cards using `::github{repo="user/repo"}`
 
 ### 🎨 Visual Elements
+
 - **Image Gallery:** Automatic PhotoSwipe integration for image viewing
 - **Collapsible Sections:** Create expandable content blocks
 - **Custom Components:** Enhance content with special directives
 
 ### 📊 Content Organization
+
 - **Table of Contents:** Automatically generated from headings with smooth scrolling
 - **Reading Time:** Automatically calculated and displayed
 - **Article Metadata:** Rich frontmatter support with categories and tags
@@ -235,17 +249,17 @@ Mizuki supports enhanced features beyond standard GitHub Flavored Markdown:
 
 All commands are run from the project root:
 
-| Command                    | Action                                   |
-|:---------------------------|:-----------------------------------------|
-| `pnpm install`             | Install dependencies                     |
+| Command                    | Action                                     |
+| :------------------------- | :----------------------------------------- |
+| `pnpm install`             | Install dependencies                       |
 | `pnpm dev`                 | Start local dev server at `localhost:4321` |
-| `pnpm build`               | Build production site to `./dist/`       |
-| `pnpm preview`             | Preview build locally before deployment  |
-| `pnpm check`               | Run Astro error checking                 |
-| `pnpm format`              | Format code with Prettier                   |
-| `pnpm lint`                | Check and fix code issues                |
-| `pnpm new-post <filename>` | Create a new blog post                   |
-| `pnpm astro ...`           | Run Astro CLI commands                   |
+| `pnpm build`               | Build production site to `./dist/`         |
+| `pnpm preview`             | Preview build locally before deployment    |
+| `pnpm check`               | Run Astro error checking                   |
+| `pnpm format`              | Format code with Prettier                  |
+| `pnpm lint`                | Check and fix code issues                  |
+| `pnpm new-post <filename>` | Create a new blog post                     |
+| `pnpm astro ...`           | Run Astro CLI commands                     |
 
 ## 🎯 Configuration Guide
 
@@ -286,10 +300,10 @@ Mizuki supports separating code and content into two independent repositories, s
 
 **Quick Selection**:
 
-| Use Case | Configuration | For Whom |
-|---------|---------|---------|
-| 🆕 **Local Mode** (default) | No configuration, use directly | Beginners, personal blogs |
-| 🔧 **Separation Mode** | Set `ENABLE_CONTENT_SYNC=true` | Team collaboration, private content |
+| Use Case                    | Configuration                  | For Whom                            |
+| --------------------------- | ------------------------------ | ----------------------------------- |
+| 🆕 **Local Mode** (default) | No configuration, use directly | Beginners, personal blogs           |
+| 🔧 **Separation Mode**      | Set `ENABLE_CONTENT_SYNC=true` | Team collaboration, private content |
 
 **One-Click Enable/Disable**:
 
@@ -311,6 +325,7 @@ pnpm run sync-content
 ```
 
 **Features**:
+
 - ✅ Supports public and private repositories 🔐
 - ✅ One-click enable/disable without code modification
 - ✅ Auto-sync, pulls latest content automatically before development
@@ -363,7 +378,6 @@ Thanks to all contributors for their contributions to this project. If you have 
 
 ## ⭐ Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=LyraVoid/Mizuki&type=Date)](https://star-history.com/#LyraVoid/Mizuki&Date)
----
+## [![Star History Chart](https://api.star-history.com/svg?repos=LyraVoid/Mizuki&type=Date)](https://star-history.com/#LyraVoid/Mizuki&Date)
 
 ⭐ If you find this project helpful, please consider giving it a star!

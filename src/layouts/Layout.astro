@@ -1,8 +1,9 @@
 ---
+import { Font } from "astro:assets";
+import { PageProgressBar } from "@components/control/PageProgressBar";
+import Pio from "@components/features/pio/Pio.astro";
 import ConfigCarrier from "@components/misc/ConfigCarrier.astro";
 import MusicPlayer from "@components/widgets/music-player/MusicPlayer.svelte";
-import Pio from "@components/features/pio/Pio.svelte"; // 使用 Svelte 版本的 Pio 组件
-import { PageProgressBar } from "@components/control/PageProgressBar";
 import { pioConfig, profileConfig, siteConfig } from "@/config";
 
 const BANNER_HEIGHT = 35;
@@ -10,7 +11,6 @@ const BANNER_HEIGHT_EXTEND = 30;
 const BANNER_HEIGHT_HOME = BANNER_HEIGHT + BANNER_HEIGHT_EXTEND;
 
 import { PAGE_WIDTH } from "../constants/constants";
-import { pathsEqual, url } from "../utils/url-utils";
 import "../styles/main.css";
 import "../styles/mobile-navbar.css";
 import "../styles/wallpaper-navbar-transparent.css";
@@ -29,15 +29,18 @@ interface Props {
 	lang?: string;
 	setOGTypeArticle?: boolean;
 	postSlug?: string;
+	coverImage?: string;
 }
 
-let { title, banner, description, lang, setOGTypeArticle, postSlug } =
-	Astro.props;
-
-// apply a class to the body element to decide the height of the banner, only used for initial page load
-// Swup can update the body for each page visit, but it's after the page transition, causing a delay for banner height change
-// so use Swup hooks instead to change the height immediately when a link is clicked
-const isHomePage = pathsEqual(Astro.url.pathname, url("/"));
+let {
+	title,
+	banner,
+	description,
+	lang,
+	setOGTypeArticle,
+	postSlug,
+	coverImage,
+} = Astro.props;
 
 // defines global css variables
 // why doing this in Layout instead of GlobalStyles: https://github.com/withastro/astro/issues/6728#issuecomment-1502203757
@@ -101,6 +104,16 @@ if (title) {
 let ogImageUrl: string | undefined;
 if (siteConfig.generateOgImages && postSlug) {
 	ogImageUrl = new URL(`/og/${postSlug}.png`, Astro.site).toString();
+} else if (coverImage) {
+	// For post pages with cover images, use the resolved cover image
+	ogImageUrl = coverImage.startsWith("http")
+		? coverImage
+		: new URL(coverImage, Astro.site).toString();
+} else if (banner) {
+	// For others, use the first banner as OG image
+	ogImageUrl = banner.startsWith("http")
+		? banner
+		: new URL(banner, Astro.site).toString();
 }
 
 // const siteLang = siteConfig.lang.replace('_', '-')
@@ -117,40 +130,7 @@ const bannerOffsetByPosition = {
 const bannerOffset =
 	bannerOffsetByPosition[siteConfig.banner.position || "center"];
 
-// 构建字体配置的 CSS 变量
-// ASCII 字体优先级最高（用于英文、数字等），CJK 字体作为回退
-let bodyFontFamily = "";
-if (siteConfig.font) {
-	const fonts: string[] = [];
-	// 先添加 ASCII 字体（优先级最高）
-	if (siteConfig.font.asciiFont?.fontFamily) {
-		const asciiFont = siteConfig.font.asciiFont.fontFamily;
-		// 如果字体名包含空格，需要用引号包围
-		fonts.push(asciiFont.includes(" ") ? `"${asciiFont}"` : asciiFont);
-	}
-	// 再添加 CJK 字体（作为回退）
-	if (siteConfig.font.cjkFont?.fontFamily) {
-		const cjkFont = siteConfig.font.cjkFont.fontFamily;
-		// 如果字体名包含空格，需要用引号包围
-		fonts.push(cjkFont.includes(" ") ? `"${cjkFont}"` : cjkFont);
-	}
-	// 添加系统字体作为最终回退
-	fonts.push(
-		"system-ui",
-		"-apple-system",
-		"BlinkMacSystemFont",
-		"'Segoe UI'",
-		"Roboto",
-		"Oxygen",
-		"Ubuntu",
-		"Cantarell",
-		"'Open Sans'",
-		"'Helvetica Neue'",
-		"sans-serif",
-	);
-	// 组合成完整的 font-family 字符串
-	bodyFontFamily = fonts.join(", ");
-}
+// CSS 变量由 Astro Font API 自动注入，body 字体通过 Tailwind --font-body 应用
 ---
 
 <!doctype html>
@@ -158,9 +138,37 @@ if (siteConfig.font) {
 	lang={siteLang}
 	class="bg-(--page-bg) text-[14px] md:text-[16px]"
 	data-overlayscrollbars-initialize
+	data-waves-config-enabled={siteConfig.banner?.waves?.enable ? "true" : "false"}
+	data-banner-title-config-enabled={siteConfig.banner?.homeText?.enable ? "true" : "false"}
+	data-post-list-layout-enabled={siteConfig.postListLayout?.enable ? "true" : "false"}
 >
 	<head>
 		<meta charset="UTF-8" />
+		<Font cssVariable="--font-body" preload />
+		<Font cssVariable="--font-cjk" />
+		<Font cssVariable="--font-jetbrains-mono" />
+
+		<script is:inline>
+			(function() {
+				try {
+					var html = document.documentElement;
+					var cw = html.getAttribute("data-waves-config-enabled");
+					if (cw === "false") {
+						html.setAttribute("data-waves-enabled", "false");
+					} else {
+						var w = localStorage.getItem("wavesEnabled");
+						if (w !== null) html.setAttribute("data-waves-enabled", w);
+					}
+					var ct = html.getAttribute("data-banner-title-config-enabled");
+					if (ct === "false") {
+						html.setAttribute("data-banner-title-enabled", "false");
+					} else {
+						var t = localStorage.getItem("bannerTitleEnabled");
+						if (t !== null) html.setAttribute("data-banner-title-enabled", t);
+					}
+				} catch(e) {}
+			})();
+		</script>
 
 		<!-- 第三方分析脚本 -->
 		<AnalyticsScripts
@@ -187,15 +195,6 @@ if (siteConfig.font) {
 			}}
 		></style>
 
-		<!-- Pio 看板娘样式 - 非渲染阻塞加载 -->
-		{
-			pioConfig.enable && (
-				<Fragment
-					set:html={`<link rel="stylesheet" href="/pio/static/pio.css" media="print" onload="this.media='all'" />`}
-				/>
-			)
-		}
-
 		<link
 			rel="alternate"
 			type="application/rss+xml"
@@ -206,9 +205,9 @@ if (siteConfig.font) {
 	<body
 		class="min-h-screen"
 		class:list={[
-			{ "is-home": isHomePage, "enable-banner": enableBanner },
+			{ "enable-banner": enableBanner, "enable-card-border": siteConfig.card?.border },
 		]}
-		style={bodyFontFamily ? `font-family: ${bodyFontFamily};` : ""}
+
 		data-overlayscrollbars-initialize
 	>
 		<noscript
@@ -233,7 +232,7 @@ if (siteConfig.font) {
 		<MusicPlayer client:idle />
 
 		<!-- Pio 看板娘组件 - 仅在进入视口时加载 -->
-		{pioConfig.enable && <Pio client:visible />}
+		{pioConfig.enable && <Pio config={pioConfig} />}
 
 		<!-- increase the page height during page transition to prevent the scrolling animation from jumping -->
 		<div id="page-height-extend" class="hidden h-[300vh]"></div>
@@ -251,24 +250,17 @@ if (siteConfig.font) {
 	@reference "../styles/main.css";
 
 	@layer components {
-		@media (min-width: 1280px) {
-			.enable-banner.lg\:is-home #banner-wrapper {
+		@media (width >= 1280px) {
+			.enable-banner #banner-wrapper {
 				height: var(--banner-height-home);
 				transform: translateY(var(--banner-height-extend));
 			}
-			.enable-banner #banner-wrapper {
-				height: var(--banner-height-home);
-			}
 
-			.enable-banner.lg\:is-home #banner {
+			.enable-banner #banner {
 				height: var(--banner-height-home);
 				transform: translateY(0);
 			}
-			.enable-banner #banner {
-				height: var(--banner-height-home);
-				transform: translateY(var(--bannerOffset));
-			}
-			.enable-banner.lg\:is-home #main-grid {
+			.enable-banner #main-grid {
 				transform: translateY(var(--banner-height-extend));
 			}
 			.enable-banner #top-row {
@@ -294,14 +286,14 @@ if (siteConfig.font) {
 		}
 	}
 	@layer utilities {
-		@media (min-width: 1280px) {
-			.enable-banner.lg\:is-home #sidebar-sticky {
+		@media (width >= 1280px) {
+			.enable-banner #sidebar-sticky {
 				top: calc(1rem - var(--banner-height-extend)) !important;
 			}
-			.enable-banner.lg\:is-home #left-sidebar-sticky {
+			.enable-banner #left-sidebar-sticky {
 				top: calc(1rem - var(--banner-height-extend)) !important;
 			}
-			.enable-banner.lg\:is-home #right-sidebar-sticky {
+			.enable-banner #right-sidebar-sticky {
 				top: calc(1rem - var(--banner-height-extend)) !important;
 			}
 		}

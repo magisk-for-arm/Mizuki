@@ -82,7 +82,7 @@ const subtitle = i18n(I18nKey.skillsSubtitle);
 	<script is:inline src="/js/filter-tabs-handler.js"></script>
 
 	<div
-		class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative min-h-32"
+		class="flex w-full rounded-(--radius-large) overflow-hidden relative min-h-32"
 	>
 		<div class="card-base z-10 px-6 sm:px-9 py-6 relative w-full">
 			<PageHeader title={title} subtitle={subtitle} />
@@ -113,7 +113,7 @@ const subtitle = i18n(I18nKey.skillsSubtitle);
 		grid-template-columns: 1fr;
 	}
 
-	@media (min-width: 640px) {
+	@media (width >= 640px) {
 		#skills-grid {
 			grid-template-columns: repeat(2, minmax(0, 1fr));
 		}
@@ -123,7 +123,7 @@ const subtitle = i18n(I18nKey.skillsSubtitle);
 		grid-template-columns: repeat(3, minmax(0, 1fr));
 	}
 
-	@media (max-width: 639px) {
+	@media (width < 640px) {
 		#main-grid[data-layout-mode="grid"] #skills-grid {
 			grid-template-columns: 1fr;
 		}

@@ -1,18 +1,19 @@
 # 🌸 Mizuki
+
 <img align='right' src='logo.png' width='200px' alt="Mizuki logo">
 
 一個現代化、功能豐富的靜態部落格模板，基於 [Astro](https://astro.build) 構建，具有先進的功能和精美的設計。
 
 [![Node.js >= 22](https://img.shields.io/badge/node.js-%3E%3D22-brightgreen)](https://nodejs.org/)
 [![pnpm >= 9](https://img.shields.io/badge/pnpm-%3E%3D9-blue)](https://pnpm.io/)
-[![Astro](https://img.shields.io/badge/Astro-6.1.2-orange)](https://astro.build/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.9.3-blue)](https://www.typescriptlang.org/)
+[![Astro](https://img.shields.io/badge/Astro-7.0.4-orange)](https://astro.build/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-6.0.3-blue)](https://www.typescriptlang.org/)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg?logo=apache)](https://opensource.org/licenses/Apache-2.0)
 
 [**🖥️ 線上演示**](https://mizuki.mysqil.com/) | [**📝 使用者文檔**](https://docs.mizuki.mysqil.com/)
 
 🌏 **README 語言:**
-[**English**](./README.md) / [**中文**](./README.zh.md) / [**日本語**](./README.ja.md) / [**中文繁体**](./README.tw.md) /
+[**English**](./README.md) / [**中文**](./README.zh.md) / [**日本語**](./README.ja.md) / [**繁體中文**](./README.tw.md) /
 
 透過我們的綜合文檔快速開始。無論是自訂主題、配置功能，還是部署到生產環境，文檔涵蓋了您成功啟動部落格所需的所有內容。
 
@@ -41,28 +42,29 @@
 [**English**](./README.md) /
 [**中文**](./README.zh.md) /
 [**日本語**](./README.ja.md) /
-[**中文繁体**](./README.tw.md) /
-
-
-
+[**繁體中文**](./README.tw.md) /
 
 ### 🔧 元件配置系統重構
+
 - **統一配置架構：** 全新的模組化元件配置體系，支援動態元件管理和順序配置
 - **配置驅動的元件載入：** 重構 SideBar 元件，實現完全基於配置的元件載入機制
 - **統一控制開關：** 移除音樂播放器和公告元件的獨立 enable 開關，統一由 sidebarLayoutConfig 控制
 - **響應式佈局適配：** 元件支援響應式佈局，可根據裝置類型自動調整顯示
 
 ### 📐 佈局系統優化
+
 - **側邊欄位置動態調整：** 支援左右側邊欄切換，佈局自動適配
 - **文章目錄智能定位：** 當側邊欄在右側時，文章導航自動移至左側，提供更好的閱讀體驗
 - **網格佈局改進：** 優化 CSS Grid 佈局，解決容器寬度異常問題
 
 ### 🎛️ 配置文件格式規範
+
 - **標準化配置格式：** 創建統一的元件配置文件格式規範
 - **類型安全：** 完善的 TypeScript 類型定義，確保配置的類型安全
 - **可擴展性：** 支援自定義元件類型和配置選項
 
 ### 🧹 程式碼優化
+
 - **測試文件清理：** 移除未使用的測試配置和依賴，減少專案體積
 - **程式碼結構優化：** 改進元件架構，提升程式碼可維護性
 - **效能提升：** 優化元件載入邏輯，提升頁面渲染效能
@@ -72,6 +74,7 @@
 ## ✨ 功能特性
 
 ### 🎨 設計與界面
+
 - [x] 基於 [Astro](https://astro.build) 和 [Tailwind CSS](https://tailwindcss.com) 構建
 - [x] 使用 [Swup](https://swup.js.org/) 實現流暢的動畫和頁面過渡
 - [x] 明暗主題切換，支援系統偏好檢測
@@ -81,6 +84,7 @@
 - [x] 使用 JetBrains Mono 字體的優美排版
 
 ### 🔍 內容與搜尋
+
 - [x] 基於 [Pagefind](https://pagefind.app/) 的高級搜尋功能
 - [x] [增強的 Markdown 功能](#-markdown-擴展語法)，支援語法高亮
 - [x] 互動式目錄，支援自動滾動
@@ -88,13 +92,8 @@
 - [x] 閱讀時間估算
 - [x] 文章分類和標籤系統
 
-### 🌐 國際化支援
-- [x] **多語言支援**，即時翻譯功能
-- [x] **自動語言檢測**，基於使用者偏好
-- [x] **客戶端翻譯**，由 Edge Translate 驅動
-- [x] 支援 10+ 種語言（中文、英文、日文、韓文、西班牙文等）
-
 ### 📱 特色頁面
+
 - [x] **追番頁面** - 追蹤動畫觀看進度和評分
 - [x] **友鏈頁面** - 精美卡片展示朋友網站
 - [x] **日記頁面** - 分享生活瞬間，類似社交媒體
@@ -102,6 +101,7 @@
 - [x] **關於頁面** - 可自定義的個人介紹
 
 ### 🛠 技術特性
+
 - [x] **增強程式碼區塊**，基於 [Expressive Code](https://expressive-code.com/)
 - [x] **數學公式支援**，KaTeX 渲染
 - [x] **圖片優化**，PhotoSwipe 畫廊整合
@@ -114,16 +114,18 @@
 ### 📦 安裝
 
 1. **克隆儲存庫：**
+
    ```bash
    git clone https://github.com/LyraVoid/Mizuki.git
    cd Mizuki
    ```
 
 2. **安裝依賴：**
+
    ```bash
    # 如果沒有安裝 pnpm，先安裝
    npm install -g pnpm
-   
+
    # 安裝專案依賴
    pnpm install
    ```
@@ -158,7 +160,7 @@
 部署前，請在 `src/config.ts` 中更新 `siteURL`。
 
 - **環境變數配置（可選）：** 可參照 `.env.example` 來配置
-**不建議**將 `.env` 檔案提交到 Git，`.env` 應該僅在本地調試或構建使用。若要將項目在雲平台部署，建議通過平台上的 `環境變數` 配置傳入。
+  **不建議**將 `.env` 檔案提交到 Git，`.env` 應該僅在本地調試或構建使用。若要將項目在雲平台部署，建議通過平台上的 `環境變數` 配置傳入。
 
 ## 📝 文章前言格式
 
@@ -173,14 +175,14 @@ category: 前端
 draft: false
 pinned: false
 comment: true
-lang: zh-TW      # 僅當文章語言與 config.ts 中的網站語言不同時設置
+lang: zh-TW # 僅當文章語言與 config.ts 中的網站語言不同時設置
 ---
 ```
 
 ### Frontmatter 欄位說明
 
-- **title**: 文章標題（必需）
-- **published**: 發布日期（必需）
+- **title**: 文章標題（必要）
+- **published**: 發布日期（必要）
 - **description**: 文章描述，用於 SEO 和預覽
 - **image**: 封面圖片路徑（相對於文章檔案）
 - **tags**: 標籤陣列，用於分類
@@ -195,12 +197,14 @@ lang: zh-TW      # 僅當文章語言與 config.ts 中的網站語言不同時�
 `pinned` 欄位允許您將重要文章置頂到部落格列表的頂部。置頂文章將始終顯示在普通文章之前，無論其發布日期如何。
 
 **使用方法：**
+
 ```yaml
 pinned: true  # 將此文章置頂
 pinned: false # 普通文章（預設）
 ```
 
 **排序規則：**
+
 1. 置頂文章優先顯示，按發布日期排序（最新在前）
 2. 普通文章隨後顯示，按發布日期排序（最新在前）
 
@@ -209,6 +213,7 @@ pinned: false # 普通文章（預設）
 `comment` 欄位允許您單獨控制每篇文章評論區的開啟與關閉。
 
 **使用方法：**
+
 ```yaml
 comment: true  # 啟用評論（預設）
 comment: false # 禁用評論
@@ -222,17 +227,20 @@ comment: false # 禁用評論
 Mizuki 支援超越標準 GitHub Flavored Markdown 的增強功能：
 
 ### 📝 增強寫作
+
 - **提示框：** 使用 `> [!NOTE]`、`> [!TIP]`、`> [!WARNING]` 等創建精美的標註框
 - **數學公式：** 使用 `$行內$` 和 `$$塊級$$` 語法編寫 LaTeX 數學公式
 - **程式碼高亮：** 高級語法高亮，支援行號和複製按鈕
 - **GitHub 卡片：** 使用 `::github{repo="使用者/儲存庫"}` 嵌入儲存庫卡片
 
 ### 🎨 視覺元素
+
 - **圖片畫廊：** 自動 PhotoSwipe 整合，支援圖片查看
 - **可折疊部分：** 創建可展開的內容區塊
 - **自定義元件：** 使用特殊指令增強內容
 
 ### 📊 內容組織
+
 - **目錄：** 從標題自動生成，支援平滑滾動
 - **閱讀時間：** 自動計算和顯示
 - **文章元數據：** 豐富的前言支援，包含分類和標籤
@@ -241,17 +249,17 @@ Mizuki 支援超越標準 GitHub Flavored Markdown 的增強功能：
 
 所有命令都在專案根目錄運行：
 
-| 命令                       | 操作                                    |
-|:---------------------------|:---------------------------------------|
-| `pnpm install`             | 安裝依賴                               |
-| `pnpm dev`                 | 在 `localhost:4321` 啟動本地開發伺服器 |
-| `pnpm build`               | 構建生產網站到 `./dist/`               |
-| `pnpm preview`             | 在部署前本地預覽構建                   |
-| `pnpm check`               | 運行 Astro 錯誤檢查                    |
-| `pnpm format`              | 使用 Prettier 格式化程式碼                |
-| `pnpm lint`                | 檢查並修復程式碼問題                   |
-| `pnpm new-post <檔案名>`   | 創建新部落格文章                       |
-| `pnpm astro ...`           | 運行 Astro CLI 命令                    |
+| 命令                     | 操作                                   |
+| :----------------------- | :------------------------------------- |
+| `pnpm install`           | 安裝依賴                               |
+| `pnpm dev`               | 在 `localhost:4321` 啟動本地開發伺服器 |
+| `pnpm build`             | 構建生產網站到 `./dist/`               |
+| `pnpm preview`           | 在部署前本地預覽構建                   |
+| `pnpm check`             | 運行 Astro 錯誤檢查                    |
+| `pnpm format`            | 使用 Prettier 格式化程式碼             |
+| `pnpm lint`              | 檢查並修復程式碼問題                   |
+| `pnpm new-post <檔案名>` | 創建新部落格文章                       |
+| `pnpm astro ...`         | 運行 Astro CLI 命令                    |
 
 ## 🎯 配置指南
 
@@ -267,11 +275,6 @@ export const siteConfig: SiteConfig = {
   themeColor: {
     hue: 210, // 0-360，主題色調
     fixed: false, // 隱藏主題色選擇器
-  },
-  translate: {
-    enable: true, // 啟用翻譯功能
-    service: "client.edge", // 翻譯服務
-    defaultLanguage: "chinese_traditional",
   },
   banner: {
     enable: true,
@@ -297,10 +300,10 @@ Mizuki 支援將代碼和內容分成兩個獨立的倉庫管理，適合團隊�
 
 **快速選擇**:
 
-| 使用場景 | 配置方式 | 適合人群 |
-|---------|---------|---------|
-| 🆕 **本地模式** (預設) | 不配置，直接使用 | 新手、個人部落格 |
-| 🔧 **分離模式** | 設置 `ENABLE_CONTENT_SYNC=true` | 團隊協作、私有內容 |
+| 使用場景               | 配置方式                        | 適合人群           |
+| ---------------------- | ------------------------------- | ------------------ |
+| 🆕 **本地模式** (預設) | 不配置，直接使用                | 新手、個人部落格   |
+| 🔧 **分離模式**        | 設置 `ENABLE_CONTENT_SYNC=true` | 團隊協作、私有內容 |
 
 **一鍵啟用/禁用**:
 
@@ -322,6 +325,7 @@ pnpm run sync-content
 ```
 
 **功能特性**:
+
 - ✅ 支援公開和私有倉庫 🔐
 - ✅ 一鍵啟用/禁用，無需修改代碼
 - ✅ 自動同步，開發前自動拉取最新內容

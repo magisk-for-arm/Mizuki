@@ -1,27 +1,27 @@
 <script lang="ts">
-	import type { Action } from "svelte/action";
+import type { Action } from "svelte/action";
 
-	interface Props {
-		volume: number;
-		isVolumeDragging: boolean;
-		volumeBarRef: Action<HTMLElement, undefined>;
-		onpointerdown: (event: PointerEvent) => void;
-		onkeydown: (event: KeyboardEvent) => void;
-		ariaLabel: string;
-	}
+interface Props {
+	volume: number;
+	isVolumeDragging: boolean;
+	volumeBarRef: Action<HTMLElement, undefined>;
+	onpointerdown: (event: PointerEvent) => void;
+	onkeydown: (event: KeyboardEvent) => void;
+	ariaLabel: string;
+}
 
-	const {
-		volume,
-		isVolumeDragging,
-		volumeBarRef,
-		onpointerdown,
-		onkeydown,
-		ariaLabel,
-	}: Props = $props();
+const {
+	volume,
+	isVolumeDragging,
+	volumeBarRef,
+	onpointerdown,
+	onkeydown,
+	ariaLabel,
+}: Props = $props();
 </script>
 
 <div
-	class="flex-1 h-2 bg-[var(--btn-regular-bg)] rounded-full cursor-pointer touch-none"
+	class="flex-1 h-2 bg-(--btn-regular-bg) rounded-full cursor-pointer touch-none"
 	use:volumeBarRef
 	{onpointerdown}
 	{onkeydown}
@@ -33,7 +33,7 @@
 	aria-valuenow={volume * 100}
 >
 	<div
-		class="h-full bg-[var(--primary)] rounded-full transition-all"
+		class="h-full bg-(--primary) rounded-full transition-all"
 		class:duration-100={!isVolumeDragging}
 		class:duration-0={isVolumeDragging}
 		style="width: {volume * 100}%"

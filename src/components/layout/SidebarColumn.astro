@@ -1,6 +1,7 @@
 ---
 import { SidebarTOC } from "@components/features/toc";
 import type { MarkdownHeading } from "astro";
+import type { AstroComponentFactory } from "astro/runtime/server/index.js";
 
 import { widgetManager } from "@/utils/widget-manager";
 import { buildComponentProps } from "@/utils/widget-renderer";
@@ -82,8 +83,10 @@ const desktopStickyComponents = showDesktop
 function renderComponent(
 	component: WidgetComponentConfig,
 	index: number,
-): { Component: any; props: Record<string, unknown> } | null {
-	const ComponentToRender = componentMap[component.type] as any;
+): { Component: AstroComponentFactory; props: Record<string, unknown> } | null {
+	const ComponentToRender = componentMap[component.type] as
+		| AstroComponentFactory
+		| undefined;
 	if (!ComponentToRender) {
 		return null;
 	}

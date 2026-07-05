@@ -81,9 +81,9 @@ export const zh_TW: Translation = {
 	[Key.animeEmptyBilibili]: "請檢查 Bilibili 設定或網路連線",
 	[Key.animeEmptyLocal]: "請在 src/data/anime.ts 檔案中新增番劇資訊",
 	[Key.animeConfigBilibili]:
-		"請在 src/config.ts 檔案中設定您的 Bilibili vmid",
+		"請在 src/config/siteConfig.ts 檔案中設定您的 Bilibili vmid",
 	[Key.animeConfigBangumi]:
-		"請在 src/config.ts 檔案中設定您的 Bangumi userId",
+		"請在 src/config/siteConfig.ts 檔案中設定您的 Bangumi userId",
 
 	// 短文頁面
 	[Key.diarySubtitle]: "隨時隨地，分享生活",
@@ -178,8 +178,7 @@ export const zh_TW: Translation = {
 	[Key.rssBenefit2]: "在一個地方管理多個網站的訂閱",
 	[Key.rssBenefit3]: "避免錯過重要更新和文章",
 	[Key.rssBenefit4]: "享受無廣告的純淨閱讀經驗",
-	[Key.rssHowToUse]:
-		"推薦使用 Feedly、Inoreader 或其他 RSS 閱讀器來訂閱本站。",
+	[Key.rssHowToUse]: "推薦使用 Feedly、Inoreader 或其他 RSS 閱讀器來訂閱本站。",
 	[Key.rssCopied]: "RSS 鏈接已複製到剪貼板！",
 	[Key.rssCopyFailed]: "複製失敗，請手動複製鏈接",
 
@@ -230,6 +229,25 @@ export const zh_TW: Translation = {
 	[Key.skillsByLevel]: "按等級分布",
 	[Key.skillsByCategory]: "按分類分布",
 
+	// AI 工具（關於頁面）
+	[Key.aiTools]: "我使用的 AI 工具",
+	[Key.aiToolsSubtitle]: "目前在日常工作流程中常用的 AI 助手與服務",
+	[Key.aiToolsCategoryChat]: "對話助手",
+	[Key.aiToolsCategoryCoding]: "編碼協作",
+	[Key.aiToolsCategoryImage]: "圖像生成",
+	[Key.aiToolsCategoryAudio]: "音訊",
+	[Key.aiToolsCategoryVideo]: "影片",
+	[Key.aiToolsCategoryWriting]: "寫作 / 筆記",
+	[Key.aiToolsCategorySearch]: "搜尋 / 研究",
+	[Key.aiToolsCategoryOther]: "其他",
+	[Key.aiToolsFrequencyDaily]: "每天",
+	[Key.aiToolsFrequencyWeekly]: "每週",
+	[Key.aiToolsFrequencyOccasional]: "偶爾",
+	[Key.aiToolsFrequencyExperimental]: "嘗鮮",
+	[Key.aiToolsUsage]: "使用量",
+	[Key.aiToolsVisit]: "前往官網",
+	[Key.aiToolsNoResults]: "沒有匹配的 AI 工具",
+
 	// 時間線頁面
 	[Key.timeline]: "時間線",
 	[Key.timelineSubtitle]: "我的成長歷程和重要里程碑",
@@ -259,6 +277,7 @@ export const zh_TW: Translation = {
 	[Key.passwordProtectedTitle]: "此內容受密碼保護",
 	[Key.passwordProtectedDescription]: "請輸入密碼以查看受保護的內容",
 	[Key.postEncrypted]: "已加密",
+	[Key.postEncryptedMessage]: "該文章已加密",
 	[Key.passwordPlaceholder]: "請輸入密碼",
 	[Key.passwordUnlock]: "解鎖",
 	[Key.passwordUnlocking]: "解鎖中...",
@@ -288,7 +307,33 @@ export const zh_TW: Translation = {
 	// 壁紙模式
 	[Key.wallpaperBanner]: "橫幅模式",
 	[Key.wallpaperFullscreen]: "全屏模式",
+	[Key.wallpaperOverlay]: "覆蓋模式",
 	[Key.wallpaperNone]: "隱藏壁紙",
+
+	// 設定面板
+	[Key.settingsPanel]: "設定",
+	[Key.wallpaperSettings]: "壁紙",
+	[Key.overlaySettings]: "壁紙效果",
+	[Key.overlayOpacity]: "壁紙透明度",
+	[Key.overlayBlur]: "背景模糊",
+	[Key.overlayCardOpacity]: "卡片透明度",
+	[Key.fullscreenOpacity]: "壁紙透明度",
+	[Key.fullscreenBlur]: "背景模糊",
+	[Key.wavesAnimation]: "水波紋動畫",
+	[Key.bannerTitle]: "橫幅標題",
+	[Key.bannerCarousel]: "橫幅輪播",
+	[Key.sakuraEffect]: "櫻花特效",
+	[Key.effectsSettings]: "特效",
+	[Key.postListLayout]: "文章佈局",
+	[Key.postListLayoutList]: "列表",
+	[Key.postListLayoutGrid]: "網格",
+	[Key.resetAll]: "全部重置",
+	[Key.settingsThemeColor]: "主題色",
+	[Key.settingsWallpaper]: "壁紙",
+	[Key.settingsWallpaperEffects]: "壁紙效果",
+	[Key.settingsBanner]: "橫幅選項",
+	[Key.settingsEffects]: "特效",
+	[Key.settingsLayout]: "佈局",
 
 	// 站點統計
 	[Key.siteStats]: "站點統計",
@@ -328,10 +373,9 @@ export const zh_TW: Translation = {
 	[Key.copied]: "已複製",
 	[Key.copyLink]: "複製連結",
 	[Key.savePoster]: "儲存海報",
-	[Key.scanToRead]: "掃碼閱讀",
+	[Key.scanToRead]: "來源網站",
 	[Key.shareOnSocial]: "分享",
-	[Key.shareOnSocialDescription]:
-		"如果這篇文章對你有幫助，歡迎分享給更多人！",
+	[Key.shareOnSocialDescription]: "如果這篇文章對你有幫助，歡迎分享給更多人！",
 
 	// 個人資料統計
 	[Key.profileStatsLoading]: "統計載入中...",

@@ -38,10 +38,12 @@ export const getDiaryList = (limit?: number) => {
 // 获取所有标签
 export const getAllTags = () => {
 	const tags = new Set<string>();
-	diaryData.forEach((item) => {
+	for (const item of diaryData) {
 		if (item.tags) {
-			item.tags.forEach((tag) => tags.add(tag));
+			for (const tag of item.tags) {
+				tags.add(tag);
+			}
 		}
-	});
+	}
 	return Array.from(tags).sort();
 };

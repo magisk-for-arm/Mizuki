@@ -1,14 +1,28 @@
 ---
-import { expressiveCodeConfig, siteConfig } from "@/config";
+import {
+	expressiveCodeConfig,
+	fullscreenWallpaperConfig,
+	sakuraConfig,
+	siteConfig,
+} from "@/config";
 ---
 
-<!-- 全局配置载体 -->
 <div
 	id="config-carrier"
 	data-hue={siteConfig.themeColor.hue}
 	data-hide-code-blocks-during-transition={expressiveCodeConfig.hideDuringThemeTransition
 		? "true"
 		: "false"}
+	data-overlay-opacity={fullscreenWallpaperConfig.overlay?.opacity ?? 0.8}
+	data-overlay-blur={fullscreenWallpaperConfig.overlay?.blur ?? 10}
+	data-overlay-card-opacity={fullscreenWallpaperConfig.overlay?.cardOpacity ?? 0.5}
+	data-fullscreen-opacity={fullscreenWallpaperConfig.opacity ?? 0.8}
+	data-fullscreen-blur={fullscreenWallpaperConfig.blur ?? 0}
+	data-default-wallpaper-mode={siteConfig.wallpaperMode.defaultMode}
+	data-sakura-enabled={sakuraConfig.enable ? "true" : "false"}
+	data-waves-enabled={siteConfig.banner?.waves?.enable ? "true" : "false"}
+	data-banner-title-enabled={siteConfig.banner?.homeText?.enable ? "true" : "false"}
+	data-banner-carousel-enabled={siteConfig.banner?.carousel?.enable ? "true" : "false"}
 >
 </div>
 
@@ -20,7 +34,6 @@ import { expressiveCodeConfig, siteConfig } from "@/config";
 		tocUseJapaneseBadge: siteConfig.toc.useJapaneseBadge,
 	}}
 >
-	// 将 TOC 配置传递到前端
 	window.siteConfig = window.siteConfig || {};
 	window.siteConfig.toc = {
 		enable: tocEnable,
@@ -28,6 +41,5 @@ import { expressiveCodeConfig, siteConfig } from "@/config";
 		useJapaneseBadge: tocUseJapaneseBadge,
 	};
 
-	// 添加调试信息
 	console.log("TOC Config:", window.siteConfig.toc);
 </script>

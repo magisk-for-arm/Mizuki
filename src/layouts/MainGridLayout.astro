@@ -12,7 +12,11 @@ import type { MarkdownHeading } from "astro";
 import { Icon } from "astro-icon/components";
 
 import { fullscreenWallpaperConfig, siteConfig } from "../config";
-import { BANNER_HEIGHT } from "../constants/constants";
+import {
+	BANNER_HEIGHT,
+	BANNER_HEIGHT_FULLSCREEN,
+} from "../constants/constants";
+import { formatDateToYYYYMMDD } from "../utils/date-utils";
 import {
 	calculateGridLayout,
 	getBannerImages,
@@ -32,6 +36,10 @@ interface Props {
 	setOGTypeArticle?: boolean;
 	postSlug?: string;
 	headings?: MarkdownHeading[];
+	coverImage?: string;
+	publishedDate?: Date;
+	category?: string;
+	wordCount?: number;
 }
 
 // 获取 banner 图片
@@ -44,7 +52,11 @@ const {
 	lang,
 	setOGTypeArticle,
 	postSlug,
+	coverImage,
 	headings = [],
+	publishedDate,
+	category,
+	wordCount,
 } = Astro.props;
 const hasBannerCredit = siteConfig.banner.credit.enable;
 const hasBannerLink = !!siteConfig.banner.credit.url;
@@ -58,6 +70,7 @@ const mobileNonHomeBannerClass = !isHomePage ? "mobile-hide-banner" : "";
 const finalMainPanelTop = getMainPanelTop(
 	siteConfig.wallpaperMode.defaultMode,
 	BANNER_HEIGHT,
+	BANNER_HEIGHT_FULLSCREEN,
 );
 
 // 计算网格布局
@@ -95,6 +108,7 @@ const defaultPostListLayout = siteConfig.postListLayout?.defaultMode || "list";
 	lang={lang}
 	setOGTypeArticle={setOGTypeArticle}
 	postSlug={postSlug}
+	coverImage={coverImage}
 >
 	<GridScripts
 		navbarTransparentMode={siteConfig.banner?.navbar?.transparentMode ||
@@ -102,7 +116,12 @@ const defaultPostListLayout = siteConfig.postListLayout?.defaultMode || "list";
 		defaultWallpaperMode={siteConfig.wallpaperMode.defaultMode}
 		defaultPostListLayout={siteConfig.postListLayout?.defaultMode || "list"}
 		BANNER_HEIGHT={BANNER_HEIGHT}
+		BANNER_HEIGHT_FULLSCREEN={BANNER_HEIGHT_FULLSCREEN}
 		pageScaling={siteConfig.pageScaling}
+		wavesEnabled={siteConfig.banner?.waves?.enable ?? true}
+		bannerTitleEnabled={siteConfig.banner?.homeText?.enable ?? true}
+		wallpaperEnabled={fullscreenWallpaperConfig.enable ?? true}
+		postListLayoutEnabled={siteConfig.postListLayout?.enable ?? true}
 	/>
 
 	<!-- 全屏壁纸 - 始终渲染，通过 JS 控制显示隐藏 -->
@@ -217,8 +236,18 @@ const defaultPostListLayout = siteConfig.postListLayout?.defaultMode || "list";
 						id="content-wrapper"
 						class="onload-animation transition-leaving"
 					>
-						<!-- the overflow-hidden here prevent long text break the layout-->
-						<!-- make id different from windows.swup global property -->
+						<div
+							id="page-overlay-data"
+							data-title={title || ""}
+							data-date={publishedDate ? formatDateToYYYYMMDD(publishedDate) : ""}
+							data-category={category || ""}
+							data-words={wordCount ? String(wordCount) : ""}
+							data-is-post={postSlug ? "true" : "false"}
+							data-is-home={isHomePage ? "true" : "false"}
+							data-wallpaper-mode={siteConfig.wallpaperMode.defaultMode}
+							class="hidden"
+						>
+						</div>
 						<slot />
 						<div
 							class="footer col-span-full onload-animation hidden lg:block"

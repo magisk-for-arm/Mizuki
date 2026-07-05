@@ -24,7 +24,7 @@ export function extractHeadings(
 	return Array.from(headings).map((h) => ({
 		id: h.id,
 		text: (h.textContent || "").replace(/#+\s*$/, ""),
-		level: parseInt(h.tagName[1]),
+		level: Number.parseInt(h.tagName[1], 10),
 	}));
 }
 
@@ -155,7 +155,7 @@ export function calculateReadingProgress(): number {
  * @param delay - 延迟时间（毫秒）
  * @returns 防抖后的函数
  */
-export function debounce<T extends (...args: any[]) => any>(
+export function debounce<T extends (...args: unknown[]) => unknown>(
 	fn: T,
 	delay: number,
 ): (...args: Parameters<T>) => void {

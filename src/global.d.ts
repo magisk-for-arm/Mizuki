@@ -1,5 +1,3 @@
-export {};
-
 declare global {
 	interface HTMLElementTagNameMap {
 		"table-of-contents": HTMLElement & {
@@ -16,7 +14,7 @@ declare global {
 			on: (event: string, handler: (...args: unknown[]) => void) => void;
 			off: (event: string, handler: (...args: unknown[]) => void) => void;
 		};
-		navigate?: (url: string, options?: { history?: boolean }) => void;
+		navigate: (url: string, options?: { history?: boolean }) => void;
 		preload?: (url: string) => Promise<void>;
 	}
 
@@ -87,6 +85,9 @@ declare global {
 		__mizukiRightSidebarResizeHandler?: () => void;
 		__mizukiRightSidebarSwupHooked?: boolean;
 		__mizukiRightSidebarManagerInitialized?: boolean;
+
+		// Panel manager
+		panelManager?: unknown;
 	}
 
 	interface Fancybox {

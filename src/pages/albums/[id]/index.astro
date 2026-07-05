@@ -1,6 +1,8 @@
 ---
 import { PhotoCard } from "@components/features/albums";
+import PasswordProtection from "@components/features/auth/PasswordProtection.astro";
 import MainGridLayout from "@layouts/MainGridLayout.astro";
+import { encryptContent } from "@utils/crypto-utils";
 import { Icon } from "astro-icon/components";
 
 import { siteConfig } from "../../../config";
@@ -30,6 +32,23 @@ const { album } = Astro.props;
 if (!album) {
 	return Astro.redirect("/404/");
 }
+
+const isEncrypted = !!album.password;
+let encryptedPhotoData = "";
+if (isEncrypted) {
+	const photoHtml = album.photos
+		.map(
+			(photo: Photo) =>
+				`<div class="gallery-masonry-item"><a data-fancybox="album-${album.id}" href="${photo.src}" data-caption="${photo.alt || photo.title || ""}"><img src="${photo.src}" alt="${photo.alt || photo.title || ""}" loading="lazy" decoding="async" class="w-full rounded-lg" /></a></div>`,
+		)
+		.join("");
+	const wrappedHtml = `<div class="gallery-masonry">${photoHtml}</div>`;
+	encryptedPhotoData = encryptContent(
+		wrappedHtml,
+		String(album.password),
+		`album:${album.id}`,
+	);
+}
 ---
 
 <MainGridLayout
@@ -49,13 +68,13 @@ if (!album) {
 	<div class="w-full rounded-(--radius-large) overflow-hidden relative">
 		{
 			album.cover ? (
-				<div class="relative w-full aspect-[3/1] min-h-[200px] max-h-[360px]">
+				<div class="relative w-full aspect-3/1 min-h-50 max-h-90">
 					<img
 						src={album.cover}
 						alt={album.title}
 						class="w-full h-full object-cover"
 					/>
-					<div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+					<div class="absolute inset-0 bg-linear-to-t from-black/70 via-black/30 to-transparent" />
 
 					{/* Back button */}
 					<a
@@ -164,7 +183,12 @@ if (!album) {
 	<div class="w-full rounded-(--radius-large) overflow-hidden relative mt-4">
 		<div class="card-base z-10 px-6 py-6 relative w-full">
 			{
-				album.photos.length > 0 ? (
+				isEncrypted ? (
+					<PasswordProtection
+						encryptedContent={encryptedPhotoData}
+						hint={album.passwordHint}
+					/>
+				) : album.photos.length > 0 ? (
 					<div class="gallery-masonry">
 						{album.photos.map((photo: Photo) => (
 							<PhotoCard

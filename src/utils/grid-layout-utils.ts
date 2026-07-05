@@ -245,7 +245,7 @@ export async function getBannerImages(
 export function shouldEnableTransparency(
 	defaultWallpaperMode: string,
 ): boolean {
-	return defaultWallpaperMode === "fullscreen";
+	return defaultWallpaperMode === "overlay";
 }
 
 /**
@@ -261,6 +261,13 @@ export function getTransparencyClass(shouldEnable: boolean): string {
 export function getMainPanelTop(
 	defaultWallpaperMode: string,
 	bannerHeightVh: number,
+	_fullscreenBannerHeightVh = 100,
 ): string {
-	return defaultWallpaperMode === "banner" ? `${bannerHeightVh}vh` : "5.5rem";
+	if (defaultWallpaperMode === "banner") {
+		return `${bannerHeightVh}vh`;
+	}
+	if (defaultWallpaperMode === "fullscreen") {
+		return "0";
+	}
+	return "5.5rem";
 }

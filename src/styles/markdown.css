@@ -39,7 +39,19 @@
   code {
     @apply bg-(--inline-code-bg) text-(--inline-code-color) px-1 py-0.5 rounded-md overflow-hidden;
 
-    font-family: var(--ec-codeFontFml, "JetBrains Mono Variable", "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace);
+    font-family: var(
+      --ec-codeFontFml,
+      "JetBrains Mono Variable",
+      "JetBrains Mono",
+      ui-monospace,
+      SFMono-Regular,
+      Menlo,
+      Monaco,
+      Consolas,
+      "Liberation Mono",
+      "Courier New",
+      monospace
+    );
 
     &:before,
     &:after {
@@ -59,6 +71,11 @@
         display: none;
       }
     }
+  }
+
+  /* --- 标题间距 --- */
+  :is(h1, h2, h3) {
+    @apply mt-4 mb-2;
   }
 
   /* --- 列表 --- */
@@ -198,4 +215,3 @@
 :root:not(.dark) .custom-md spoiler {
   --_spoiler-mask: color-mix(in oklch, var(--primary) 55%, white 45%);
 }
->>>>>>> dev

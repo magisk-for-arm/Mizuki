@@ -6,7 +6,6 @@
 .float-panel {
   z-index: 50;
   will-change: transform, opacity;
-  backface-visibility: hidden;
 
   /* 为动画做准备 */
   transform-origin: top center;
@@ -66,7 +65,7 @@
 }
 
 /* 移动端 */
-@media (max-width: 768px) {
+@media (width < 768px) {
   .float-panel-closed {
     transform: scaleY(0) scaleX(0.85);
   }

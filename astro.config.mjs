@@ -1,11 +1,12 @@
 import sitemap from "@astrojs/sitemap";
 import mdx from '@astrojs/mdx';
+import { unified } from '@astrojs/markdown-remark';
 import svelte, { vitePreprocess } from "@astrojs/svelte";
 import { pluginCollapsibleSections } from "@expressive-code/plugin-collapsible-sections";
 import { pluginLineNumbers } from "@expressive-code/plugin-line-numbers";
 import swup from "@swup/astro";
 import tailwindcss from "@tailwindcss/vite";
-import { defineConfig } from "astro/config";
+import { defineConfig, fontProviders } from "astro/config";
 import expressiveCode from "astro-expressive-code";
 import icon from "astro-icon";
 import { oddmisc } from "oddmisc";
@@ -18,7 +19,8 @@ import remarkDirective from "remark-directive";
 import remarkMath from "remark-math";
 import remarkSectionize from "remark-sectionize";
 
-import { siteConfig } from "./src/config.ts";
+import { buildIconInclude } from "./src/plugins/astro-icon-include.mjs";
+import { siteConfig } from "./src/config/index.ts";
 import { pluginCustomCopyButton } from "./src/plugins/expressive-code/custom-copy-button.js";
 import { pluginLanguageBadge } from "./src/plugins/expressive-code/language-badge.ts";
 import { AdmonitionComponent } from "./src/plugins/rehype-component-admonition.mjs";
@@ -33,11 +35,59 @@ import { remarkMermaid } from "./src/plugins/remark-mermaid.js";
 
 // https://astro.build/config
 export default defineConfig({
+	fonts: [
+		{
+			name: "JetBrains Mono",
+			cssVariable: "--font-jetbrains-mono",
+			provider: fontProviders.fontsource(),
+			styles: ["normal", "italic"],
+		},
+		{
+			name: "ZenMaruGothic-Medium",
+			cssVariable: "--font-body",
+			provider: fontProviders.local(),
+			options: {
+				variants: [
+					{
+						src: ["./src/assets/fonts/ZenMaruGothic-Medium.ttf"],
+						weight: "500",
+						style: "normal",
+					},
+				],
+			},
+			fallbacks: ["sans-serif"],
+		},
+		{
+			name: "Loli",
+			cssVariable: "--font-cjk",
+			provider: fontProviders.local(),
+			options: {
+				variants: [
+					{
+						src: ["./src/assets/fonts/loli.ttf"],
+						weight: "400",
+						style: "normal",
+					},
+				],
+			},
+			fallbacks: ["sans-serif"],
+		},
+	],
+
 	site: siteConfig.siteURL,
 	base: "/",
 	trailingSlash: "always",
+	compressHTML: true,
 
 	output: "static",
+
+	image: {
+		layout: "constrained",
+	},
+
+	server: {
+		port: 3000,
+	},
 
 	integrations: [
 		oddmisc({
@@ -68,7 +118,9 @@ export default defineConfig({
 				);
 			},
 		}),
-		icon(),
+		icon({
+			include: buildIconInclude(),
+		}),
 		expressiveCode({
 			themes: ["github-light", "github-dark"],
 			plugins: [
@@ -93,7 +145,7 @@ export default defineConfig({
 				borderColor: "none",
 				codeFontSize: "0.875rem",
 				codeFontFamily:
-					"'JetBrains Mono Variable', SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', 'Microsoft JhengHei', '微軟正黑體', 'Microsoft YaHei', '微软雅黑', 'Noto Sans HK', 'Noto Sans TC', 'Noto Sans JP', 'Noto Sans SC', 'Noto Sans KR', ui-monospace, monospace",
+					"var(--font-jetbrains-mono), SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace",
 				codeLineHeight: "1.5rem",
 				frames: {
 					editorBackground: "var(--codeblock-bg)",
@@ -123,61 +175,63 @@ export default defineConfig({
 		mdx(),
 	],
 	markdown: {
-		remarkPlugins: [
-			remarkMath,
-			remarkContent,
-			remarkFixGithubAdmonitions,
-			remarkDirective,
-			remarkSectionize,
-			parseDirectiveNode,
-			remarkMermaid,
-		],
-		rehypePlugins: [
-			rehypeKatex,
-			[
-				rehypeExternalLinks,
-				{
-					target: "_blank",
-					rel: ["nofollow", "noopener", "noreferrer"],
-				},
+		processor: unified({
+			remarkPlugins: [
+				remarkMath,
+				remarkContent,
+				remarkFixGithubAdmonitions,
+				remarkDirective,
+				remarkSectionize,
+				parseDirectiveNode,
+				remarkMermaid,
 			],
-			rehypeSlug,
-			rehypeWrapTable,
-			rehypeMermaid,
-			[
-				rehypeComponents,
-				{
-					components: {
-						github: GithubCardComponent,
-						note: (x, y) => AdmonitionComponent(x, y, "note"),
-						tip: (x, y) => AdmonitionComponent(x, y, "tip"),
-						important: (x, y) =>
-							AdmonitionComponent(x, y, "important"),
-						caution: (x, y) => AdmonitionComponent(x, y, "caution"),
-						warning: (x, y) => AdmonitionComponent(x, y, "warning"),
+			rehypePlugins: [
+				rehypeKatex,
+				[
+					rehypeExternalLinks,
+					{
+						target: "_blank",
+						rel: ["nofollow", "noopener", "noreferrer"],
 					},
-				},
-			],
-			[
-				rehypeAutolinkHeadings,
-				{
-					behavior: "append",
-					properties: {
-						className: ["anchor"],
-					},
-					content: {
-						type: "element",
-						tagName: "span",
-						properties: {
-							className: ["anchor-icon"],
-							"data-pagefind-ignore": true,
+				],
+				rehypeSlug,
+				rehypeWrapTable,
+				rehypeMermaid,
+				[
+					rehypeComponents,
+					{
+						components: {
+							github: GithubCardComponent,
+							note: (x, y) => AdmonitionComponent(x, y, "note"),
+							tip: (x, y) => AdmonitionComponent(x, y, "tip"),
+							important: (x, y) =>
+								AdmonitionComponent(x, y, "important"),
+							caution: (x, y) => AdmonitionComponent(x, y, "caution"),
+							warning: (x, y) => AdmonitionComponent(x, y, "warning"),
 						},
-						children: [{ type: "text", value: "#" }],
 					},
-				},
+				],
+				[
+					rehypeAutolinkHeadings,
+					{
+						behavior: "append",
+						properties: {
+							className: ["anchor"],
+						},
+						content: {
+							type: "element",
+							tagName: "span",
+							properties: {
+								className: ["anchor-icon"],
+								"data-pagefind-ignore": true,
+							},
+							children: [{ type: "text", value: "#" }],
+						},
+					},
+				],
+				rehypeImageWidth,
 			],
-			rehypeImageWidth,
-		],
+		}),
 	},
 	vite: {
 		plugins: [tailwindcss()],

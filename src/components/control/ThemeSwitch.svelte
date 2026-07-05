@@ -1,89 +1,80 @@
 <script lang="ts">
-	import { DARK_MODE, DEFAULT_THEME, LIGHT_MODE } from "@constants/constants";
-	import Icon from "@iconify/svelte";
-	import { getStoredTheme, setTheme } from "@utils/setting-utils";
-	import { onMount } from "svelte";
+import { DARK_MODE, DEFAULT_THEME, LIGHT_MODE } from "@constants/constants";
+import Icon from "@iconify/svelte";
+import { getStoredTheme, setTheme } from "@utils/setting-utils";
+import { onMount } from "svelte";
 
-	import type { LIGHT_DARK_MODE } from "@/types/config.ts";
+import type { LIGHT_DARK_MODE } from "@/types/config.ts";
 
-	const seq: LIGHT_DARK_MODE[] = [LIGHT_MODE, DARK_MODE];
-	let mode: LIGHT_DARK_MODE = $state(DEFAULT_THEME);
-	let isChanging = false;
+const seq: LIGHT_DARK_MODE[] = [LIGHT_MODE, DARK_MODE];
+let mode: LIGHT_DARK_MODE = $state(DEFAULT_THEME);
+let isChanging = false;
 
-	onMount(() => {
-		mode = getStoredTheme();
-	});
+onMount(() => {
+	mode = getStoredTheme();
 
-	function switchScheme(newMode: LIGHT_DARK_MODE) {
-		// 防止连续快速点击
-		if (isChanging) {
-			return;
-		}
-
-		isChanging = true;
-		mode = newMode;
-		setTheme(newMode);
-
-		// 50ms 后重置状态，防止过快切换
-		setTimeout(() => {
-			isChanging = false;
-		}, 50);
-	}
-
-	function toggleScheme() {
-		if (isChanging) {
-			return;
-		}
-
-		let i = 0;
-		for (; i < seq.length; i++) {
-			if (seq[i] === mode) {
-				break;
+	// 监听 Swup 的内容替换事件，确保在页面切换后同步主题状态
+	const handleContentReplace = () => {
+		requestAnimationFrame(() => {
+			const newMode = getStoredTheme();
+			if (mode !== newMode) {
+				mode = newMode;
 			}
-		}
-		switchScheme(seq[(i + 1) % seq.length]);
-	}
-
-	// 添加 Swup 钩子监听，确保在页面切换后同步主题状态
-	if (typeof window !== "undefined") {
-		// 监听 Swup 的内容替换事件
-		const handleContentReplace = () => {
-			// 使用 requestAnimationFrame 确保在下一帧更新状态，避免渲染冲突
-			requestAnimationFrame(() => {
-				const newMode = getStoredTheme();
-				if (mode !== newMode) {
-					mode = newMode;
-				}
-			});
-		};
-
-		// 检查 Swup 是否已经加载
-		if ((window as any).swup && (window as any).swup.hooks) {
-			(window as any).swup.hooks.on(
-				"content:replace",
-				handleContentReplace,
-			);
-		} else {
-			document.addEventListener("swup:enable", () => {
-				if ((window as any).swup && (window as any).swup.hooks) {
-					(window as any).swup.hooks.on(
-						"content:replace",
-						handleContentReplace,
-					);
-				}
-			});
-		}
-
-		// 页面加载完成后也同步一次状态
-		document.addEventListener("DOMContentLoaded", () => {
-			requestAnimationFrame(() => {
-				const newMode = getStoredTheme();
-				if (mode !== newMode) {
-					mode = newMode;
-				}
-			});
 		});
+	};
+
+	let swupHooked = false;
+
+	const setupSwupHook = () => {
+		if (!swupHooked && window.swup?.hooks) {
+			window.swup.hooks.on("content:replace", handleContentReplace);
+			swupHooked = true;
+		}
+	};
+
+	if (window.swup?.hooks) {
+		setupSwupHook();
+	} else {
+		document.addEventListener("swup:enable", setupSwupHook, { once: true });
 	}
+
+	return () => {
+		if (window.swup?.hooks && swupHooked) {
+			window.swup.hooks.off("content:replace", handleContentReplace);
+		}
+		document.removeEventListener("swup:enable", setupSwupHook);
+	};
+});
+
+function switchScheme(newMode: LIGHT_DARK_MODE) {
+	// 防止连续快速点击
+	if (isChanging) {
+		return;
+	}
+
+	isChanging = true;
+	mode = newMode;
+	setTheme(newMode);
+
+	// 50ms 后重置状态，防止过快切换
+	setTimeout(() => {
+		isChanging = false;
+	}, 50);
+}
+
+function toggleScheme() {
+	if (isChanging) {
+		return;
+	}
+
+	let i = 0;
+	for (; i < seq.length; i++) {
+		if (seq[i] === mode) {
+			break;
+		}
+	}
+	switchScheme(seq[(i + 1) % seq.length]);
+}
 </script>
 
 <button

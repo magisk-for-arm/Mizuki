@@ -1,13 +1,16 @@
 // import { getCollection } from "astro:content";
-import type { APIContext, ImageMetadata } from "astro";
+
 import { getImage } from "astro:assets";
+import type { APIContext, ImageMetadata } from "astro";
 import MarkdownIt from "markdown-it";
 import { parse as htmlParser } from "node-html-parser";
 import sanitizeHtml from "sanitize-html";
 
 import { profileConfig, siteConfig } from "@/config";
 import { getSortedPosts } from "@/utils/content-utils";
+import { resolvePostContentImageImportPath } from "@/utils/feed-image-utils";
 import { initPostIdMap } from "@/utils/permalink-utils";
+import { getPostPublicDescription } from "@/utils/post-card-content";
 import { getPostUrl } from "@/utils/url-utils";
 
 const markdownParser = new MarkdownIt();
@@ -62,42 +65,9 @@ export async function GET(context: APIContext) {
 				src.startsWith("../") ||
 				(!src.startsWith("http") && !src.startsWith("/"))
 			) {
-				let importPath: string | null = null;
-
-				if (src.startsWith("./")) {
-					// Path relative to the post file directory
-					const prefixRemoved = src.slice(2);
-					// Check if this post is in a subdirectory (like bestimageapi/index.md)
-					const postPath = post.id; // This gives us the full path like "bestimageapi/index.md"
-					const postDir = postPath.includes("/")
-						? postPath.split("/")[0]
-						: "";
-
-					if (postDir) {
-						// For posts in subdirectories
-						importPath = `/src/content/posts/${postDir}/${prefixRemoved}`;
-					} else {
-						// For posts directly in posts directory
-						importPath = `/src/content/posts/${prefixRemoved}`;
-					}
-				} else if (src.startsWith("../")) {
-					// Path like ../assets/images/xxx -> relative to /src/content/
-					const cleaned = src.replace(/^\.\.\//, "");
-					importPath = `/src/content/${cleaned}`;
-				} else {
-					// Handle direct filename (no ./ prefix) - assume it's in the same directory as the post
-					const postPath = post.id; // This gives us the full path like "bestimageapi/index.md"
-					const postDir = postPath.includes("/")
-						? postPath.split("/")[0]
-						: "";
-
-					if (postDir) {
-						// For posts in subdirectories
-						importPath = `/src/content/posts/${postDir}/${src}`;
-					} else {
-						// For posts directly in posts directory
-						importPath = `/src/content/posts/${src}`;
-					}
+				const importPath = resolvePostContentImageImportPath(post, src);
+				if (!importPath) {
+					continue;
 				}
 
 				const imageMod = await imagesGlob[importPath]?.()?.then(
@@ -105,10 +75,7 @@ export async function GET(context: APIContext) {
 				);
 				if (imageMod) {
 					const optimizedImg = await getImage({ src: imageMod });
-					img.setAttribute(
-						"src",
-						new URL(optimizedImg.src, context.site).href,
-					);
+					img.setAttribute("src", new URL(optimizedImg.src, context.site).href);
 				} else {
 					// Debug: log the failed import path
 					console.log(
@@ -134,7 +101,7 @@ export async function GET(context: APIContext) {
     <id>${postUrl}</id>
     <published>${post.data.published.toISOString()}</published>
     <updated>${post.data.updated?.toISOString() || post.data.published.toISOString()}</updated>
-    <summary>${post.data.description || ""}</summary>
+    <summary>${getPostPublicDescription(post.data)}</summary>
     <content type="html"><![CDATA[${content}]]></content>
     <author>
       <name>${profileConfig.name}</name>

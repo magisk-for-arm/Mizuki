@@ -1,9 +1,7 @@
 ---
-import type { MarkdownHeading } from "astro";
-
-import { Icon } from "astro-icon/components";
-
 import FloatingButton from "@components/common/FloatingButton.astro";
+import type { MarkdownHeading } from "astro";
+import { Icon } from "astro-icon/components";
 import { siteConfig } from "../../../config";
 import I18nKey from "../../../i18n/i18nKey";
 import { i18n } from "../../../i18n/translation";
@@ -108,7 +106,7 @@ const useJapaneseBadge = siteConfig.toc.useJapaneseBadge;
 		border-radius: 2px;
 	}
 
-	@media (max-width: 768px) {
+	@media (width < 768px) {
 		.floating-toc-panel {
 			width: 85vw;
 			max-width: 20rem;

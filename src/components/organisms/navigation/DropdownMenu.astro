@@ -57,12 +57,12 @@ const hasChildren = children.length > 0;
 					</span>
 					<Icon
 						name="material-symbols:keyboard-arrow-down-rounded"
-						class="text-[1.25rem] transition-transform duration-200 dropdown-arrow ml-1 shrink-0 hidden lg:inline"
+						class="text-[1.25rem] transition-transform duration-200 dropdown-arrow ml-1 flex-shrink-0 hidden lg:inline"
 					/>
 				</button>
 
 				<div class="dropdown-menu" data-dropdown-menu>
-					<div class="dropdown-content bg-(--float-panel-bg) rounded-(--radius-large) shadow-xl dark:shadow-none border border-black/5 dark:border-white/10 p-2 min-w-48">
+					<div class="dropdown-content">
 						{children.map((child) => (
 							<a
 								href={
@@ -74,7 +74,7 @@ const hasChildren = children.length > 0;
 										? "noopener noreferrer"
 										: null
 								}
-								class="dropdown-item flex items-center justify-between px-4 py-2.5 hover:text-(--primary) hover:bg-(--btn-plain-bg-hover) transition-colors duration-150 font-medium rounded-lg"
+								class="dropdown-item"
 								aria-label={child.name}
 							>
 								<div class="flex items-center">
@@ -89,7 +89,7 @@ const hasChildren = children.length > 0;
 								{child.external && (
 									<Icon
 										name="fa7-solid:arrow-up-right-from-square"
-										class="text-[0.75rem] text-50 ml-2"
+										class="text-[0.75rem] text-black/25 dark:text-white/25 ml-2"
 									/>
 								)}
 							</a>
@@ -117,7 +117,7 @@ const hasChildren = children.length > 0;
 				{link.external && (
 					<Icon
 						name="fa7-solid:arrow-up-right-from-square"
-						class="text-[0.875rem] transition -translate-y-px ml-1 text-black/20 dark:text-white/20 shrink-0 hidden lg:inline"
+						class="text-[0.875rem] transition -translate-y-[1px] ml-1 text-black/[0.2] dark:text-white/[0.2] flex-shrink-0 hidden lg:inline"
 					/>
 				)}
 			</a>
@@ -149,7 +149,15 @@ const hasChildren = children.length > 0;
 		@apply rotate-180;
 	}
 
-	@media (max-width: 767px) {
+	.dropdown-content {
+		@apply bg-[var(--float-panel-bg)] rounded-[var(--radius-large)] shadow-xl dark:shadow-none border border-black/5 dark:border-white/10 p-2 min-w-[12rem];
+	}
+
+	.dropdown-item {
+		@apply flex items-center justify-between px-4 py-2.5 text-black/75 dark:text-white/75 hover:text-[var(--primary)] hover:bg-[var(--btn-plain-bg-hover)] transition-colors duration-150 font-medium rounded-lg;
+	}
+
+	@media (width < 768px) {
 		.dropdown-container {
 			@apply hidden;
 		}

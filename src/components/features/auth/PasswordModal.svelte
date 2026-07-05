@@ -1,67 +1,64 @@
 <script lang="ts">
-	import I18nKey from "@i18n/i18nKey";
-	import { i18n } from "@i18n/translation";
-	import { onMount } from "svelte";
+import I18nKey from "@i18n/i18nKey";
+import { i18n } from "@i18n/translation";
+import { onMount } from "svelte";
 
-	const { hint = "" } = $props();
+const { hint = "" } = $props();
 
-	let errorMessage = $state("");
-	let isLoading = $state(false);
-	let password = $state("");
+let errorMessage = $state("");
+let isLoading = $state(false);
+let password = $state("");
 
-	function dispatchUnlock(pwd: string) {
-		const event = new CustomEvent("password:unlock", {
-			detail: { password: pwd },
-			bubbles: true,
-			composed: true,
-		});
-		document.dispatchEvent(event);
-	}
-
-	function handleSubmit(e: Event) {
-		e.preventDefault();
-		if (password.trim()) {
-			dispatchUnlock(password);
-		}
-	}
-
-	function handleKeypress(e: KeyboardEvent) {
-		if (e.key === "Enter" && password.trim()) {
-			dispatchUnlock(password);
-		}
-	}
-
-	onMount(() => {
-		const handleLoading = ((e: CustomEvent<boolean>) => {
-			isLoading = e.detail;
-		}) as EventListener;
-
-		const handleError = ((e: CustomEvent<string>) => {
-			errorMessage = e.detail;
-			isLoading = false;
-		}) as EventListener;
-
-		const handleClearError = (() => {
-			errorMessage = "";
-		}) as EventListener;
-
-		document.addEventListener("password:loading", handleLoading);
-		document.addEventListener("password:error", handleError);
-		document.addEventListener("password:clear-error", handleClearError);
-
-		return () => {
-			document.removeEventListener("password:loading", handleLoading);
-			document.removeEventListener("password:error", handleError);
-			document.removeEventListener(
-				"password:clear-error",
-				handleClearError,
-			);
-		};
+function dispatchUnlock(pwd: string) {
+	const event = new CustomEvent("password:unlock", {
+		detail: { password: pwd },
+		bubbles: true,
+		composed: true,
 	});
+	document.dispatchEvent(event);
+}
+
+function handleSubmit(e: Event) {
+	e.preventDefault();
+	if (password.trim()) {
+		dispatchUnlock(password);
+	}
+}
+
+function handleKeydown(e: KeyboardEvent) {
+	if (e.key === "Enter" && password.trim()) {
+		dispatchUnlock(password);
+	}
+}
+
+onMount(() => {
+	const handleLoading = ((e: CustomEvent<boolean>) => {
+		isLoading = e.detail;
+	}) as EventListener;
+
+	const handleError = ((e: CustomEvent<string>) => {
+		errorMessage = e.detail;
+		isLoading = false;
+	}) as EventListener;
+
+	const handleClearError = (() => {
+		errorMessage = "";
+	}) as EventListener;
+
+	document.addEventListener("password:loading", handleLoading);
+	document.addEventListener("password:error", handleError);
+	document.addEventListener("password:clear-error", handleClearError);
+
+	return () => {
+		document.removeEventListener("password:loading", handleLoading);
+		document.removeEventListener("password:error", handleError);
+		document.removeEventListener("password:clear-error", handleClearError);
+	};
+});
 </script>
 
 <div class="password-protection">
-	<div class="password-container card-base">
+	<div class="password-container">
 		<div class="lock-icon">
 			<svg
 				width="48"
@@ -92,7 +89,7 @@
 				placeholder={i18n(I18nKey.passwordPlaceholder)}
 				class="password-input"
 				bind:value={password}
-				onkeypress={handleKeypress}
+				onkeydown={handleKeydown}
 				disabled={isLoading}
 				autocomplete="off"
 			/>
@@ -186,15 +183,13 @@
 		border-radius: 0.5rem;
 		font-size: 0.875rem;
 		background: rgba(0, 0, 0, 0.05);
-		border: 1px solid rgba(0, 0, 0, 0.08);
+		border: none;
 		color: rgba(0, 0, 0, 0.8);
 		outline: none;
-		transition: border-color 0.2s;
 	}
 
 	:global(.dark) .password-input {
 		background: rgba(255, 255, 255, 0.1);
-		border-color: rgba(255, 255, 255, 0.08);
 		color: rgba(255, 255, 255, 0.8);
 	}
 
@@ -207,7 +202,11 @@
 	}
 
 	.password-input:focus {
-		border-color: var(--primary);
+		background: rgba(0, 0, 0, 0.08);
+	}
+
+	:global(.dark) .password-input:focus {
+		background: rgba(255, 255, 255, 0.15);
 	}
 
 	.unlock-button {
@@ -252,7 +251,7 @@
 		color: #f87171;
 	}
 
-	@media (max-width: 768px) {
+	@media (width < 768px) {
 		.password-protection {
 			padding: 2rem 1rem;
 		}

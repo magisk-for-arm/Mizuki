@@ -5,15 +5,11 @@ import { fileURLToPath } from "url";
 const API_BASE = "https://api.bgm.tv";
 const CONFIG_PATH = path.join(
 	path.dirname(fileURLToPath(import.meta.url)),
-	"../src/config.ts",
+	"../src/config/siteConfig.ts",
 );
-const OUTPUT_FILE_ANIME = path.join(
+const OUTPUT_FILE = path.join(
 	path.dirname(fileURLToPath(import.meta.url)),
 	"../src/data/bangumi-data.json",
-);
-const OUTPUT_FILE_GAME = path.join(
-	path.dirname(fileURLToPath(import.meta.url)),
-	"../src/data/bangumi-game-data.json",
 );
 
 async function getUserIdFromConfig() {
@@ -31,36 +27,32 @@ async function getUserIdFromConfig() {
 				!userId
 			) {
 				console.warn(
-					"Warning: userId in src/config.ts appears to be a default value.",
+					"Warning: userId in src/config/siteConfig.ts appears to be a default value.",
 				);
 				return userId;
 			}
 			return userId;
 		}
-		throw new Error("Could not find bangumi.userId in config.ts");
+		throw new Error("Could not find bangumi.userId in config/siteConfig.ts");
 	} catch (error) {
-		console.error("✘ Failed to read Bangumi ID from config.ts");
+		console.error("✘ Failed to read Bangumi ID from config/siteConfig.ts");
 		throw error;
 	}
 }
 
-async function getConfigsFromConfig() {
+async function getAnimeModeFromConfig() {
 	try {
 		const configContent = await fs.readFile(CONFIG_PATH, "utf-8");
-
-		const animeMatch = configContent.match(
+		const match = configContent.match(
 			/anime:\s*\{[\s\S]*?mode:\s*["']([^"']+)["']/,
 		);
-		const gameMatch = configContent.match(
-			/game:\s*\{[\s\S]*?mode:\s*["']([^"']+)["']/,
-		);
 
-		return {
-			animeMode: (animeMatch && animeMatch[1]) || "bangumi",
-			gameMode: (gameMatch && gameMatch[1]) || "local",
-		};
+		if (match && match[1]) {
+			return match[1];
+		}
+		return "bangumi";
 	} catch (error) {
-		return { animeMode: "bangumi", gameMode: "local" };
+		return "bangumi";
 	}
 }
 
@@ -97,19 +89,16 @@ function getStudioFromInfobox(infobox) {
 	return "Unknown";
 }
 
-async function fetchCollection(userId, type, subjectType = 2) {
+async function fetchCollection(userId, type) {
 	let allData = [];
 	let offset = 0;
 	const limit = 50;
 	let hasMore = true;
 
-	// subjectType: 2 = Anime, 4 = Game
-	const typeName = subjectType === 2 ? "Anime" : "Game";
-
-	console.log(`Fetching ${typeName} type: ${type}...`);
+	console.log(`Fetching type: ${type}...`);
 
 	while (hasMore) {
-		const url = `${API_BASE}/v0/users/${userId}/collections?subject_type=${subjectType}&type=${type}&limit=${limit}&offset=${offset}`;
+		const url = `${API_BASE}/v0/users/${userId}/collections?subject_type=2&type=${type}&limit=${limit}&offset=${offset}`;
 		try {
 			const response = await fetch(url);
 
@@ -214,35 +203,11 @@ async function processData(items, status) {
 async function main() {
 	console.log("Initializing Bangumi data update script...");
 
-	const { animeMode, gameMode } = await getConfigsFromConfig();
-
-	const shouldUpdateAnime = animeMode === "bangumi";
-	const shouldUpdateGame = gameMode === "bangumi";
-
-	if (!shouldUpdateAnime && !shouldUpdateGame) {
+	const animeMode = await getAnimeModeFromConfig();
+	if (animeMode !== "bangumi") {
 		console.log(
-			`Both Anime and Game modes are set to 'local' (or not 'bangumi'). Skipping Bangumi data update.`,
+			`Detected current anime mode is "${animeMode}", skipping Bangumi data update.`,
 		);
-
-		// Ensure files exist to prevent build errors
-		async function ensureFileExists(filePath) {
-			try {
-				await fs.access(filePath);
-			} catch {
-				console.log(`Creating empty data file: ${filePath}`);
-				const dir = path.dirname(filePath);
-				try {
-					await fs.access(dir);
-				} catch {
-					await fs.mkdir(dir, { recursive: true });
-				}
-				await fs.writeFile(filePath, "[]");
-			}
-		}
-
-		await ensureFileExists(OUTPUT_FILE_ANIME);
-		await ensureFileExists(OUTPUT_FILE_GAME);
-
 		return;
 	}
 
@@ -250,79 +215,33 @@ async function main() {
 	console.log(`Read User ID: ${USER_ID}`);
 
 	const collections = [
-		{ type: 3, status: "watching", gameStatus: "playing" }, // Watching / Playing
-		{ type: 1, status: "planned", gameStatus: "planned" }, // Planned
-		{ type: 2, status: "completed", gameStatus: "completed" }, // Completed
-		{ type: 4, status: "onhold", gameStatus: "onhold" }, // On Hold
-		{ type: 5, status: "dropped", gameStatus: "dropped" }, // Dropped
+		{ type: 3, status: "watching" },
+		{ type: 1, status: "planned" },
+		{ type: 2, status: "completed" },
+		{ type: 4, status: "onhold" },
+		{ type: 5, status: "dropped" },
 	];
 
-	// --- Anime Update ---
-	if (shouldUpdateAnime) {
-		console.log("\n--- Starting Anime Data Update ---");
-		let finalAnimeList = [];
-		for (const c of collections) {
-			const rawData = await fetchCollection(USER_ID, c.type, 2); // 2 = Anime
-			if (rawData.length > 0) {
-				const processed = await processData(rawData, c.status);
-				finalAnimeList = [...finalAnimeList, ...processed];
-			}
-		}
+	let finalAnimeList = [];
 
-		const dir = path.dirname(OUTPUT_FILE_ANIME);
-		try {
-			await fs.access(dir);
-		} catch {
-			await fs.mkdir(dir, { recursive: true });
+	for (const c of collections) {
+		const rawData = await fetchCollection(USER_ID, c.type);
+		if (rawData.length > 0) {
+			const processed = await processData(rawData, c.status);
+			finalAnimeList = [...finalAnimeList, ...processed];
 		}
-
-		await fs.writeFile(
-			OUTPUT_FILE_ANIME,
-			JSON.stringify(finalAnimeList, null, 2),
-		);
-		console.log(`Anime data saved to: ${OUTPUT_FILE_ANIME}`);
-		console.log(`Total collected: ${finalAnimeList.length} anime series`);
-	} else {
-		console.log("\nSkipping Anime update (mode != bangumi)");
 	}
 
-	// --- Game Update ---
-	if (shouldUpdateGame) {
-		console.log("\n--- Starting Game Data Update ---");
-		let finalGameList = [];
-		for (const c of collections) {
-			// Note: Use c.gameStatus if needed, but 'watching'/'playing' maps to same type usually
-			// However, processData uses the status string passed to it.
-			// Let's use standard status strings but mapped correctly for Game display later if needed
-			// Actually, keep using generic status names, UI handles mapping.
-			// But wait, Game usually uses "playing" instead of "watching".
-			const statusToUse = c.status === "watching" ? "playing" : c.status;
-
-			const rawData = await fetchCollection(USER_ID, c.type, 4); // 4 = Game
-			if (rawData.length > 0) {
-				const processed = await processData(rawData, statusToUse);
-				finalGameList = [...finalGameList, ...processed];
-			}
-		}
-
-		const dir = path.dirname(OUTPUT_FILE_GAME);
-		try {
-			await fs.access(dir);
-		} catch {
-			await fs.mkdir(dir, { recursive: true });
-		}
-
-		await fs.writeFile(
-			OUTPUT_FILE_GAME,
-			JSON.stringify(finalGameList, null, 2),
-		);
-		console.log(`Game data saved to: ${OUTPUT_FILE_GAME}`);
-		console.log(`Total collected: ${finalGameList.length} games`);
-	} else {
-		console.log("\nSkipping Game update (mode != bangumi)");
+	const dir = path.dirname(OUTPUT_FILE);
+	try {
+		await fs.access(dir);
+	} catch {
+		await fs.mkdir(dir, { recursive: true });
 	}
 
-	console.log(`\nAll updates complete!`);
+	await fs.writeFile(OUTPUT_FILE, JSON.stringify(finalAnimeList, null, 2));
+	console.log(`\nUpdate complete! Data saved to: ${OUTPUT_FILE}`);
+	console.log(`Total collected: ${finalAnimeList.length} anime series`);
 }
 
 main().catch((err) => {

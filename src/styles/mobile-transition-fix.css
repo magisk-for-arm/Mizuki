@@ -5,7 +5,7 @@
  */
 
 /* 移动端页面切换性能优化 */
-@media (max-width: 768px) {
+@media (width < 768px) {
   /* 为所有动画元素添加硬件加速 */
   .transition-main,
   .transition-leaving,
@@ -17,10 +17,6 @@
   .widget-container {
     -webkit-transform: translateZ(0);
     transform: translateZ(0);
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-    -webkit-perspective: 1000;
-    perspective: 1000;
     will-change: transform, opacity;
   }
 
@@ -57,12 +53,6 @@
     transition: all 0.2s ease-in-out;
   }
 
-  /* 防止页面加载时的闪烁 */
-  body {
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-
   /* 优化网格布局切换 */
   #main-grid {
     transition: all 0.3s ease-in-out;
@@ -83,17 +73,10 @@
   .onload-animation {
     animation-duration: 0.3s;
   }
-
-  /* 优化字体渲染 */
-  * {
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
-  }
 }
 
 /* 超小屏幕设备优化 */
-@media (max-width: 480px) {
+@media (width < 480px) {
   /* 进一步减少动画效果 */
   html.is-animating .transition-main {
     transform: translateY(0.3rem) translateX(0.1rem);

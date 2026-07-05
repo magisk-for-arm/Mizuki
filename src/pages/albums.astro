@@ -29,7 +29,7 @@ const filterTabs = [
 	...allTags.map((tag) => ({
 		value: tag,
 		label: tag,
-		count: albumsData.filter((a) => a.tags && a.tags.includes(tag)).length,
+		count: albumsData.filter((a) => a.tags?.includes(tag)).length,
 	})),
 ];
 
@@ -50,7 +50,7 @@ const subtitle = i18n(I18nKey.albumsSubtitle);
 	<script is:inline src="/js/filter-tabs-handler.js"></script>
 
 	<div
-		class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative min-h-32"
+		class="flex w-full rounded-(--radius-large) overflow-hidden relative min-h-32"
 	>
 		<div class="card-base z-10 px-6 sm:px-9 py-6 relative w-full">
 			<PageHeader title={title} subtitle={subtitle} />
@@ -102,7 +102,7 @@ const subtitle = i18n(I18nKey.albumsSubtitle);
 		grid-template-columns: 1fr;
 	}
 
-	@media (min-width: 640px) {
+	@media (width >= 640px) {
 		#albums-grid {
 			grid-template-columns: repeat(2, minmax(0, 1fr));
 		}
@@ -112,7 +112,7 @@ const subtitle = i18n(I18nKey.albumsSubtitle);
 		grid-template-columns: repeat(3, minmax(0, 1fr));
 	}
 
-	@media (max-width: 639px) {
+	@media (width < 640px) {
 		#main-grid[data-layout-mode="grid"] #albums-grid {
 			grid-template-columns: 1fr;
 		}

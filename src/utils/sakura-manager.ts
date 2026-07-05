@@ -59,7 +59,7 @@ class Sakura {
 
 	update() {
 		this.x = this.fn.x(this.x, this.y);
-		this.y = this.fn.y(this.y, this.y);
+		this.y = this.fn.y(this.x, this.y);
 		this.r = this.fn.r(this.r);
 		this.a = this.fn.a(this.a);
 
@@ -137,7 +137,9 @@ class SakuraList {
 }
 
 // 获取随机值的函数
+// biome-ignore lint/suspicious/noExplicitAny: polymorphic return based on option string
 function getRandom(option: string, config: SakuraConfig): any {
+	// biome-ignore lint/suspicious/noExplicitAny: polymorphic return
 	let ret: any;
 	let random: number;
 
@@ -150,8 +152,7 @@ function getRandom(option: string, config: SakuraConfig): any {
 			break;
 		case "s":
 			ret =
-				config.size.min +
-				Math.random() * (config.size.max - config.size.min);
+				config.size.min + Math.random() * (config.size.max - config.size.min);
 			break;
 		case "r":
 			ret = Math.random() * 6;
@@ -171,8 +172,7 @@ function getRandom(option: string, config: SakuraConfig): any {
 		case "fny":
 			random =
 				config.speed.vertical.min +
-				Math.random() *
-					(config.speed.vertical.max - config.speed.vertical.min);
+				Math.random() * (config.speed.vertical.max - config.speed.vertical.min);
 			ret = (_x: number, y: number) => y + random;
 			break;
 		case "fnr":
@@ -194,6 +194,7 @@ export class SakuraManager {
 	private animationId: number | null = null;
 	private img: HTMLImageElement | null = null;
 	private isRunning = false;
+	private isInitializing = false;
 	private resizeTimeout: number | null = null;
 	private boundResizeHandler: () => void;
 
@@ -204,27 +205,32 @@ export class SakuraManager {
 
 	// 初始化樱花特效
 	async init(): Promise<void> {
-		if (!this.config.enable || this.isRunning) {
+		if (!this.config.enable || this.isRunning || this.isInitializing) {
 			return;
 		}
+		this.isInitializing = true;
 
 		// 创建图片对象
 		this.img = new Image();
 		this.img.src = "/sakura.webp"; // 使用樱花图片
 
-		// 等待图片加载完成
-		await new Promise<void>((resolve, reject) => {
-			if (this.img) {
-				this.img.onload = () => resolve();
-				this.img.onerror = () =>
-					reject(new Error("Failed to load sakura image"));
-			}
-		});
+		try {
+			// 等待图片加载完成
+			await new Promise<void>((resolve, reject) => {
+				if (this.img) {
+					this.img.onload = () => resolve();
+					this.img.onerror = () =>
+						reject(new Error("Failed to load sakura image"));
+				}
+			});
 
-		this.createCanvas();
-		this.createSakuraList();
-		this.startAnimation();
-		this.isRunning = true;
+			this.createCanvas();
+			this.createSakuraList();
+			this.startAnimation();
+			this.isRunning = true;
+		} finally {
+			this.isInitializing = false;
+		}
 	}
 
 	// 创建画布

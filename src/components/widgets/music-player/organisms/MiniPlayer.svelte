@@ -1,36 +1,36 @@
 <script lang="ts">
-	import TrackDisplay from "../molecules/TrackDisplay.svelte";
-	import type { Song } from "../types";
+import TrackDisplay from "../molecules/TrackDisplay.svelte";
+import type { Song } from "../types";
 
-	interface Props {
-		song: Song;
-		currentTime: number;
-		duration: number;
-		isPlaying: boolean;
-		isLoading: boolean;
-		isHidden: boolean;
-		onCoverClick: () => void;
-		onInfoClick: () => void;
-		onHideClick: () => void;
-		onExpandClick: () => void;
-	}
+interface Props {
+	song: Song;
+	currentTime: number;
+	duration: number;
+	isPlaying: boolean;
+	isLoading: boolean;
+	isHidden: boolean;
+	onCoverClick: () => void;
+	onInfoClick: () => void;
+	onHideClick: () => void;
+	onExpandClick: () => void;
+}
 
-	const {
-		song,
-		currentTime,
-		duration,
-		isPlaying,
-		isLoading,
-		isHidden,
-		onCoverClick,
-		onInfoClick,
-		onHideClick,
-		onExpandClick,
-	}: Props = $props();
+const {
+	song,
+	currentTime,
+	duration,
+	isPlaying,
+	isLoading,
+	isHidden,
+	onCoverClick,
+	onInfoClick,
+	onHideClick,
+	onExpandClick,
+}: Props = $props();
 </script>
 
 <div
-	class="mini-player card-base shadow-xl rounded-2xl p-3 absolute bottom-0 right-0 w-[17.5rem]"
+	class="mini-player card-base shadow-xl rounded-2xl p-3 absolute bottom-0 right-0 w-70"
 	class:mini-enter={!isHidden}
 	class:mini-leave={isHidden}
 	class:pointer-events-none={isHidden}

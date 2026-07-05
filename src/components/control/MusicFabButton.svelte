@@ -1,51 +1,57 @@
 <script lang="ts">
-	import Icon from "@iconify/svelte";
-	import { onDestroy, onMount } from "svelte";
+import Icon from "@iconify/svelte";
+import { onDestroy, onMount } from "svelte";
 
-	import type { MusicPlayerState } from "@/stores/musicPlayerStore";
-	import { musicPlayerStore } from "@/stores/musicPlayerStore";
+import type { MusicPlayerState } from "@/stores/musicPlayerStore";
+import { musicPlayerStore } from "@/stores/musicPlayerStore";
 
-	let state: MusicPlayerState = musicPlayerStore.getState();
-	let unsubscribe: (() => void) | undefined;
+let playerState = $state<MusicPlayerState>(musicPlayerStore.getState());
+let unsubscribe: (() => void) | undefined;
 
-	function toggleControlCenter() {
-		musicPlayerStore.toggleExpanded();
-	}
+function toggleControlCenter() {
+	musicPlayerStore.toggleExpanded();
+}
 
-	$: currentSongTitle = state.currentSong?.title || "音乐控制中心";
-	$: ariaLabel = state.isExpanded
+const currentSongTitle = $derived(
+	playerState.currentSong?.title || "音乐控制中心",
+);
+const ariaLabel = $derived(
+	playerState.isExpanded
 		? `收起音乐控制中心：${currentSongTitle}`
-		: `打开音乐控制中心：${currentSongTitle}`;
-	$: statusIcon = state.isLoading
+		: `打开音乐控制中心：${currentSongTitle}`,
+);
+const statusIcon = $derived(
+	playerState.isLoading
 		? "svg-spinners:90-ring-with-bg"
-		: "material-symbols:music-note-rounded";
+		: "material-symbols:music-note-rounded",
+);
 
-	onMount(() => {
-		unsubscribe = musicPlayerStore.subscribe((nextState) => {
-			state = nextState;
-		});
+onMount(() => {
+	unsubscribe = musicPlayerStore.subscribe((nextState) => {
+		playerState = nextState;
 	});
+});
 
-	onDestroy(() => {
-		unsubscribe?.();
-	});
+onDestroy(() => {
+	unsubscribe?.();
+});
 </script>
 
 <button
 	type="button"
-	class:active={state.isExpanded}
-	class:playing={state.isPlaying}
-	class:loading={state.isLoading}
+	class:active={playerState.isExpanded}
+	class:playing={playerState.isPlaying}
+	class:loading={playerState.isLoading}
 	class="music-fab btn-card"
 	aria-label={ariaLabel}
 	title={ariaLabel}
-	on:click={toggleControlCenter}
+	onclick={toggleControlCenter}
 >
 	<span class="music-fab__icon" aria-hidden="true">
 		<Icon icon={statusIcon} />
 	</span>
 
-	{#if state.isPlaying}
+	{#if playerState.isPlaying}
 		<span class="music-fab__dot" aria-hidden="true"></span>
 	{/if}
 </button>
@@ -140,7 +146,7 @@
 		}
 	}
 
-	@media (max-width: 768px) {
+	@media (width < 768px) {
 		.music-fab {
 			border-radius: 0.75rem;
 		}
@@ -150,7 +156,7 @@
 		}
 	}
 
-	@media (max-width: 480px) {
+	@media (width < 480px) {
 		.music-fab {
 			border-radius: 0.5rem;
 		}
