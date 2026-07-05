@@ -1,0 +1,503 @@
+---
+import Image from "@components/atoms/Image/Image.astro";
+import { PageHeader } from "@components/features/page-header";
+import MainGridLayout from "@layouts/MainGridLayout.astro";
+
+import { siteConfig } from "../config";
+import localGameList from "../data/game";
+import I18nKey from "../i18n/i18nKey";
+import { i18n } from "../i18n/translation";
+import { widgetManager } from "../utils/widget-manager";
+
+if (!siteConfig.featurePages.game) {
+	return Astro.redirect("/404/");
+}
+
+const hasRightSidebars =
+	widgetManager.getComponentsByPosition("top", "right", "desktop").length > 0 ||
+	widgetManager.getComponentsByPosition("sticky", "right", "desktop").length > 0;
+
+const gameList = localGameList;
+const statusMap: Record<string, { text: string; class: string; icon: string }> = {
+	playing: {
+		text: i18n(I18nKey.animeStatusWatching),
+		class: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300",
+		icon: "▶",
+	},
+	completed: {
+		text: i18n(I18nKey.animeStatusCompleted),
+		class: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300",
+		icon: "✓",
+	},
+	planned: {
+		text: i18n(I18nKey.animeStatusPlanned),
+		class: "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300",
+		icon: "❤",
+	},
+	dropped: {
+		text: i18n(I18nKey.animeStatusDropped),
+		class: "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300",
+		icon: "✗",
+	},
+};
+
+const INITIAL_DISPLAY_COUNT = 24;
+const visibleGameList = gameList.slice(0, INITIAL_DISPLAY_COUNT);
+const hiddenGameList = gameList.slice(INITIAL_DISPLAY_COUNT);
+const showEmptyState = gameList.length === 0;
+const emptyMessage = i18n(I18nKey.animeEmpty);
+---
+
+<MainGridLayout
+	title="Game"
+	description="Game Collection"
+>
+	<div
+		class="flex w-full rounded-(--radius-large) overflow-hidden relative min-h-32"
+	>
+		<div class="card-base z-10 px-9 py-6 relative w-full">
+			<div class="relative w-full mb-8">
+				<PageHeader
+					title={i18n(I18nKey.animeTitle).replace("Anime", "Game")}
+					subtitle="Game Collection"
+				/>
+
+				<div class="mb-6">
+					<div class="game-filter-container flex flex-wrap gap-2">
+						<button
+							class="game-filter-tag game-active"
+							data-status="all"
+						>{i18n(I18nKey.animeFilterAll)}</button
+						>
+						<button class="game-filter-tag" data-status="playing"
+							>{i18n(I18nKey.animeStatusWatching)}</button
+						>
+						<button class="game-filter-tag" data-status="planned"
+							>{i18n(I18nKey.animeStatusPlanned)}</button
+						>
+						<button class="game-filter-tag" data-status="completed"
+							>{i18n(I18nKey.animeStatusCompleted)}</button
+						>
+						<button class="game-filter-tag" data-status="dropped"
+							>{i18n(I18nKey.animeStatusDropped)}</button
+						>
+					</div>
+				</div>
+			</div>
+
+			<div class="mb-8">
+				{!showEmptyState ? (
+					<>
+						<div
+							id="game-list-container"
+							class="game-grid-container grid gap-4 md:gap-6 opacity-0 transition-opacity duration-300"
+						>
+							{visibleGameList.map((game) => {
+								const statusInfo = statusMap[game.status] || {
+									text: game.status,
+									class: "bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300",
+									icon: "?",
+								};
+								const progressPercent = game.progress || 0;
+
+								return (
+									<div
+										class="group relative bg-(--card-bg) border border-(--line-divider) rounded-(--radius-large) overflow-hidden hover:shadow-lg"
+										data-game-status={game.status}
+									>
+										<div class="relative game-cover-container aspect-2/3 overflow-hidden">
+											<a
+												href={game.link}
+												target="_blank"
+												rel="noopener noreferrer"
+												class="block w-full h-full"
+											>
+												<Image
+													src={game.cover}
+													alt={game.title}
+													class="w-full h-full object-cover transition-transform duration-200 group-hover:scale-110"
+												/>
+												<div class="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+													<div class="absolute inset-0 flex items-center justify-center">
+														<div class="w-12 h-12 rounded-full bg-white/90 flex items-center justify-center">
+															<svg
+																class="w-6 h-6 text-gray-800 ml-1"
+																fill="currentColor"
+																viewBox="0 0 24 24"
+															>
+																<path d="M8 5v14l11-7z" />
+															</svg>
+														</div>
+													</div>
+												</div>
+											</a>
+
+											<div
+												class={`absolute top-2 left-2 px-2 py-1 rounded-md text-xs font-medium ${statusInfo.class}`}
+											>
+												<span class="mr-1">{statusInfo.icon}</span>
+												<span>{statusInfo.text}</span>
+											</div>
+
+											<div class="absolute top-2 right-2 bg-black/70 text-white px-2 py-1 rounded-md text-xs font-medium flex items-center gap-1">
+												<svg
+													class="w-3 h-3 text-yellow-400"
+													fill="currentColor"
+													viewBox="0 0 20 20"
+												>
+													<path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+												</svg>
+												<span>{game.rating}</span>
+											</div>
+
+											{game.status === "playing" && (
+												<div class="absolute bottom-0 left-0 right-0 bg-linear-to-t from-black/80 to-transparent p-2">
+													<div class="w-full bg-white/20 rounded-full h-1.5 mb-1">
+														<div
+															class="bg-linear-to-r from-emerald-400 to-teal-400 h-1.5 rounded-full transition-all duration-300"
+															style={`width: ${progressPercent}%`}
+														/>
+													</div>
+													<div class="text-white text-xs font-medium">
+														{progressPercent}%
+													</div>
+												</div>
+											)}
+										</div>
+
+										<div class="p-3">
+											<h3 class="text-sm font-bold text-black/90 dark:text-white/90 mb-1 leading-tight">
+												{game.title}
+											</h3>
+											<p
+												class="text-black/60 dark:text-white/60 text-xs mb-2 line-clamp-2"
+												title={game.description}
+											>
+												{game.description}
+											</p>
+
+											<div class="space-y-1 text-xs">
+												<div class="flex justify-between items-center">
+													<span class="text-black/50 dark:text-white/50 shrink-0">
+														{i18n(I18nKey.animeYear)}
+													</span>
+													<span class="text-black/70 dark:text-white/70 truncate ml-2 text-right">
+														{game.year}
+													</span>
+												</div>
+												<div class="flex justify-between items-start">
+													<span class="text-black/50 dark:text-white/50 shrink-0 mt-0.5">
+														{i18n(I18nKey.animeStudio)}
+													</span>
+													<span
+														class="text-black/70 dark:text-white/70 text-right ml-2 line-clamp-2 wrap-break-word"
+														title={game.developer}
+													>
+														{game.developer}
+													</span>
+												</div>
+												<div class="flex flex-wrap gap-1 mt-2">
+													{Array.isArray(game.tags) && game.tags.map((g) => (
+														<span class="px-1.5 py-0.5 bg-(--btn-regular-bg) text-black/70 dark:text-white/70 rounded text-xs">
+															{g}
+														</span>
+													))}
+												</div>
+											</div>
+										</div>
+									</div>
+								);
+							})}
+						</div>
+
+						<template id="game-lazy-store">
+							{hiddenGameList.map((game) => {
+								const statusInfo = statusMap[game.status] || {
+									text: game.status,
+									class: "bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300",
+									icon: "?",
+								};
+								const progressPercent = game.progress || 0;
+
+								return (
+									<div
+										class="group relative bg-(--card-bg) border border-(--line-divider) rounded-(--radius-large) overflow-hidden hover:shadow-lg"
+										data-game-status={game.status}
+									>
+										<div class="relative game-cover-container aspect-2/3 overflow-hidden">
+											<a
+												href={game.link}
+												target="_blank"
+												rel="noopener noreferrer"
+												class="block w-full h-full"
+											>
+												<Image
+													src={game.cover}
+													alt={game.title}
+													class="w-full h-full object-cover transition-transform duration-200 group-hover:scale-110"
+												/>
+												<div class="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+													<div class="absolute inset-0 flex items-center justify-center">
+														<div class="w-12 h-12 rounded-full bg-white/90 flex items-center justify-center">
+															<svg
+																class="w-6 h-6 text-gray-800 ml-1"
+																fill="currentColor"
+																viewBox="0 0 24 24"
+															>
+																<path d="M8 5v14l11-7z" />
+															</svg>
+														</div>
+													</div>
+												</div>
+											</a>
+
+											<div
+												class={`absolute top-2 left-2 px-2 py-1 rounded-md text-xs font-medium ${statusInfo.class}`}
+											>
+												<span class="mr-1">{statusInfo.icon}</span>
+												<span>{statusInfo.text}</span>
+											</div>
+
+											<div class="absolute top-2 right-2 bg-black/70 text-white px-2 py-1 rounded-md text-xs font-medium flex items-center gap-1">
+												<svg
+													class="w-3 h-3 text-yellow-400"
+													fill="currentColor"
+													viewBox="0 0 20 20"
+												>
+													<path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+												</svg>
+												<span>{game.rating}</span>
+											</div>
+
+											{game.status === "playing" && (
+												<div class="absolute bottom-0 left-0 right-0 bg-linear-to-t from-black/80 to-transparent p-2">
+													<div class="w-full bg-white/20 rounded-full h-1.5 mb-1">
+														<div
+															class="bg-linear-to-r from-emerald-400 to-teal-400 h-1.5 rounded-full transition-all duration-300"
+															style={`width: ${progressPercent}%`}
+														/>
+													</div>
+													<div class="text-white text-xs font-medium">
+														{progressPercent}%
+													</div>
+												</div>
+											)}
+										</div>
+
+										<div class="p-3">
+											<h3 class="text-sm font-bold text-black/90 dark:text-white/90 mb-1 leading-tight">
+												{game.title}
+											</h3>
+											<p
+												class="text-black/60 dark:text-white/60 text-xs mb-2 line-clamp-2"
+												title={game.description}
+											>
+												{game.description}
+											</p>
+
+											<div class="space-y-1 text-xs">
+												<div class="flex justify-between items-center">
+													<span class="text-black/50 dark:text-white/50 shrink-0">
+														{i18n(I18nKey.animeYear)}
+													</span>
+													<span class="text-black/70 dark:text-white/70 truncate ml-2 text-right">
+														{game.year}
+													</span>
+												</div>
+												<div class="flex justify-between items-start">
+													<span class="text-black/50 dark:text-white/50 shrink-0 mt-0.5">
+														{i18n(I18nKey.animeStudio)}
+													</span>
+													<span
+														class="text-black/70 dark:text-white/70 text-right ml-2 line-clamp-2 wrap-break-word"
+														title={game.developer}
+													>
+														{game.developer}
+													</span>
+												</div>
+												<div class="flex flex-wrap gap-1 mt-2">
+													{Array.isArray(game.tags) && game.tags.map((g) => (
+														<span class="px-1.5 py-0.5 bg-(--btn-regular-bg) text-black/70 dark:text-white/70 rounded text-xs">
+															{g}
+														</span>
+													))}
+												</div>
+											</div>
+										</div>
+									</div>
+								);
+							})}
+						</template>
+
+						{hiddenGameList.length > 0 && (
+							<div
+								id="infinite-scroll-sentinel"
+								class="w-full h-20 flex items-center justify-center mt-8"
+							>
+								<div class="game-loading-spinner w-8 h-8 border-4 border-(--primary) border-t-transparent rounded-full animate-spin" />
+							</div>
+						)}
+					</>
+				) : (
+					<div class="text-center py-12">
+						<div class="text-5xl mb-4">🎮</div>
+						<h3 class="text-xl font-medium text-black/80 dark:text-white/80 mb-2">
+							{emptyMessage}
+						</h3>
+					</div>
+				)}
+			</div>
+		</div>
+	</div>
+
+	<script is:inline>
+		(function () {
+			function initGameLayout() {
+				const listContainer = document.getElementById("game-list-container");
+				if (!listContainer) return false;
+				requestAnimationFrame(() => {
+					listContainer.classList.remove("opacity-0");
+				});
+				return true;
+			}
+
+			let retryCount = 0;
+			const maxRetries = 10;
+			function tryInit() {
+				if (initGameLayout()) return;
+				if (retryCount < maxRetries) {
+					retryCount++;
+					setTimeout(tryInit, Math.min(100 * Math.pow(1.5, retryCount), 1000));
+				}
+			}
+
+			if (document.readyState === "loading") {
+				document.addEventListener("DOMContentLoaded", tryInit);
+			} else {
+				tryInit();
+			}
+		})();
+	</script>
+
+	<script is:inline>
+		function initGameFilters() {
+			const filterTags = document.querySelectorAll(".game-filter-tag");
+			const sentinel = document.getElementById("infinite-scroll-sentinel");
+			const listContainer = document.getElementById("game-list-container");
+			const lazyStore = document.getElementById("game-lazy-store");
+
+			filterTags.forEach((tag) => {
+				tag.addEventListener("click", function () {
+					if (this.classList.contains("game-active")) return;
+
+					filterTags.forEach((t) => t.classList.remove("game-active"));
+					this.classList.add("game-active");
+
+					if (lazyStore && lazyStore.content.children.length > 0 && listContainer) {
+						const fragment = document.createDocumentFragment();
+						while (lazyStore.content.firstChild) {
+							fragment.appendChild(lazyStore.content.firstChild);
+						}
+						listContainer.appendChild(fragment);
+					}
+
+					if (sentinel) sentinel.style.display = "none";
+
+					const status = this.getAttribute("data-status");
+					const items = Array.from(listContainer.children).filter((item) =>
+						item.hasAttribute("data-game-status"),
+					);
+
+					items.forEach((item) => {
+						const itemStatus = item.getAttribute("data-game-status");
+						const shouldShow = status === "all" || itemStatus === status;
+						item.classList.toggle("game-hidden", !shouldShow);
+					});
+				});
+			});
+
+			if (sentinel && lazyStore && listContainer) {
+				const observer = new IntersectionObserver(
+					(entries) => {
+						if (entries[0].isIntersecting) {
+							const BATCH_SIZE = 24;
+							if (lazyStore.content.children.length === 0) {
+								sentinel.style.display = "none";
+								observer.disconnect();
+								return;
+							}
+
+							const fragment = document.createDocumentFragment();
+							let movedCount = 0;
+							while (lazyStore.content.firstChild && movedCount < BATCH_SIZE) {
+								fragment.appendChild(lazyStore.content.firstChild);
+								movedCount++;
+							}
+
+							requestAnimationFrame(() => {
+								listContainer.appendChild(fragment);
+								if (lazyStore.content.children.length === 0) {
+									sentinel.style.display = "none";
+									observer.disconnect();
+								}
+							});
+						}
+					},
+					{ rootMargin: "200px" },
+				);
+				observer.observe(sentinel);
+			} else if (sentinel) {
+				sentinel.style.display = "none";
+			}
+		}
+
+		document.addEventListener("DOMContentLoaded", initGameFilters);
+	</script>
+
+	<style>
+		.game-filter-tag {
+			padding: 0.375rem 1rem;
+			border-radius: 0.5rem;
+			font-size: 0.875rem;
+			font-weight: 500;
+			transition: all 0.3s;
+			cursor: pointer;
+			background: var(--btn-regular-bg);
+			color: var(--btn-content);
+		}
+
+		.game-filter-tag:hover {
+			background: var(--btn-regular-bg-hover);
+		}
+
+		.game-filter-tag:active {
+			scale: 0.95;
+		}
+
+		.game-filter-tag.game-active {
+			background: var(--primary);
+			color: white;
+		}
+
+		.game-grid-container {
+			display: grid;
+			grid-template-columns: repeat(1, minmax(0, 1fr));
+		}
+
+		@media (min-width: 768px) {
+			.game-grid-container {
+				grid-template-columns: repeat(2, minmax(0, 1fr));
+			}
+		}
+
+		@media (min-width: 1024px) {
+			.game-grid-container {
+				grid-template-columns: repeat(3, minmax(0, 1fr));
+			}
+		}
+
+		.game-hidden {
+			display: none !important;
+		}
+	</style>
+</MainGridLayout>

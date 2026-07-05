@@ -27,6 +27,7 @@ export const siteConfig: SiteConfig = {
 		albums: true, // 相册页面开关
 		devices: true, // 设备页面开关
 		aiTools: true, // AI 工具页面开关
+		game: true, // 游戏页面开关
 	},
 
 	// 顶栏标题配置
