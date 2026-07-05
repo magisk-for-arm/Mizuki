@@ -90,6 +90,11 @@ export interface SiteConfig {
 		mode?: "bangumi" | "local" | "bilibili"; // 番剧页面模式
 	};
 
+	// 添加游戏页面配置
+	game?: {
+		mode?: "bangumi" | "local"; // 游戏页面模式
+	};
+
 	// 日记页面 Memos API 地址，客户端 fetch 获取动态数据
 	diaryApiUrl?: string;
 

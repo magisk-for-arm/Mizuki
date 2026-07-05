@@ -84,6 +84,10 @@ export const siteConfig: SiteConfig = {
 		mode: "bangumi",
 	},
 
+	game: {
+		mode: "bangumi",
+	},
+
 	diaryApiUrl: "",
 
 	postListLayout: {
@@ -164,7 +168,7 @@ export const siteConfig: SiteConfig = {
 				"今日はなんでもない日。でも、ちょっとだけいい日",
 			],
 			typewriter: {
-				enable: true,
+	enable: false,
 				speed: 100,
 				deleteSpeed: 50,
 				pauseTime: 2300,

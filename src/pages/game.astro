@@ -4,9 +4,13 @@ import { PageHeader } from "@components/features/page-header";
 import MainGridLayout from "@layouts/MainGridLayout.astro";
 
 import { siteConfig } from "../config";
-import localGameList from "../data/game";
 import I18nKey from "../i18n/i18nKey";
 import { i18n } from "../i18n/translation";
+import {
+	getGameList,
+	getGameSourceConfigs,
+	getGameStatusMap,
+} from "../utils/game-data";
 import { widgetManager } from "../utils/widget-manager";
 
 if (!siteConfig.featurePages.game) {
@@ -17,34 +21,39 @@ const hasRightSidebars =
 	widgetManager.getComponentsByPosition("top", "right", "desktop").length > 0 ||
 	widgetManager.getComponentsByPosition("sticky", "right", "desktop").length > 0;
 
-const gameList = localGameList;
-const statusMap: Record<string, { text: string; class: string; icon: string }> = {
-	playing: {
-		text: i18n(I18nKey.animeStatusWatching),
-		class: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300",
-		icon: "▶",
-	},
-	completed: {
-		text: i18n(I18nKey.animeStatusCompleted),
-		class: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300",
-		icon: "✓",
-	},
-	planned: {
-		text: i18n(I18nKey.animeStatusPlanned),
-		class: "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300",
-		icon: "❤",
-	},
-	dropped: {
-		text: i18n(I18nKey.animeStatusDropped),
-		class: "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300",
-		icon: "✗",
-	},
-};
+const GAME_MODE = siteConfig.game?.mode || "bangumi";
+const sourceConfigs = getGameSourceConfigs();
+const { gameList, currentConfig } = getGameList(GAME_MODE, sourceConfigs);
 
+let emptyDescription = "";
+let showEmptyState = false;
+
+if (
+	GAME_MODE === "bangumi" &&
+	siteConfig.bangumi?.userId === "your-user-id"
+) {
+	showEmptyState = true;
+	emptyDescription = i18n(I18nKey.animeConfigBangumi);
+} else if (gameList.length === 0) {
+	showEmptyState = true;
+	if (
+		currentConfig &&
+		currentConfig.type === "json" &&
+		"emptyDescription" in currentConfig &&
+		currentConfig.emptyDescription
+	) {
+		emptyDescription = currentConfig.emptyDescription;
+	} else if (GAME_MODE === "local") {
+		emptyDescription = i18n(I18nKey.animeEmptyLocal);
+	} else {
+		emptyDescription = "No game data found.";
+	}
+}
+
+const statusMap = getGameStatusMap();
 const INITIAL_DISPLAY_COUNT = 24;
 const visibleGameList = gameList.slice(0, INITIAL_DISPLAY_COUNT);
 const hiddenGameList = gameList.slice(INITIAL_DISPLAY_COUNT);
-const showEmptyState = gameList.length === 0;
 const emptyMessage = i18n(I18nKey.animeEmpty);
 ---
 
@@ -344,6 +353,9 @@ const emptyMessage = i18n(I18nKey.animeEmpty);
 						<h3 class="text-xl font-medium text-black/80 dark:text-white/80 mb-2">
 							{emptyMessage}
 						</h3>
+						<p class="text-black/60 dark:text-white/60">
+							{emptyDescription}
+						</p>
 					</div>
 				)}
 			</div>
