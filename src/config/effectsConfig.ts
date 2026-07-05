@@ -1,10 +1,9 @@
 import type { SakuraConfig } from "../types/config";
 
 export const sakuraConfig: SakuraConfig = {
-	enable: false,
-	switchable: true,
-	sakuraNum: 21,
-	limitTimes: -1,
+	enable: true,
+	sakuraNum: 10,
+	limitTimes: 2,
 	size: {
 		min: 0.5, // 樱花最小尺寸倍数
 		max: 1.1, // 樱花最大尺寸倍数

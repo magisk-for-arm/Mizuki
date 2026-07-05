@@ -1,8 +1,7 @@
 import type { SiteConfig } from "../types/config";
 
 // 定义站点语言
-const SITE_LANG = "en"; // 语言代码，例如：'en', 'zh_CN', 'ja' 等。
-
+const SITE_LANG = "zh_CN"; // 语言代码，例如：'en', 'zh_CN', 'ja' 等。
 export const siteConfig: SiteConfig = {
 	title: "armの小破站",
 	subtitle: "armの小破站",
@@ -11,8 +10,9 @@ export const siteConfig: SiteConfig = {
 
 	lang: SITE_LANG,
 
+
 	themeColor: {
-		hue: 240, // 主题色的默认色相，范围从 0 到 360。例如：红色：0，青色：200，蓝绿色：250，粉色：345
+		hue: 230, // 主题色的默认色相，范围从 0 到 360。例如：红色：0，青色：200，蓝绿色：250，粉色：345
 		fixed: false, // 对访问者隐藏主题色选择器
 	},
 
@@ -22,10 +22,10 @@ export const siteConfig: SiteConfig = {
 		diary: true, // 日记页面开关
 		friends: true, // 友链页面开关
 		projects: true, // 项目页面开关
-		skills: true, // 技能页面开关
-		timeline: true, // 时间线页面开关
-		albums: true, // 相册页面开关
-		devices: true, // 设备页面开关
+		skills: false, // 技能页面开关
+		timeline: false, // 时间线页面开关
+		albums: false, // 相册页面开关
+		devices: false, // 设备页面开关
 		aiTools: true, // AI 工具页面开关
 		game: true, // 游戏页面开关
 	},
@@ -33,13 +33,13 @@ export const siteConfig: SiteConfig = {
 	// 顶栏标题配置
 	navbarTitle: {
 		// 显示模式："text-icon" 显示图标+文本，"logo" 仅显示Logo
-		mode: "text-icon",
+		mode: "logo",
 		// 顶栏标题文本
-		text: "MizukiUI",
-		// 顶栏标题图标路径，默认使用 public/assets/home/home.webp
-		icon: "assets/home/home.webp",
+		text: "Blog",
+		// 顶栏标题图标路径，默认使用 public/assets/home/home.png
+		icon: "assets/home/fix.png",
 		// 网站Logo图片路径
-		logo: "assets/home/default-logo.webp",
+		logo: "assets/home/fix.png",
 	},
 
 	// 页面自动缩放配置
@@ -67,7 +67,7 @@ export const siteConfig: SiteConfig = {
 	},
 
 	anime: {
-		mode: "local", // 番剧页面模式："bangumi" 使用Bangumi API，"local" 使用本地配置，"bilibili" 使用Bilibili API
+		mode: "bangumi", // 番剧页面模式："bangumi" 使用Bangumi API，"local" 使用本地配置，"bilibili" 使用Bilibili API
 	},
 
 	// 日记页面 Memos API 地址，留空则使用静态数据
@@ -91,7 +91,7 @@ export const siteConfig: SiteConfig = {
 	// 标签样式配置
 	tagStyle: {
 		// 是否使用新样式（悬停高亮样式）还是旧样式（外框常亮样式）
-		useNewStyle: false,
+		useNewStyle: true,
 	},
 
 	// 壁纸模式配置
@@ -110,52 +110,63 @@ export const siteConfig: SiteConfig = {
 		// 支持单张图片或图片数组，当数组长度 > 1 时自动启用轮播
 		src: {
 			desktop: [
-				"/assets/desktop-banner/1.webp",
-				"/assets/desktop-banner/2.webp",
-				"/assets/desktop-banner/3.webp",
-				"/assets/desktop-banner/4.webp",
+				"/assets/desktop-banner/w1.webp",
+				"/assets/desktop-banner/w2.webp",
+				"/assets/desktop-banner/w3.webp",
+				"/assets/desktop-banner/w4.webp",
+				"/assets/desktop-banner/w5.webp",
+				"/assets/desktop-banner/w6.webp",
+				"/assets/desktop-banner/w7.webp",
+				"/assets/desktop-banner/w8.webb",
+				"/assets/desktop-banner/w9.webp",
+				"/assets/desktop-banner/w10.webp",
 			], // 桌面横幅图片
 			mobile: [
-				"/assets/mobile-banner/1.webp",
-				"/assets/mobile-banner/2.webp",
-				"/assets/mobile-banner/3.webp",
-				"/assets/mobile-banner/4.webp",
+				"/assets/mobile-banner/m1.webp",
+				"/assets/mobile-banner/m2.webp",
+				"/assets/mobile-banner/m3.webp",
+				"/assets/mobile-banner/m4.webp",
+				"/assets/mobile-banner/m5.webp",
+				"/assets/mobile-banner/m6.webp",
+				"/assets/mobile-banner/m7.webp",
+				"/assets/mobile-banner/m8.webp",
+				"/assets/mobile-banner/m9.webp",
+				"/assets/mobile-banner/m10.webp",
 			], // 移动横幅图片
 		}, // 使用本地横幅图片
 
 		position: "center", // 等同于 object-position，仅支持 'top', 'center', 'bottom'。默认为 'center'
 
 		carousel: {
-			enable: true,
-			interval: 3,
-			switchable: true,
+			enable: true, // 为 true 时：为多张图片启用轮播。为 false 时：从数组中随机显示一张图片
+			interval: 1.5, // 轮播间隔时间（秒）
 		},
 
 		waves: {
-			enable: true,
-			performanceMode: false,
-			mobileDisable: false,
-			switchable: true,
+			enable: true, // 是否启用水波纹效果（注意：此功能性能开销较大）
+			performanceMode: false, // 性能模式：减少动画复杂度(性能提升40%)
+			mobileDisable: false, // 移动端禁用
 		},
 
 		// PicFlow API支持(智能图片API)
 		imageApi: {
 			enable: false, // 启用图片API
-			url: "http://domain.com/api_v2.php?format=text&count=4", // API地址，返回每行一个图片链接的文本
+			url: "https://ybapi.cn/API/pixiv.php?type=text", // API地址，返回每行一个图片链接的文本
 		},
 		// 这里需要使用PicFlow API的Text返回类型,所以我们需要format=text参数
 		// 项目地址:https://github.com/matsuzaka-yuki/PicFlow-API
 		// 请自行搭建API
 
 		homeText: {
-			enable: true,
-			title: "わたしの部屋",
-			switchable: true,
+			enable: true, // 在主页显示自定义文本
+			title: "armの博客", // 主页横幅主标题
 
 			subtitle: [
-				"特別なことはないけど、君がいると十分です",
-				"今でもあなたは私の光",
-				"君ってさ、知らないうちに私の毎日になってたよ",
+				"人が想像できることは、必ず人が実現できる",
+				"人を信じよ、しかしその百倍も自らを信じよ",
+				"一日は貴い一生である。これを空費してはならない",
+				"青春は永遠に、はじめからのやり直しだ",
+				"君ってさ、知らないうちに我的毎日になってたよ",
 				"君と話すと、なんか毎日がちょっと楽しくなるんだ",
 				"今日はなんでもない日。でも、ちょっとだけいい日",
 			],
@@ -164,7 +175,7 @@ export const siteConfig: SiteConfig = {
 
 				speed: 100, // 打字速度（毫秒）
 				deleteSpeed: 50, // 删除速度（毫秒）
-				pauseTime: 2000, // 完全显示后的暂停时间（毫秒）
+				pauseTime: 2300, // 完全显示后的暂停时间（毫秒）
 			},
 		},
 
@@ -190,12 +201,10 @@ export const siteConfig: SiteConfig = {
 	showCoverInContent: true, // 在文章内容页显示文章封面
 	generateOgImages: false, // 启用生成OpenGraph图片功能,注意开启后要渲染很长时间，不建议本地调试的时候开启
 	favicon: [
-		// 留空以使用默认 favicon
-		// {
-		//   src: '/favicon/icon.png',    // 图标文件路径
-		//   theme: 'light',              // 可选，指定主题 'light' | 'dark'
-		//   sizes: '32x32',              // 可选，图标大小
-		// }
+		{
+			src: "/favicon/icon.png",
+			theme: "dark",
+		},
 	],
 
 	// 字体现在通过 astro.config.mjs 的 fonts 选项配置（Astro Font API）
