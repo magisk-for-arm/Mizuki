@@ -156,3 +156,63 @@ Example usage in Svelte:
 - `src/styles/`: Global styles and Tailwind configuration.
 - `src/utils/`: Helper functions and business logic.
 - `scripts/`: Maintenance and build-related scripts.
+
+## 🔄 Bangumi 数据获取架构
+
+此为 **构建时脚本 + 运行时 JSON 缓存** 模式，用于 Anime / Game 等收藏展示页面。
+
+### 工作流程
+
+```
+pnpm build
+  → scripts/update-bangumi.mjs 运行
+    → 读取 src/config.ts 中的 bangumi.userId / anime.mode / game.mode
+    → 调用 Bangumi API v0
+    → 输出 JSON 到 src/data/bangumi-data.json (动画) / bangumi-game-data.json (游戏)
+  → 运行时 src/utils/anime-data.ts / game-data.ts 读取 JSON 并映射为类型化数据
+  → 页面组件 (anime.astro / game.astro) 渲染
+```
+
+### Bangumi API 端点
+
+| 类型 | subject_type | 输出文件 |
+|------|-------------|---------|
+| 动画 (Anime) | `2` | `src/data/bangumi-data.json` |
+| 游戏 (Game) | `4` | `src/data/bangumi-game-data.json` |
+
+### 收藏状态映射
+
+| Bangumi type | Anime 状态 | Game 状态 |
+|:---|:---|:---|
+| `3` | `watching` | **`playing`** (自动映射) |
+| `1` | `planned` | `planned` |
+| `2` | `completed` | `completed` |
+| `4` | `onhold` | `onhold` |
+| `5` | `dropped` | `dropped` |
+
+## 🎮 Game 页面数据映射
+
+`bangumi-game-data.json` 的字段通过 `game-data.ts` 映射为 `GameItem` 类型：
+
+| JSON 字段 | GameItem 字段 | 说明 |
+|-----------|-------------|------|
+| `studio` | `developer` | 开发商 |
+| `genre` | `tags` | 标签数组 |
+| `startDate` | `releaseDate` | 发布日期 |
+
+## 🎨 特效配置
+
+所有特效在 `src/config.ts` 中集中控制：
+
+- **樱花特效**: `sakuraConfig.enable` (true/false)
+- **看板娘**: `pioConfig.enable` (true/false)
+- **全屏壁纸**: `fullscreenWallpaperConfig`
+
+## 🏗️ 数据模式架构
+
+每个收藏展示页遵循统一的数据源切换模式：
+
+1. `src/utils/*-data.ts` 定义 `SourceConfig` 类型（支持 `local` / `json` 等模式）
+2. 页面通过 `siteConfig.{page}.mode` 读取当前模式
+3. 构建脚本只在该页面模式为 `"bangumi"` 时才抓取数据
+4. 无需新增页面数据类型时，只需复用现有模式即可
