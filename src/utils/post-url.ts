@@ -4,7 +4,9 @@ import { permalinkConfig } from "../config";
 import { hasCustomPermalink, initPostIdMap } from "./permalink-utils";
 import { removeFileExtension } from "./url-utils";
 
-export function buildPostPaths(blogEntries: CollectionEntry<"posts">[]) {
+export function buildPostPaths(
+	blogEntries: CollectionEntry<"posts">[],
+): { params: { slug: string }, props: { entry: CollectionEntry<"posts"> } }[] {
 	initPostIdMap(blogEntries);
 
 	return blogEntries.flatMap((entry) => {

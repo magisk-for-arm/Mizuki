@@ -264,7 +264,7 @@ export class AnimationManager {
 }
 
 // 导出单例实例
-export const animationManager = AnimationManager.getInstance();
+export const animationManager: AnimationManager = AnimationManager.getInstance();
 
 // 自动初始化
 if (typeof window !== "undefined") {

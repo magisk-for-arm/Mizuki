@@ -113,7 +113,7 @@ export function isElementInViewport(
 export function calculateFallbackActiveHeading(
 	sections: HTMLElement[],
 	activeStates: boolean[],
-	windowHeight = window.innerHeight,
+	windowHeight: number = window.innerHeight,
 ): number {
 	for (let i = 0; i < sections.length; i++) {
 		const rect = sections[i].getBoundingClientRect();

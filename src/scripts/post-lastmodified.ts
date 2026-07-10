@@ -8,7 +8,7 @@ export interface LastModifiedOptions {
 	second: string;
 }
 
-export function initLastModifiedHandler(options: LastModifiedOptions) {
+export function initLastModifiedHandler(options: LastModifiedOptions): void {
 	const { prefix, year, month, day, hour, minute, second } = options;
 
 	function updateLastModified(lastModified: string) {

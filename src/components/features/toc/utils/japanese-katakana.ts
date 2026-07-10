@@ -84,4 +84,4 @@ export function getKatakanaBadge(index: number, useJapanese: boolean): string {
 /**
  * 获取可用的日语字符数量
  */
-export const KATAKANA_COUNT = JAPANESE_KATAKANA.length;
+export const KATAKANA_COUNT: number = JAPANESE_KATAKANA.length;

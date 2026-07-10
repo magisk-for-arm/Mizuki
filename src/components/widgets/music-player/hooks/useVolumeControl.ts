@@ -17,7 +17,7 @@ export function createVolumeDragState(): VolumeDragState {
 	};
 }
 
-export function loadVolumeFromStorage(state: AudioPlayerState) {
+export function loadVolumeFromStorage(state: AudioPlayerState): void {
 	try {
 		if (typeof localStorage !== "undefined") {
 			const savedVolume = localStorage.getItem(STORAGE_KEY_VOLUME);
@@ -33,7 +33,7 @@ export function loadVolumeFromStorage(state: AudioPlayerState) {
 	}
 }
 
-export function saveVolumeToStorage(state: AudioPlayerState) {
+export function saveVolumeToStorage(state: AudioPlayerState): void {
 	try {
 		if (typeof localStorage !== "undefined") {
 			localStorage.setItem(STORAGE_KEY_VOLUME, state.volume.toString());
@@ -65,7 +65,7 @@ export function startVolumeDrag(
 	volumeBar: HTMLElement | null,
 	audio: HTMLAudioElement | undefined,
 	audioPlayerState: AudioPlayerState,
-) {
+): void {
 	if (!volumeBar) {
 		return;
 	}
@@ -90,7 +90,7 @@ export function handleVolumeMove(
 	volumeBar: HTMLElement | null,
 	audio: HTMLAudioElement | undefined,
 	audioPlayerState: AudioPlayerState,
-) {
+): void {
 	if (!dragState.isPointerDown) {
 		return;
 	}
@@ -118,7 +118,7 @@ export function stopVolumeDrag(
 	dragState: VolumeDragState,
 	volumeBar: HTMLElement | null,
 	audioPlayerState: AudioPlayerState,
-) {
+): void {
 	if (!dragState.isPointerDown) {
 		return;
 	}
@@ -140,7 +140,7 @@ export function stopVolumeDrag(
 export function handleVolumeKeyDown(
 	event: KeyboardEvent,
 	onToggleMute: () => void,
-) {
+): void {
 	if (event.key === "Enter" || event.key === " ") {
 		event.preventDefault();
 		if (event.key === "Enter") {

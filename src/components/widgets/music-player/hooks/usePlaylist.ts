@@ -64,14 +64,14 @@ export function createPlaylistState(): PlaylistState {
 	};
 }
 
-export function toggleShuffle(state: PlaylistState) {
+export function toggleShuffle(state: PlaylistState): void {
 	state.isShuffled = !state.isShuffled;
 	if (state.isShuffled) {
 		state.isRepeating = 0;
 	}
 }
 
-export function toggleRepeat(state: PlaylistState) {
+export function toggleRepeat(state: PlaylistState): void {
 	state.isRepeating = ((state.isRepeating + 1) % 3) as RepeatMode;
 	if (state.isRepeating !== 0) {
 		state.isShuffled = false;

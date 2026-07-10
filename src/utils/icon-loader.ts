@@ -256,11 +256,12 @@ class IconLoader {
 }
 
 // 导出单例实例
-export const iconLoader = IconLoader.getInstance();
+export const iconLoader: IconLoader = IconLoader.getInstance();
 
 // 导出便捷函数
-export const loadIconify = (options?: IconifyLoadOptions) =>
+export const loadIconify = (options?: IconifyLoadOptions): Promise<void> =>
 	iconLoader.loadIconify(options);
-export const preloadIcons = (icons: string[]) => iconLoader.preloadIcons(icons);
-export const onIconsReady = (callback: () => void) =>
+export const preloadIcons = (icons: string[]): Promise<void> =>
+	iconLoader.preloadIcons(icons);
+export const onIconsReady = (callback: () => void): void =>
 	iconLoader.onLoad(callback);

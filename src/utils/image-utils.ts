@@ -1,4 +1,4 @@
-import { siteConfig } from "../config/siteConfig";
+import { siteConfig } from "../config";
 import type { ImageFormat } from "../types/config";
 
 /**

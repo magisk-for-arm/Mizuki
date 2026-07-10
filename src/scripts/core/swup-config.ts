@@ -8,7 +8,7 @@ import type { FancyboxOptions } from "@fancyapps/ui";
 // Banner 高度常量
 export const BANNER_HEIGHT = 35;
 export const BANNER_HEIGHT_EXTEND = 30;
-export const BANNER_HEIGHT_HOME = BANNER_HEIGHT + BANNER_HEIGHT_EXTEND;
+export const BANNER_HEIGHT_HOME: number = BANNER_HEIGHT + BANNER_HEIGHT_EXTEND;
 
 // 选择器配置
 export const SWUP_SELECTORS = {
@@ -63,7 +63,17 @@ export const TRANSITION_CONFIG: TransitionConfig = {
 } as const;
 
 // 动画配置
-export const ANIMATION_CONFIG = {
+export interface AnimationConfig {
+	pageEnterDuration: number;
+	pageLeaveDuration: number;
+	heightExtendDelay: number;
+	tocReadyDelay: number;
+	commentInitDelay: number;
+	mobileBannerDelay: number;
+	mobileContentDelay: number;
+}
+
+export const ANIMATION_CONFIG: AnimationConfig = {
 	// 页面进入动画时长 (ms)
 	pageEnterDuration: TRANSITION_CONFIG.duration,
 

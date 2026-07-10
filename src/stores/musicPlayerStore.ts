@@ -587,4 +587,4 @@ class MusicPlayerStore {
 	}
 }
 
-export const musicPlayerStore = new MusicPlayerStore();
+export const musicPlayerStore: MusicPlayerStore = new MusicPlayerStore();

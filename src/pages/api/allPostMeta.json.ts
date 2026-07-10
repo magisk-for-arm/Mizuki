@@ -1,7 +1,7 @@
 import { getSortedPosts } from "@/utils/content-utils";
 import { getPostPublicDescription } from "@/utils/post-card-content";
 
-export async function GET() {
+export async function GET(): Promise<Response> {
 	const posts = await getSortedPosts();
 
 	const allPostsData = posts

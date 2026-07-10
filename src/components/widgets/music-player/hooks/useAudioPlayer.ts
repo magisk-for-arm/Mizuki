@@ -30,7 +30,7 @@ export function createAudioPlayerState(): AudioPlayerState {
 export function togglePlay(
 	state: AudioPlayerState,
 	audio: HTMLAudioElement | undefined,
-) {
+): void {
 	if (!audio || !state.currentSong.url) {
 		return;
 	}
@@ -41,14 +41,14 @@ export function togglePlay(
 	}
 }
 
-export function toggleMute(state: AudioPlayerState) {
+export function toggleMute(state: AudioPlayerState): void {
 	state.isMuted = !state.isMuted;
 }
 
 export function handleLoadSuccess(
 	state: AudioPlayerState,
 	audio: HTMLAudioElement | undefined,
-) {
+): void {
 	state.isLoading = false;
 	if (audio?.duration && audio.duration > 1) {
 		state.duration = Math.floor(audio.duration);
@@ -67,17 +67,18 @@ export function handleLoadSuccess(
 	}
 }
 
-export function handleLoadError(state: AudioPlayerState): {
-	shouldContinue: boolean;
-} {
-	if (!state.currentSong.url) {
+export function handleLoadError(
+	state: AudioPlayerState,
+	audio: HTMLAudioElement | undefined,
+): { shouldContinue: boolean } {
+	if (!audio || !state.currentSong.url) {
 		return { shouldContinue: false };
 	}
 	state.isLoading = false;
 	return { shouldContinue: state.isPlaying || state.willAutoPlay };
 }
 
-export function loadSong(state: AudioPlayerState, song: Song, autoPlay = true) {
+export function loadSong(state: AudioPlayerState, song: Song, autoPlay = true): void {
 	if (!song) {
 		return;
 	}
@@ -95,7 +96,7 @@ export function loadSong(state: AudioPlayerState, song: Song, autoPlay = true) {
 export function handleUserInteraction(
 	state: AudioPlayerState,
 	audio: HTMLAudioElement | undefined,
-) {
+): void {
 	if (state.autoplayFailed && audio) {
 		const playPromise = audio.play();
 		if (playPromise !== undefined) {

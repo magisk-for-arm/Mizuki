@@ -3,7 +3,7 @@ export interface LayoutHandlerOptions {
 	hasRightSidebars: boolean;
 }
 
-export function initAnimeLayoutHandler(options: LayoutHandlerOptions) {
+export function initAnimeLayoutHandler(options: LayoutHandlerOptions): void {
 	const { containerId, hasRightSidebars } = options;
 
 	function updateAnimeListLayout(layout: string, shouldAnimate = true) {
@@ -202,6 +202,6 @@ export function initAnimeLayoutHandler(options: LayoutHandlerOptions) {
 export function initLayoutListener(
 	containerId: string,
 	hasRightSidebars: boolean,
-) {
+): void {
 	initAnimeLayoutHandler({ containerId, hasRightSidebars });
 }

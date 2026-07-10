@@ -76,9 +76,9 @@ export const zh_CN: Translation = {
 	[Key.animeEmptyBilibili]: "请检查 Bilibili 配置或网络连接",
 	[Key.animeEmptyLocal]: "请在 src/data/anime.ts 文件中添加番剧信息",
 	[Key.animeConfigBilibili]:
-		"请在 src/config/siteConfig.ts 文件中设置您的 Bilibili vmid",
+		"请在 src/config.ts 文件中设置您的 Bilibili vmid",
 	[Key.animeConfigBangumi]:
-		"请在 src/config/siteConfig.ts 文件中设置您的 Bangumi userId",
+		"请在 src/config.ts 文件中设置您的 Bangumi userId",
 
 	// 短文页面
 	[Key.diarySubtitle]: "随时随地，分享生活",

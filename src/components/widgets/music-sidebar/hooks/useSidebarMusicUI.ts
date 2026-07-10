@@ -8,6 +8,6 @@ export function createSidebarMusicUIState(): SidebarMusicUIState {
 	};
 }
 
-export function toggleSidebarPlaylist(state: SidebarMusicUIState) {
+export function toggleSidebarPlaylist(state: SidebarMusicUIState): void {
 	state.showPlaylist = !state.showPlaylist;
 }

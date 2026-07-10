@@ -79,9 +79,9 @@ export const ja: Translation = {
 	[Key.animeEmptyLocal]:
 		"src/data/anime.tsファイルにアニメの情報を追加してください",
 	[Key.animeConfigBilibili]:
-		"src/config/siteConfig.tsファイルにBilibiliのvmidを設定してください",
+		"src/config.tsファイルにBilibiliのvmidを設定してください",
 	[Key.animeConfigBangumi]:
-		"src/config/siteConfig.tsファイルにBangumiのユーザーIDを設定してください",
+		"src/config.tsファイルにBangumiのユーザーIDを設定してください",
 
 	// 日記ページ
 	[Key.diarySubtitle]: "いつでも、どこでも生活を共有",

@@ -1,4 +1,4 @@
-export function initFilterHandler() {
+export function initFilterHandler(): void {
 	if (typeof window.animeFilterEventListeners === "undefined") {
 		window.animeFilterEventListeners = [];
 	}

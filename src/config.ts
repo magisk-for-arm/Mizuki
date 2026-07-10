@@ -660,7 +660,18 @@ export const relatedPostsConfig: RelatedPostsConfig = {
 // Widget 配置聚合对象
 // ══════════════════════════════════════════════════════════════
 
-export const widgetConfigs = {
+export const widgetConfigs: {
+	profile: ProfileConfig;
+	announcement: AnnouncementConfig;
+	music: MusicPlayerConfig;
+	layout: SidebarLayoutConfig;
+	sakura: SakuraConfig;
+	fullscreenWallpaper: FullscreenWallpaperConfig;
+	pio: PioConfig;
+	share: ShareConfig;
+	relatedPosts: RelatedPostsConfig;
+	randomPosts: RandomPostsConfig;
+} = {
 	profile: profileConfig,
 	announcement: announcementConfig,
 	music: musicPlayerConfig,
@@ -671,4 +682,4 @@ export const widgetConfigs = {
 	share: shareConfig,
 	relatedPosts: relatedPostsConfig,
 	randomPosts: randomPostsConfig,
-} as const;
+};
