@@ -10,7 +10,7 @@ let _cachedContent = null;
 
 function readSiteConfig() {
 	if (_cachedContent) return _cachedContent;
-	const configPath = path.join(ROOT_DIR, "src/config/siteConfig.ts");
+	const configPath = path.join(ROOT_DIR, "src/config.ts");
 	_cachedContent = fs.readFileSync(configPath, "utf-8");
 	return _cachedContent;
 }

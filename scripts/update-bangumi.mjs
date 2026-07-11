@@ -5,7 +5,7 @@ import { fileURLToPath } from "url";
 const API_BASE = "https://api.bgm.tv";
 const CONFIG_PATH = path.join(
 	path.dirname(fileURLToPath(import.meta.url)),
-	"../src/config/siteConfig.ts",
+	"../src/config.ts",
 );
 const OUTPUT_FILE = path.join(
 	path.dirname(fileURLToPath(import.meta.url)),
@@ -31,7 +31,7 @@ async function getUserIdFromConfig() {
 				!userId
 			) {
 				console.warn(
-					"Warning: userId in src/config/siteConfig.ts appears to be a default value.",
+					"Warning: userId in src/config.ts appears to be a default value.",
 				);
 				return userId;
 			}

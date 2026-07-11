@@ -10,7 +10,7 @@ const API_BASE = "https://api.bilibili.com/x/space/bangumi/follow/list";
 const PAGE_SIZE = 30;
 const CONFIG_PATH = path.join(
 	path.dirname(fileURLToPath(import.meta.url)),
-	"../src/config/siteConfig.ts",
+	"../src/config.ts",
 );
 const OUTPUT_FILE = path.join(
 	path.dirname(fileURLToPath(import.meta.url)),
@@ -50,7 +50,7 @@ async function getUserIdFromConfig() {
 		if (match && match[1]) {
 			const vmid = match[1];
 			if (!vmid || vmid.trim() === "") {
-				console.warn("Warning: vmid in src/config/siteConfig.ts is empty.");
+				console.warn("Warning: vmid in src/config.ts is empty.");
 				return null;
 			}
 			return vmid;
@@ -328,7 +328,7 @@ async function main() {
 	const VMID = await getUserIdFromConfig();
 	if (!VMID) {
 		console.error(
-			"✘ Bilibili vmid is not set. Please set it in src/config/siteConfig.ts",
+			"✘ Bilibili vmid is not set. Please set it in src/config.ts",
 		);
 		process.exit(1);
 	}
