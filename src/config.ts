@@ -695,16 +695,16 @@ export const fontConfig = {
 		// 注意：字体子集优化功能目前仅支持 TTF 格式字体,开启后需要在生产环境才能看到效果,在Dev环境下显示的是浏览器默认字体!
 		asciiFont: {
 			// 英文字体 - 优先级最高
-			fontFamily: "ZenMaruGothic-Medium",
+			fontFamily: "Misans",
 			fontWeight: "400",
-			localFonts: ["ZenMaruGothic-Medium.ttf"],
+			localFonts: ["MiSans-Normal.ttf"],
 			enableCompress: true, // 启用字体子集优化，减少字体文件大小
 		},
 		cjkFont: {
 			// 中日韩字体 - 作为回退字体
-			fontFamily: "萝莉体 第二版",
-			fontWeight: "500",
-			localFonts: ["loli.ttf"],
+			fontFamily: "Misans",
+			fontWeight: "400",
+			localFonts: ["MiSans-Normal.ttf"],
 			enableCompress: true, // 启用字体子集优化，减少字体文件大小
 		},
 	},
