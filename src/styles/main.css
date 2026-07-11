@@ -13,22 +13,13 @@
 @import "./banner.css";
 /* 加密内容样式已移除，现在直接使用非加密文章的样式 */
 
-/* MiSans 字体：通过 CSS 直接加载以兼容 WOFF2 格式（Astro Font API 的 fontkitten 无法解析该字体度量） */
-@font-face {
-	font-family: "MiSans";
-	src: url("/assets/font/MiSans-Normal.ttf") format("woff2");
-	font-style: normal;
-	font-weight: 400;
-	font-display: swap;
-}
-
 @plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
 /* Migrate from v3 config */
 @theme {
-  --font-sans: "MiSans", var(--font-body), var(--font-cjk), ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-sans: var(--font-body), var(--font-cjk), ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 
   --breakpoint-md: 768px;
   --breakpoint-lg: 1280px;

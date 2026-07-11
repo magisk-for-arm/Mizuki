@@ -43,14 +43,14 @@ export default defineConfig({
 			styles: ["normal", "italic"],
 		},
 		{
-			name: "ZenMaruGothic-Medium",
+			name: "MiSans",
 			cssVariable: "--font-body",
 			provider: fontProviders.local(),
 			options: {
 				variants: [
 					{
-						src: ["./src/assets/fonts/ZenMaruGothic-Medium.ttf"],
-						weight: "500",
+						src: ["./src/assets/fonts/MiSans-Normal.ttf"],
+						weight: "400",
 						style: "normal",
 					},
 				],
@@ -58,13 +58,13 @@ export default defineConfig({
 			fallbacks: ["sans-serif"],
 		},
 		{
-			name: "Loli",
+			name: "MiSansCJK",
 			cssVariable: "--font-cjk",
 			provider: fontProviders.local(),
 			options: {
 				variants: [
 					{
-						src: ["./src/assets/fonts/loli.ttf"],
+						src: ["./src/assets/fonts/MiSans-Normal.ttf"],
 						weight: "400",
 						style: "normal",
 					},
