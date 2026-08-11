@@ -45,14 +45,14 @@ export const siteConfig: SiteConfig = {
 
 	featurePages: {
 		anime: true,
-		diary: true,
+		diary: false,
 		friends: true,
-		projects: true,
+		projects: false,
 		skills: false,
 		timeline: false,
 		albums: false,
 		devices: false,
-		aiTools: true,
+		aiTools: false,
 		game: true,
 	},
 
@@ -333,11 +333,6 @@ export const navBarConfig: NavBarConfig = {
 					url: "/game/",
 					icon: "material-symbols:videogame-asset",
 				},
-				{
-					name: "Diary",
-					url: "/diary/",
-					icon: "material-symbols:book",
-				},
 			],
 		},
 		{
@@ -575,7 +570,7 @@ export const sidebarLayoutConfig: SidebarLayoutConfig = {
 // ══════════════════════════════════════════════════════════════
 
 export const sakuraConfig: SakuraConfig = {
-	enable: true,
+	enable: false,
 	sakuraNum: 10,
 	limitTimes: 2,
 	size: {
@@ -606,7 +601,7 @@ export const sakuraConfig: SakuraConfig = {
 // ══════════════════════════════════════════════════════════════
 
 export const pioConfig: PioConfig = {
-	enable: true,
+	enable: false,
 	models: ["/pio/models/NOIR/noir.model3.json"],
 	position: "left",
 	width: 280,
